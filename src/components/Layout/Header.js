@@ -46,8 +46,13 @@ function Header() {
               <>
                 <Link
                   to="/"
-                  className="text-gray-800 dark:text-white hover:bg-gray-50 hover:text-primary-700 border-2 border-white dark:border-gray-800 hover:border-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 md:px-5 py-2 md:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800 hidden md:block"
+                  className="text-gray-800 dark:text-white hover:bg-gray-50 hover:text-primary-700 border-2 border-white dark:border-gray-800 hover:border-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-md px-3 py-1 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800 hidden md:flex flex-row items-center justify-center"
                 >
+                  <img
+                    className="w-9 h-9 rounded-full mr-2"
+                    src={user.profileImage}
+                    alt="User_Profile_Image"
+                  />
                   {user.name}
                 </Link>
                 <button
