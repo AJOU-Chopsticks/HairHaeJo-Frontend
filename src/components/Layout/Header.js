@@ -2,9 +2,13 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import MainIcon from "../../images/MainIcon.png";
 import { FaArrowLeft } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../redux/modules/userSlice";
 
 function Header() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
 
   return (
     <header className="fixed w-full z-20 top-0 left-0">
@@ -23,18 +27,38 @@ function Header() {
             </span>
           </Link>
           <div className="flex items-center md:order-2">
-            <Link
-              to="/login"
-              className="text-gray-800 dark:text-white hover:bg-gray-50 hover:text-primary-700 border-2 border-white dark:border-gray-800 hover:border-primary-700 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 md:px-5 py-2 md:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800 hidden md:block"
-            >
-              Log in
-            </Link>
-            <Link
-              to="/signup"
-              className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 md:px-5 py-2 md:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 hidden md:block"
-            >
-              Sign up
-            </Link>
+            {!user.auth ? (
+              <>
+                <Link
+                  to="/login"
+                  className="text-gray-800 dark:text-white hover:bg-gray-50 hover:text-primary-700 border-2 border-white dark:border-gray-800 hover:border-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 md:px-5 py-2 md:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800 hidden md:block"
+                >
+                  로그인
+                </Link>
+                <Link
+                  to="/signup"
+                  className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 md:px-5 py-2 md:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 hidden md:block"
+                >
+                  회원가입
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/"
+                  className="text-gray-800 dark:text-white hover:bg-gray-50 hover:text-primary-700 border-2 border-white dark:border-gray-800 hover:border-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 md:px-5 py-2 md:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800 hidden md:block"
+                >
+                  {user.name}
+                </Link>
+                <button
+                  onClick={() => dispatch(logout())}
+                  className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 md:px-5 py-2 md:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 hidden md:block"
+                >
+                  로그아웃
+                </button>
+              </>
+            )}
+
             <button
               data-collapse-toggle="mobile-menu"
               type="button"

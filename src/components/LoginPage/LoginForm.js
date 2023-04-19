@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import MainIcon from "../../images/MainIcon.png";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { API } from "../../global/Constants";
+import { useDispatch } from "react-redux";
+import { __asyncLogin } from "../../redux/modules/userSlice";
 
 function LoginForm() {
   const navigation = useNavigate();
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberCheck, setRememberCheck] = useState(true);
@@ -20,18 +21,15 @@ function LoginForm() {
   const submitHander = (event) => {
     event.preventDefault();
 
-    let loginInfo = {
-      email: email,
-      password: password,
-    };
-
-    axios
-      .post(API + "/user/login", loginInfo)
-      .then((response) => {
-        alert("안녕하세요~");
-        navigation("/", { replace: true });
+    dispatch(
+      __asyncLogin({
+        email: email,
+        password: password,
       })
-      .catch((err) => setValidation(false));
+    ).then((response) => {
+      if (response.payload) navigation("/", { replace: true });
+      else setValidation(false);
+    });
   };
 
   return (
@@ -120,6 +118,7 @@ function LoginForm() {
                       className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800 text-primary-600"
                       checked={rememberCheck}
                       onChange={rememberHander}
+                      disabled
                     />
                   </div>
                   <div className="ml-3 text-sm">
@@ -127,7 +126,7 @@ function LoginForm() {
                       htmlFor="loginRemember"
                       className="text-gray-500 dark:text-gray-300"
                     >
-                      Remember me
+                      로그인 상태 유지
                     </label>
                   </div>
                 </div>
@@ -144,18 +143,18 @@ function LoginForm() {
               >
                 로그인
               </button>
-              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                {"헤어해죠 계정이 아직 없나요? "}
-                <button
-                  onClick={() => {
-                    navigation("/signup", { replace: true });
-                  }}
-                  className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >
-                  회원가입
-                </button>
-              </p>
             </form>
+            <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+              {"헤어해죠 계정이 아직 없나요? "}
+              <button
+                onClick={() => {
+                  navigation("/signup", { replace: true });
+                }}
+                className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+              >
+                회원가입
+              </button>
+            </p>
           </div>
         </div>
       </div>

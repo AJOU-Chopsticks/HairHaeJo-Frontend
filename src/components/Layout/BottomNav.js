@@ -1,6 +1,9 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 function BottomNav() {
+  const user = useSelector((state) => state.user);
+
   return (
     <div className="fixed bottom-0 left-0 z-50 w-full h-16 bg-white border-t border-gray-200 dark:bg-gray-700 dark:border-gray-600 md:hidden">
       <div className="grid h-full max-w-lg grid-cols-5 mx-auto font-medium">
@@ -87,7 +90,7 @@ function BottomNav() {
         >
           <img
             className="w-9 h-9 rounded-full"
-            src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+            src={user.profileImage}
             alt="User_Profile_Image"
           />
         </button>
