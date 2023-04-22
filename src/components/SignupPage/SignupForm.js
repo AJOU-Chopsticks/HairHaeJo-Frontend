@@ -47,7 +47,7 @@ function SignupForm() {
   const agreeHandler = () =>
     setRegisterInfo({ ...registerInfo, agree: !registerInfo.agree });
 
-  const submitHander = (event) => {
+  const submitHandler = (event) => {
     event.preventDefault();
 
     if (registerInfo.email === "") return alert("이메일을 입력해주세요.");
@@ -121,7 +121,7 @@ function SignupForm() {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               회원가입
             </h1>
-            <form className="space-y-4 md:space-y-6" onSubmit={submitHander}>
+            <form className="space-y-4 md:space-y-6" onSubmit={submitHandler}>
               <div>
                 <label
                   htmlFor="signupEmail"
