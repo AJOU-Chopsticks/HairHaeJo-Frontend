@@ -8,6 +8,12 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import MatchingPage from "./pages/MatchingPage";
 
+import SettingCustomerprofilePage from "./pages/SettingCustomerprofilePage";
+import SettingDesignerprofilePage from "./pages/SettingDesignerprofilePage";
+import LookupprofilePage from "./pages/LookupprofilePage";
+import ChangeprofilePage from "./pages/ChangeprofilePage";
+import AddportfolioPage from "./pages/AddportfolioPage";
+
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
 
@@ -19,6 +25,19 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/matching" element={<MatchingPage />} />
+
+        <Route path="/" element={<LandingPage />} />
+        <Route
+          path="/settingcustomerprofile"
+          element={<SettingCustomerprofilePage />}
+        />
+        <Route
+          path="/settingdesignerprofile"
+          element={<SettingDesignerprofilePage />}
+        />
+        <Route path="/lookupprofile" element={<LookupprofilePage />} />
+        <Route path="/changeprofile" element={<ChangeprofilePage />} />
+        <Route path="/portfoliolist" element={<AddportfolioPage />} />
       </Routes>
       <BottomNav />
     </div>
