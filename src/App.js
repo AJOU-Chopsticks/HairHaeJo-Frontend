@@ -6,6 +6,7 @@ import Header from "./components/Layout/Header";
 import BottomNav from "./components/Layout/BottomNav";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import MatchingPage from "./pages/MatchingPage";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
@@ -17,6 +18,7 @@ function App() {
         <Route path="/" element={<AuthLandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
+        <Route path="/matching" element={<MatchingPage />} />
       </Routes>
       <BottomNav />
     </div>
