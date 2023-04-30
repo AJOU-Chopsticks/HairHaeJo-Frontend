@@ -41,7 +41,7 @@ const data = [
   },
 ];
 
-function ArticleList() {
+function ArticleList(props) {
   const [showDetail, setShowDetail] = useState(false);
 
   return (
@@ -51,7 +51,11 @@ function ArticleList() {
           <Article data={item} key={item.id} setShowDetail={setShowDetail} />
         ))}
       </div>
-      <ArticleDetail showDetail={showDetail} setShowDetail={setShowDetail} />
+      <ArticleDetail
+        showDetail={showDetail}
+        setShowDetail={setShowDetail}
+        setShowModifyForm={props.setShowModifyForm}
+      />
     </div>
   );
 }
