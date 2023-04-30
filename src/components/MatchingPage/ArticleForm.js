@@ -1,5 +1,16 @@
 import React, { useState } from "react";
 import NoImage from "../../images/noImage.jpg";
+import KakaoMap from "../../global/KakaoMap";
+import CategoryItem from "./CategoryItem";
+
+const categoryList = [
+  { id: "perm", value: "펌" },
+  { id: "cut", value: "커트" },
+  { id: "male", value: "남성" },
+  { id: "female", value: "여성" },
+  { id: "magic", value: "매직" },
+  { id: "clinic", value: "클리닉" },
+];
 
 function ArticleForm() {
   const [showModal, setShowModal] = useState(false);
@@ -7,13 +18,9 @@ function ArticleForm() {
   const [body, setBody] = useState("");
   const [beforeImage, setBeforeImage] = useState(NoImage);
   const [afterImage, setAfterImage] = useState(NoImage);
-  const [region, setRegion] = useState("");
-  const [category, setCategory] = useState("");
 
   const titleHandler = (event) => setTitle(event.target.value);
   const bodyHandler = (event) => setBody(event.target.value);
-  const regionHandler = (event) => setRegion(event.target.value);
-  const categoryHandler = (event) => setCategory(event.target.value);
   const imageHandler = (target) => {
     let imageFile = document.getElementById(target).files[0];
     if (imageFile !== undefined) {
@@ -29,10 +36,19 @@ function ArticleForm() {
   const submitHandler = (event) => {
     event.preventDefault();
 
+    const selectedCategory = document.querySelectorAll(
+      'input[name="category"]:checked'
+    );
+    let category = "";
+    selectedCategory.forEach((item, index) => {
+      if (index === 0) category += item.value;
+      else category += " / " + item.value;
+    });
+
     console.log(title);
     console.log(body);
-    console.log(region);
     console.log(category);
+    console.log(document.getElementById("Kakao_Address").value);
   };
 
   return (
@@ -60,7 +76,7 @@ function ArticleForm() {
           showModal ? "active" : ""
         }`}
       >
-        <div className="relative w-full max-w-xl max-h-full mx-auto md:mt-10 mb-24">
+        <div className="relative w-full max-w-xl min-h-full mx-auto md:mt-10 mb-24">
           <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
             <button
               type="button"
@@ -176,36 +192,24 @@ function ArticleForm() {
                   </label>
                 </div>
                 <div>
-                  <label
-                    htmlFor="region"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    지역 <span className="text-red-600 font-bold">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="region"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                    placeholder="지역"
-                    value={region}
-                    onChange={regionHandler}
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="category"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
+                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     카테고리 <span className="text-red-600 font-bold">*</span>
                   </label>
-                  <input
-                    type="text"
-                    id="category"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                    placeholder="카테고리"
-                    value={category}
-                    onChange={categoryHandler}
-                  />
+                  <ul className="w-full gap-2 grid grid-cols-3 lg:grid-cols-4">
+                    {categoryList.map((item) => (
+                      <CategoryItem
+                        key={item.id}
+                        id={item.id}
+                        value={item.value}
+                      />
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    지역 <span className="text-red-600 font-bold">*</span>
+                  </label>
+                  <KakaoMap />
                 </div>
                 <button
                   type="submit"
