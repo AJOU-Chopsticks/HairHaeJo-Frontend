@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Article from "./Article";
 import ArticleDetail from "./ArticleDetail";
+import ArticleSearch from "./ArticleSearch";
 
 const data = [
   {
@@ -46,6 +47,7 @@ function ArticleList(props) {
 
   return (
     <div className="p-4 mb-8 md:ml-64">
+      <ArticleSearch />
       <div className="grid gap-4 mb-8 md:mb-12 md:grid-cols-2 xl:grid-cols-3">
         {data.map((item) => (
           <Article data={item} key={item.id} setShowDetail={setShowDetail} />
