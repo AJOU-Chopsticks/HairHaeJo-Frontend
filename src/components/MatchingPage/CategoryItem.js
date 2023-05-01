@@ -6,7 +6,7 @@ function CategoryItem(props) {
       <input
         type="checkbox"
         id={props.id}
-        name="category"
+        name={props.name}
         value={props.value}
         className="hidden peer"
       />

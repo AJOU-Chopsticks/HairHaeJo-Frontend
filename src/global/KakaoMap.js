@@ -69,7 +69,9 @@ function KakaoMap() {
       </div>
       <div
         id="map"
-        className={`w-full h-80 mt-2.5 ${address ? "block" : "hidden"}`}
+        className={`w-full h-80 mt-2.5 rounded-lg ${
+          address ? "block" : "hidden"
+        }`}
       ></div>
     </>
   );

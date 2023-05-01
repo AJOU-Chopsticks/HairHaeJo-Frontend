@@ -2,15 +2,7 @@ import React, { useState } from "react";
 import NoImage from "../../images/noImage.jpg";
 import KakaoMap from "../../global/KakaoMap";
 import CategoryItem from "./CategoryItem";
-
-const categoryList = [
-  { id: "perm", value: "펌" },
-  { id: "cut", value: "커트" },
-  { id: "male", value: "남성" },
-  { id: "female", value: "여성" },
-  { id: "magic", value: "매직" },
-  { id: "clinic", value: "클리닉" },
-];
+import { CATEGORY } from "../../global/Constants";
 
 function ArticleForm() {
   const [showModal, setShowModal] = useState(false);
@@ -37,7 +29,7 @@ function ArticleForm() {
     event.preventDefault();
 
     const selectedCategory = document.querySelectorAll(
-      'input[name="category"]:checked'
+      'input[name="form_category"]:checked'
     );
     let category = "";
     selectedCategory.forEach((item, index) => {
@@ -197,11 +189,12 @@ function ArticleForm() {
                       카테고리 <span className="text-red-600 font-bold">*</span>
                     </label>
                     <ul className="w-full gap-2 grid grid-cols-3 lg:grid-cols-4">
-                      {categoryList.map((item) => (
+                      {CATEGORY.map((item) => (
                         <CategoryItem
-                          key={item.id}
-                          id={item.id}
+                          key={"form_" + item.id}
+                          id={"form_" + item.id}
                           value={item.value}
+                          name={"form_category"}
                         />
                       ))}
                     </ul>

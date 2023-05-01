@@ -10,7 +10,7 @@ function ArticleSearch() {
   };
 
   return (
-    <form className="mb-6 flex justify-end" onSubmit={submitHandler}>
+    <form className="mb-4 flex justify-end" onSubmit={submitHandler}>
       <div className="relative w-full md:w-1/2 xl:w-1/3">
         <input
           type="search"
