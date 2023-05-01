@@ -1,8 +1,10 @@
 import React from "react";
 
-function Loading() {
+function Loading(props) {
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div
+      className={`flex items-center justify-center ${props.full && "h-screen"}`}
+    >
       <svg
         aria-hidden="true"
         className="inline w-10 h-10 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-primary-600"

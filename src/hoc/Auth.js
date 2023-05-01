@@ -39,7 +39,7 @@ export default function Auth(SpecificComponent, option, adminRoute = false) {
       } else checkRender(user.auth, user.isAdmin);
     });
 
-    if (loading) return <Loading />;
+    if (loading) return <Loading full={true} />;
     else return <SpecificComponent />;
   }
 
