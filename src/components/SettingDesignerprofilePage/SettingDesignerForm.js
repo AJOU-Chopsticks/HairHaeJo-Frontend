@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import Designerportfoliolist from "../AddportfolioPage/Designerportfoliolist";
 
 function SettingDesignerForm() {
   const [type, setType] = useState(true);
   return (
     <form>
+      <br></br>
       <div class="mb-3">
         <label
           htmlFor="introduction"
@@ -112,6 +114,7 @@ function SettingDesignerForm() {
           />
         </div>
       </div>
+      <Designerportfoliolist />
       <button
         type="save"
         className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
