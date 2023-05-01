@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import MainIcon from "../../images/MainIcon.png";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { __asyncLogin } from "../../redux/modules/userSlice";
+import SearchPassword from "./SearchPassword";
 
 function LoginForm() {
   const navigation = useNavigate();
@@ -11,6 +12,7 @@ function LoginForm() {
   const [password, setPassword] = useState("");
   const [rememberCheck, setRememberCheck] = useState(true);
   const [validation, setValidation] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   const emailHandler = (event) => setEmail(event.target.value);
   const passwordHandler = (event) => {
@@ -130,12 +132,13 @@ function LoginForm() {
                     </label>
                   </div>
                 </div>
-                <Link
-                  to="/"
+                <button
+                  type="button"
                   className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
+                  onClick={() => setShowModal(true)}
                 >
                   비밀번호 찾기
-                </Link>
+                </button>
               </div>
               <button
                 type="submit"
@@ -158,6 +161,7 @@ function LoginForm() {
           </div>
         </div>
       </div>
+      <SearchPassword showModal={showModal} setShowModal={setShowModal} />
     </section>
   );
 }
