@@ -9,6 +9,7 @@ import SignupPage from "./pages/SignupPage";
 import MatchingPage from "./pages/MatchingPage";
 
 import SettingprofilePage from "./pages/SettingprofilePage";
+import ChangeprofilePage from "./pages/ChangeprofilePage";
 import LookupprofilePage from "./pages/LookupprofilePage";
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/matching" element={<MatchingPage />} />
         <Route path="/settingprofile" element={<SettingprofilePage />} />
+        <Route path="/changeprofile" element={<ChangeprofilePage />} />
         <Route path="/lookupprofile" element={<LookupprofilePage />} />
       </Routes>
       <BottomNav />
