@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Article from "./Article";
 import ArticleDetail from "./ArticleDetail";
+import ArticleSearch from "./ArticleSearch";
+import ArticleCategory from "./ArticleCategory";
 
 const data = [
   {
@@ -41,17 +43,23 @@ const data = [
   },
 ];
 
-function ArticleList() {
+function ArticleList(props) {
   const [showDetail, setShowDetail] = useState(false);
 
   return (
     <div className="p-4 mb-8 md:ml-64">
-      <div className="grid gap-4 mb-8 md:mb-12 md:grid-cols-2 xl:grid-cols-3">
+      <ArticleSearch />
+      <ArticleCategory />
+      <div className="border-t-2 pt-6 grid gap-4 mb-8 md:mb-12 md:grid-cols-2 xl:grid-cols-3">
         {data.map((item) => (
           <Article data={item} key={item.id} setShowDetail={setShowDetail} />
         ))}
       </div>
-      <ArticleDetail showDetail={showDetail} setShowDetail={setShowDetail} />
+      <ArticleDetail
+        showDetail={showDetail}
+        setShowDetail={setShowDetail}
+        setShowModifyForm={props.setShowModifyForm}
+      />
     </div>
   );
 }

@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { BsFillSendFill } from "react-icons/bs";
+import ReportModal from "./ReportModal";
+import DeleteModal from "./DeleteModal";
 
 function ArticleDetail(props) {
+  const [showReport, setShowReport] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
+
+  const articleModifyHandler = () => {
+    props.setShowDetail(false);
+    props.setShowModifyForm(true);
+  };
+
   return (
     <div
       className={`modal-container fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-full max-h-full bg-gray-900 bg-opacity-50 dark:bg-opacity-80 scale-100 ${
@@ -103,6 +113,7 @@ function ArticleDetail(props) {
             <button
               type="button"
               className="w-1/2 text-white inline-flex items-center justify-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+              onClick={articleModifyHandler}
             >
               <svg
                 aria-hidden="true"
@@ -123,6 +134,7 @@ function ArticleDetail(props) {
             <button
               type="button"
               className="w-1/2 inline-flex items-center justify-center text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
+              onClick={() => setShowDelete(true)}
             >
               <svg
                 aria-hidden="true"
@@ -145,6 +157,7 @@ function ArticleDetail(props) {
             <button
               type="button"
               className="w-1/4 inline-flex items-center justify-center text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
+              onClick={() => setShowReport(true)}
             >
               신고
             </button>
@@ -158,6 +171,8 @@ function ArticleDetail(props) {
           </div>
         </div>
       </div>
+      <ReportModal showModal={showReport} setShowModal={setShowReport} />
+      <DeleteModal showModal={showDelete} setShowModal={setShowDelete} />
     </div>
   );
 }
