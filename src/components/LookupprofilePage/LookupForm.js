@@ -1,10 +1,7 @@
-import React, { useState } from "react";
-import SettingCustomerForm from "../SettingCustomerprofilePage/SettingCustomerForm";
-import SettingDesignerForm from "../SettingDesignerprofilePage/SettingDesignerForm";
+import React from "react";
 
 function LookupForm() {
-  const [type, setType] = useState(true);
-  return type == true ? <SettingCustomerForm /> : <SettingDesignerForm />;
+  return <div>Lookup ?</div>;
 }
 
 export default LookupForm;
