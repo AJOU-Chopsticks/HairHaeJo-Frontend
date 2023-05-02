@@ -19,6 +19,7 @@ function SignupForm() {
   const [codeDisable, setCodeDisable] = useState(true);
   const [loadingEmail, setLoadingEmail] = useState(false);
   const [authCode, setAuthCode] = useState("");
+  const [token, setToken] = useState("");
   const [registerInfo, setRegisterInfo] = useState({
     email: "",
     code: "",
@@ -176,7 +177,7 @@ function SignupForm() {
       })
       .then((response) => {
         if (response.data.success) {
-          alert("회원가입이 완료되었습니다!");
+          setToken(response.data.data);
           setStep(3);
           window.scrollTo({ top: 0, behavior: "smooth" });
         } else alert("회원가입에 실패했습니다.");
@@ -216,14 +217,34 @@ function SignupForm() {
       return alert("탈색 시술 이력을 선택해주세요.");
     if (abstractLocation === "") return alert("관심 지역을 선택해주세요.");
 
-    console.log(Number(skinType.value));
-    console.log(Number(hairType.value));
-    console.log(Number(hairThickness.value));
-    console.log(Number(dyeingHistory.value));
-    console.log(Number(decolorizationHistory.value));
-    console.log(abstractLocation);
+    setLoading(true);
 
-    // navigation("/login", { replace: true });
+    let body = {
+      skinType: Number(skinType.value),
+      hairType: Number(hairType.value),
+      hairThickness: Number(hairThickness.value),
+      dyeingHistory: Number(dyeingHistory.value),
+      decolorizationHistory: Number(decolorizationHistory.value),
+      abstractLocation: abstractLocation,
+    };
+
+    axios
+      .post(API + "/user/profile", body, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((response) => {
+        if (!response.data.success)
+          return alert(response.data.message || "서버 오류");
+        alert("회원가입이 정상적으로 완료되었습니다.");
+        navigation("/login", { replace: true });
+      })
+      .catch((err) => {
+        if (err.response.data.message) alert(err.response.data.message);
+        else alert("프로필 설정에 실패했습니다.");
+      })
+      .then(() => setLoading(false));
   };
 
   const designerSubmitHandler = (event) => {
@@ -241,13 +262,52 @@ function SignupForm() {
     if (designerInfo.licenseImage === NoImage)
       return alert("사업자 등록증을 등록해주세요.");
 
-    console.log(introduction);
-    console.log(hairSalonName);
-    console.log(hairSalonNumber);
-    console.log(hairSalonAddress);
-    console.log(designerInfo.licenseImage);
+    setLoading(true);
 
-    // navigation("/login", { replace: true });
+    let body = {
+      introduction: introduction,
+      hairSalonName: hairSalonName,
+      hairSalonAddress: hairSalonAddress,
+      hairSalonNumber: hairSalonNumber,
+    };
+    const formData = new FormData();
+    let photoFile = document.getElementById("licenseImage");
+    formData.append("licenseImage", photoFile.files[0]);
+
+    axios
+      .post(API + "/designer/profile", body, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((response) => {
+        if (!response.data.success)
+          return alert(response.data.message || "서버 오류");
+
+        axios
+          .post(API + "/user/license", formData, {
+            headers: {
+              "Contest-Type": "multipart/form-data",
+              Authorization: token,
+            },
+          })
+          .then((response) => {
+            if (!response.data.success)
+              return alert("사업자 등록증 업로드에 실패했습니다.");
+            alert("회원가입이 정상적으로 완료되었습니다.");
+            navigation("/login", { replace: true });
+          })
+          .catch((err) => {
+            if (err.response.data.message) alert(err.response.data.message);
+            else alert("사업자 등록증 업로드에 실패했습니다.");
+          })
+          .then(() => setLoading(false));
+      })
+      .catch((err) => {
+        if (err.response.data.message) alert(err.response.data.message);
+        else alert("프로필 설정에 실패했습니다.");
+        setLoading(false);
+      });
   };
 
   return (
@@ -887,12 +947,16 @@ function SignupForm() {
                   </label>
                   <KakaoMap />
                 </div>
-                <button
-                  type="submit"
-                  className="w-full text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                >
-                  가입 완료
-                </button>
+                {loading ? (
+                  <Loading />
+                ) : (
+                  <button
+                    type="submit"
+                    className="w-full text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  >
+                    가입 완료
+                  </button>
+                )}
               </form>
             ) : (
               <form
@@ -985,12 +1049,16 @@ function SignupForm() {
                     </p>
                   </label>
                 </div>
-                <button
-                  type="submit"
-                  className="w-full text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                >
-                  가입 완료
-                </button>
+                {loading ? (
+                  <Loading />
+                ) : (
+                  <button
+                    type="submit"
+                    className="w-full text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  >
+                    가입 완료
+                  </button>
+                )}
               </form>
             )}
             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
