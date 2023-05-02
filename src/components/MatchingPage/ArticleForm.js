@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import NoImage from "../../images/noImage.jpg";
 import KakaoMap from "../../global/KakaoMap";
-import CategoryItem from "./CategoryItem";
-import { CATEGORY } from "../../global/Constants";
 
 function ArticleForm() {
   const [showModal, setShowModal] = useState(false);
@@ -188,16 +186,27 @@ function ArticleForm() {
                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                       카테고리 <span className="text-red-600 font-bold">*</span>
                     </label>
-                    <ul className="w-full gap-2 grid grid-cols-3 lg:grid-cols-4">
-                      {CATEGORY.map((item) => (
-                        <CategoryItem
-                          key={"form_" + item.id}
-                          id={"form_" + item.id}
-                          value={item.value}
-                          name={"form_category"}
-                        />
-                      ))}
-                    </ul>
+                    <div className="flex flex-row gap-4">
+                      <select
+                        id="style"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      >
+                        <option defaultValue>스타일을 선택해주세요.</option>
+                        <option value="커트">커트</option>
+                        <option value="펌">펌</option>
+                        <option value="염색">염색</option>
+                      </select>
+                      <select
+                        id="tag"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      >
+                        <option defaultValue>카테고리를 선택해주세요.</option>
+                        <option value="레이어드컷">레이어드컷</option>
+                        <option value="허쉬컷">허쉬컷</option>
+                        <option value="샤기컷">샤기컷</option>
+                        <option value="원랭스컷">원랭스컷</option>
+                      </select>
+                    </div>
                   </div>
                   <div>
                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">

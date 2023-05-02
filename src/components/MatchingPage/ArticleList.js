@@ -50,7 +50,7 @@ function ArticleList(props) {
     <div className="p-4 mb-8 md:ml-64">
       <ArticleSearch />
       <ArticleCategory />
-      <div className="border-t-2 pt-6 grid gap-4 mb-8 md:mb-12 md:grid-cols-2 xl:grid-cols-3">
+      <div className="pt-6 grid gap-4 mb-8 md:mb-12 md:grid-cols-2 xl:grid-cols-3">
         {data.map((item) => (
           <Article data={item} key={item.id} setShowDetail={setShowDetail} />
         ))}
