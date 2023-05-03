@@ -38,13 +38,13 @@ function Designerportfoliolist() {
               htmlFor="period"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              근무기간 <span className="text-red-600 font-bold">*</span>
+              시술 날짜 <span className="text-red-600 font-bold">*</span>
             </label>
             <input
               type="period"
               id="period"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-              placeholder="2022/03/01 ~ 2022/07/31"
+              placeholder="2022/03/01"
               value={period}
               onChange={periodHandler}
             />
@@ -63,7 +63,7 @@ function Designerportfoliolist() {
                 htmlFor="Before_Image"
                 className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
               >
-                시술 전
+                시술 전 <span className="text-red-600 font-bold">*</span>
               </label>
               <input
                 className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
@@ -90,7 +90,7 @@ function Designerportfoliolist() {
                 htmlFor="After_Image"
                 className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
               >
-                시술 후
+                시술 후 <span className="text-red-600 font-bold">*</span>
               </label>
               <input
                 className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"

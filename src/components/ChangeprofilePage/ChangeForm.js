@@ -4,7 +4,11 @@ import SettingDesignerForm from "../SettingDesignerprofilePage/SettingDesignerFo
 
 function ChangeForm() {
   const [type, setType] = useState(true);
-  return type == true ? <SettingCustomerForm /> : <SettingDesignerForm />;
+  return (
+    <div className="p-4 mb-8 md:ml-64">
+      <SettingCustomerForm />
+    </div>
+  );
 }
 
 export default ChangeForm;
