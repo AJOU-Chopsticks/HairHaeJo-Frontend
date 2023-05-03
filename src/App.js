@@ -7,6 +7,7 @@ import BottomNav from "./components/Layout/BottomNav";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import MatchingPage from "./pages/MatchingPage";
+import ChattingPage from "./pages/ChattingPage";
 
 import LookupprofilePage from "./pages/LookupprofilePage";
 
@@ -21,6 +22,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/matching" element={<MatchingPage />} />
+        <Route path="/chat" element={<ChattingPage />} />
         <Route path="/lookupprofile" element={<LookupprofilePage />} />
       </Routes>
       <BottomNav />
