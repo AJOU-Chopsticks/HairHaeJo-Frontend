@@ -4,7 +4,10 @@ function ChatListItem(props) {
   return (
     <li>
       <button
-        onClick={() => props.setChatItem(props.item.id)}
+        onClick={() => {
+          props.setShowChatSpace(true);
+          props.setChatItem(props.item.id);
+        }}
         className={`w-full flex justify-between p-2 text-base font-normal rounded-lg border border-2 hover:bg-gray-200 dark:text-white dark:hover:bg-gray-700 group ${
           props.chatItem === props.item.id
             ? "bg-gray-200 border-primary-400"

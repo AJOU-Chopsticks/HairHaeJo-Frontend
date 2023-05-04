@@ -1,18 +1,25 @@
 import React from "react";
+import { DEFAULT_PROFILE_IMAGE } from "../../global/Constants";
 
 const ChatBubble = ({ message, isMyMessage }) => {
   return (
     <div
-      className={`${
-        isMyMessage
-          ? "ml-auto bg-primary-500 text-white"
-          : "mr-auto bg-gray-200"
-      } p-2 rounded-lg max-w-xs w-full`}
+      className={`flex my-1 ${isMyMessage ? "flex-row-reverse" : "flex-row"}`}
     >
+      {!isMyMessage && (
+        <img
+          className="mr-2 w-12 h-12"
+          src={DEFAULT_PROFILE_IMAGE}
+          alt="Profile_Image"
+        />
+      )}
       <div
-        className={`relative py-1 ${isMyMessage ? "pl-4" : "pr-4"} break-words`}
+        className={`${
+          isMyMessage ? "bg-primary-500 text-white" : "bg-gray-200"
+        } p-2 rounded-lg max-w-xs w-64`}
       >
-        {/* <span className="absolute top-0 -mt-3">
+        <div className={`relative p-1 break-words`}>
+          {/* <span className="absolute top-0 -mt-3">
           {isMyMessage ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +48,15 @@ const ChatBubble = ({ message, isMyMessage }) => {
             </svg>
           )}
         </span> */}
-        <span>{message}</span>
+          <span>{message}</span>
+        </div>
+      </div>
+      <div
+        className={`mt-auto mx-1 text-sm ${
+          isMyMessage ? "ml-auto" : "mr-auto"
+        }`}
+      >
+        <span>3시 10분</span>
       </div>
     </div>
   );

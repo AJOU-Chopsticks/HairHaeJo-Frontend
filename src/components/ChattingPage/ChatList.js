@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Appointment from "../../images/appointment.png";
 import { DEFAULT_PROFILE_IMAGE } from "../../global/Constants";
 import ChatListItem from "./ChatListItem";
@@ -41,9 +41,7 @@ const data = [
   },
 ];
 
-function ChatList() {
-  const [chatItem, setChatItem] = useState("");
-
+function ChatList(props) {
   return (
     <div>
       <aside
@@ -60,10 +58,11 @@ function ChatList() {
             {data.map((item) => {
               return (
                 <ChatListItem
-                  chatItem={chatItem}
-                  setChatItem={setChatItem}
+                  chatItem={props.chatItem}
+                  setChatItem={props.setChatItem}
                   item={item}
                   key={item.id}
+                  setShowChatSpace={props.setShowChatSpace}
                 />
               );
             })}
