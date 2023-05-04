@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import NoImage from "../../images/noImage.jpg";
+import ArticleList from "../MatchingPage/ArticleList";
 
-function Designerportfoliolist() {
+function PortfolioForm() {
   const [period, setPeriod] = useState("");
   const [body, setBody] = useState("");
   const [beforeImage, setBeforeImage] = useState(NoImage);
@@ -22,6 +23,7 @@ function Designerportfoliolist() {
   };
   return (
     <form className="space-y-6">
+      <ArticleList />
       <div class="mb-3">
         <br></br>
         <label
@@ -135,4 +137,4 @@ function Designerportfoliolist() {
   );
 }
 
-export default Designerportfoliolist;
+export default PortfolioForm;

@@ -3,9 +3,11 @@ import Hair_Salon from "../../images/Hair_Salon.png";
 import Hair_Cutting from "../../images/Hair_Cutting.png";
 import Hair_Dryer from "../../images/Hair_Dryer.png";
 import ProfileTab from "./ProfileTab";
+import { useNavigate } from "react-router-dom";
 
 function ProfileSidebar() {
   const [profileType, setProfileType] = useState("lookup");
+  const navigation = useNavigate();
 
   return (
     <div>
@@ -52,6 +54,9 @@ function ProfileSidebar() {
               </button>
             </li>
           </ul>
+          {profileType === "lookup"
+            ? navigation("/lookupprofile")
+            : navigation("/changeprofile")}
         </div>
       </aside>
     </div>
