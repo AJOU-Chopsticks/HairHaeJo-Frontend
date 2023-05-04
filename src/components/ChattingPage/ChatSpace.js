@@ -2,14 +2,34 @@ import React, { useEffect, useRef } from "react";
 import ChatBubble from "./ChatBubble";
 import { IoIosArrowBack } from "react-icons/io";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import axios from "axios";
+import { API } from "../../global/Constants";
 
 function ChatSpace(props) {
   const chatBubbleSpaceRef = useRef(null);
 
   useEffect(() => {
-    const chatBubbleSpace = chatBubbleSpaceRef.current;
-    chatBubbleSpace.scrollTop = chatBubbleSpace.scrollHeight;
-  }, []);
+    axios
+      .get(API + `/chat/history?roomId=${props.chatItem}`, {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        // if (response.data.success) {
+        //   setArticleData(response.data.data);
+        // }
+      })
+      .catch((err) => {
+        console.log(err);
+        // if (err.response.data.message) alert(err.response.data.message);
+        // else alert("요청 글 목록 조회에 실패했습니다.");
+      });
+
+    // const chatBubbleSpace = chatBubbleSpaceRef.current;
+    // chatBubbleSpace.scrollTop = chatBubbleSpace.scrollHeight;
+  }, [props.chatItem]);
 
   return (
     <div>

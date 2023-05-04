@@ -17,6 +17,7 @@ function ChattingPage() {
         showChatSpace={showChatSpace}
         setShowChatSpace={setShowChatSpace}
         setChatItem={setChatItem}
+        chatItem={chatItem}
       />
     </div>
   );

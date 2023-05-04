@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Appointment from "../../images/appointment.png";
-import { DEFAULT_PROFILE_IMAGE } from "../../global/Constants";
+import { API, DEFAULT_PROFILE_IMAGE } from "../../global/Constants";
 import ChatListItem from "./ChatListItem";
+import axios from "axios";
 
 const data = [
   {
@@ -42,6 +43,26 @@ const data = [
 ];
 
 function ChatList(props) {
+  const [chatList, setChatList] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(API + "/chat", {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((response) => {
+        if (response.data.success) {
+          setChatList(response.data.data);
+        }
+      })
+      .catch((err) => {
+        if (err.response.data.message) alert(err.response.data.message);
+        else alert("상담 내역 조회에 실패했습니다.");
+      });
+  }, []);
+
   return (
     <div>
       <aside
@@ -55,13 +76,13 @@ function ChatList(props) {
             <span className="text-gray-900 dark:text-white">상담</span>
           </div>
           <ul className="space-y-2 border-y-2 border-solid border-gray-100 py-3 mb-16">
-            {data.map((item) => {
+            {chatList.map((item) => {
               return (
                 <ChatListItem
                   chatItem={props.chatItem}
                   setChatItem={props.setChatItem}
                   item={item}
-                  key={item.id}
+                  key={item.chatRoomId}
                   setShowChatSpace={props.setShowChatSpace}
                 />
               );
