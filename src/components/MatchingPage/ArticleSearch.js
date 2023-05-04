@@ -1,12 +1,31 @@
+import axios from "axios";
 import React, { useState } from "react";
+import { API } from "../../global/Constants";
 
-function ArticleSearch() {
+function ArticleSearch(props) {
   const [keyword, setKeyword] = useState("");
 
   const submitHandler = (event) => {
     event.preventDefault();
 
-    console.log(keyword);
+    props.setLoading(true);
+
+    axios
+      .get(API + "/advice/article/search?keyword=" + keyword, {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((response) => {
+        if (response.data.success) {
+          props.setArticleData(response.data.data);
+        }
+      })
+      .catch((err) => {
+        if (err.response.data.message) alert(err.response.data.message);
+        else alert("요청 글 검색에 실패했습니다.");
+      })
+      .then(() => props.setLoading(false));
   };
 
   return (

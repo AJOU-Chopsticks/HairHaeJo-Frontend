@@ -1,13 +1,44 @@
 import React, { useState } from "react";
 import NoImage from "../../images/noImage.jpg";
 import KakaoMap from "../../global/KakaoMap";
+import { useSelector } from "react-redux";
+import { API } from "../../global/Constants";
+import axios from "axios";
+import Loading from "../Layout/Loading";
+
+const styleList = ["스타일을 선택해주세요.", "커트", "펌", "염색"];
+const cutList = [
+  "카테고리를 선택해주세요.",
+  "레이어드컷",
+  "허쉬컷",
+  "샤기컷",
+  "원랭스컷",
+];
+const permList = [
+  "카테고리를 선택해주세요.",
+  "히피펌",
+  "레이어드펌",
+  "허쉬펌",
+  "애즈펌",
+];
+const dyeingList = [
+  "카테고리를 선택해주세요.",
+  "다크브라운",
+  "레드브라운",
+  "애쉬블루",
+  "애쉬브라운",
+];
 
 function ArticleForm() {
+  const user = useSelector((state) => state.user);
   const [showModal, setShowModal] = useState(false);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [beforeImage, setBeforeImage] = useState(NoImage);
   const [afterImage, setAfterImage] = useState(NoImage);
+  const [style, setStyle] = useState("스타일을 선택해주세요.");
+  const [tag, setTag] = useState("카테고리를 선택해주세요.");
+  const [loading, setLoading] = useState(false);
 
   const titleHandler = (event) => setTitle(event.target.value);
   const bodyHandler = (event) => setBody(event.target.value);
@@ -22,23 +53,61 @@ function ArticleForm() {
       else setAfterImage(NoImage);
     }
   };
+  const styleHandler = (event) => {
+    setTag("카테고리를 선택해주세요.");
+    setStyle(event.target.value);
+  };
+  const tagHandler = (event) => setTag(event.target.value);
 
   const submitHandler = (event) => {
     event.preventDefault();
 
-    const selectedCategory = document.querySelectorAll(
-      'input[name="form_category"]:checked'
-    );
-    let category = "";
-    selectedCategory.forEach((item, index) => {
-      if (index === 0) category += item.value;
-      else category += " / " + item.value;
-    });
+    if (title === "") return alert("제목을 입력해주세요.");
+    if (body === "") return alert("내용을 입력해주세요.");
+    if (style === "스타일을 선택해주세요.")
+      return alert("스타일을 선택해주세요.");
+    if (tag === "카테고리를 선택해주세요.")
+      return alert("카테고리를 선택해주세요.");
+    if (document.getElementById("Kakao_Address").value === "")
+      return alert("지역을 선택해주세요.");
 
-    console.log(title);
-    console.log(body);
-    console.log(category);
-    console.log(document.getElementById("Kakao_Address").value);
+    setLoading(true);
+
+    let articleInfo = {
+      title: title,
+      body: body,
+      region: document.getElementById("Kakao_Address").value,
+      category: style,
+      gender: user.gender === 0 ? "남성" : "여성",
+      tag: tag,
+    };
+
+    const formData = new FormData();
+    formData.append("jsonlist", JSON.stringify(articleInfo));
+
+    let Before_Image = document.getElementById("Before_Image");
+    formData.append("beforeimage", Before_Image.files[0] || null);
+    let After_Image = document.getElementById("After_Image");
+    formData.append("afterimage", After_Image.files[0] || null);
+
+    axios
+      .post(API + "/advice/article", formData, {
+        headers: {
+          "Contest-Type": "multipart/form-data",
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((response) => {
+        if (response.data.success) {
+          alert("작성 완료!");
+          window.location.reload();
+        } else alert("요청 글 작성에 실패했습니다.");
+      })
+      .catch((err) => {
+        if (err.response.data.message) alert(err.response.data.message);
+        else alert("요청 글 작성에 실패했습니다.");
+      })
+      .then(() => setLoading(false));
   };
 
   return (
@@ -190,21 +259,40 @@ function ArticleForm() {
                       <select
                         id="style"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        value={style}
+                        onChange={styleHandler}
                       >
-                        <option defaultValue>스타일을 선택해주세요.</option>
-                        <option value="커트">커트</option>
-                        <option value="펌">펌</option>
-                        <option value="염색">염색</option>
+                        {styleList.map((item) => (
+                          <option value={item} key={item}>
+                            {item}
+                          </option>
+                        ))}
                       </select>
                       <select
                         id="tag"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        value={tag}
+                        onChange={tagHandler}
+                        disabled={style === "스타일을 선택해주세요."}
                       >
-                        <option defaultValue>카테고리를 선택해주세요.</option>
-                        <option value="레이어드컷">레이어드컷</option>
-                        <option value="허쉬컷">허쉬컷</option>
-                        <option value="샤기컷">샤기컷</option>
-                        <option value="원랭스컷">원랭스컷</option>
+                        {style === "커트" &&
+                          cutList.map((item) => (
+                            <option value={item} key={item}>
+                              {item}
+                            </option>
+                          ))}
+                        {style === "펌" &&
+                          permList.map((item) => (
+                            <option value={item} key={item}>
+                              {item}
+                            </option>
+                          ))}
+                        {style === "염색" &&
+                          dyeingList.map((item) => (
+                            <option value={item} key={item}>
+                              {item}
+                            </option>
+                          ))}
                       </select>
                     </div>
                   </div>
@@ -214,12 +302,16 @@ function ArticleForm() {
                     </label>
                     <KakaoMap />
                   </div>
-                  <button
-                    type="submit"
-                    className="w-full text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                  >
-                    등록하기
-                  </button>
+                  {loading ? (
+                    <Loading />
+                  ) : (
+                    <button
+                      type="submit"
+                      className="w-full text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                    >
+                      등록하기
+                    </button>
+                  )}
                 </form>
               </div>
             </div>

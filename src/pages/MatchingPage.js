@@ -6,15 +6,20 @@ import ArticleModifyForm from "../components/MatchingPage/ArticleModifyForm";
 
 function MatchingPage() {
   const [showModifyForm, setShowModifyForm] = useState(false);
+  const [modifyData, setModifyData] = useState({});
 
   return (
     <div className="mx-auto pt-16 min-h-screen">
       <SideBar />
-      <ArticleList setShowModifyForm={setShowModifyForm} />
+      <ArticleList
+        setShowModifyForm={setShowModifyForm}
+        setModifyData={setModifyData}
+      />
       <ArticleForm />
       <ArticleModifyForm
         showModal={showModifyForm}
         setShowModal={setShowModifyForm}
+        modifyData={modifyData}
       />
     </div>
   );
