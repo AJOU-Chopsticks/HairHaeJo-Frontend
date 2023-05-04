@@ -70,12 +70,12 @@ function BottomNav() {
           type="button"
           className="inline-flex flex-col items-center justify-center px-0 hover:bg-gray-50 dark:hover:bg-gray-800 group"
           onClick={() => {
-            navigation("/");
+            navigation("/chat");
           }}
         >
           <svg
             className={`w-6 h-6 mb-1 text-gray-500 dark:text-gray-400 ${
-              location.pathname === "/aaa" &&
+              location.pathname === "/chat" &&
               "text-primary-600 dark:text-primary-500"
             }`}
             fill="currentColor"
@@ -91,7 +91,7 @@ function BottomNav() {
           </svg>
           <span
             className={`text-sm text-gray-500 dark:text-gray-400 ${
-              location.pathname === "/aaa" &&
+              location.pathname === "/chat" &&
               "text-primary-600 dark:text-primary-500"
             }`}
           >
