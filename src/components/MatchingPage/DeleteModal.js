@@ -1,9 +1,40 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
+import { API } from "../../global/Constants";
+import Loading from "../Layout/Loading";
 
 function DeleteModal(props) {
+  const [loading, setLoading] = useState(false);
+
   const deleteHandler = () => {
-    alert("삭제 완료!");
-    window.location.reload();
+    setLoading(true);
+
+    let articleInfo = {
+      articleId: props.detailTarget.toString(),
+    };
+
+    const formData = new FormData();
+    formData.append("jsonlist", JSON.stringify(articleInfo));
+
+    axios
+      .delete(API + "/advice/article", {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: localStorage.getItem("token"),
+        },
+        data: formData,
+      })
+      .then((response) => {
+        if (response.data.success) {
+          alert("삭제 완료!");
+          window.location.reload();
+        } else alert("요청 글 삭제에 실패했습니다.");
+      })
+      .catch((err) => {
+        if (err.response.data.message) alert(err.response.data.message);
+        else alert("요청 글 삭제에 실패했습니다.");
+      })
+      .then(() => setLoading(false));
   };
 
   return (
@@ -52,20 +83,26 @@ function DeleteModal(props) {
             <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
               정말로 삭제하시겠습니까?
             </h3>
-            <button
-              type="button"
-              className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
-              onClick={deleteHandler}
-            >
-              네 삭제할게요
-            </button>
-            <button
-              type="button"
-              className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
-              onClick={() => props.setShowModal(false)}
-            >
-              취소할게요
-            </button>
+            {loading ? (
+              <Loading />
+            ) : (
+              <>
+                <button
+                  type="button"
+                  className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
+                  onClick={deleteHandler}
+                >
+                  네 삭제할게요
+                </button>
+                <button
+                  type="button"
+                  className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
+                  onClick={() => props.setShowModal(false)}
+                >
+                  취소할게요
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>

@@ -1,17 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import NoImage from "../../images/noImage.jpg";
 import KakaoMap from "../../global/KakaoMap";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { API } from "../../global/Constants";
+import Loading from "../Layout/Loading";
+
+const styleList = ["스타일을 선택해주세요.", "커트", "펌", "염색"];
+const cutList = [
+  "카테고리를 선택해주세요.",
+  "레이어드컷",
+  "허쉬컷",
+  "샤기컷",
+  "원랭스컷",
+];
+const permList = [
+  "카테고리를 선택해주세요.",
+  "히피펌",
+  "레이어드펌",
+  "허쉬펌",
+  "애즈펌",
+];
+const dyeingList = [
+  "카테고리를 선택해주세요.",
+  "다크브라운",
+  "레드브라운",
+  "애쉬블루",
+  "애쉬브라운",
+];
 
 function ArticleModifyForm(props) {
-  const [title, setTitle] = useState("제 머리좀 살려주세요...");
-  const [body, setBody] = useState(
-    "저번에 다른 지역 미용실에서 시술했는데... 지금 상태가 너무 심각해요....... 제 머리좀 제발 살려주세요 ㅠ_ㅠ"
-  );
-  const [beforeImage, setBeforeImage] = useState(
-    "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMDAyMDRfMTI1%2FMDAxNTgwODEyNDY3Nzcw.0CwROtLN7llMZj-hTead7MRI2_dg4qNCLMzmMTQPtBgg.5gCii1I-gyUsg-nD60edSDJq3zgnkqHBdOJ5LzaAN54g.JPEG.validism%2FIMG_5805.JPG&type=sc960_832"
-  );
-  const [afterImage, setAfterImage] = useState(
-    "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTAzMTFfMTU4%2FMDAxNjE1MzkwMTA4NDkw.39z3iICA5ZpAK16QpYRe4D6Cal-JJsjImnG_QeTkv7Ug.Cc00o27JILG41RJAy51JX161zt8PEg9Y_qt8qoV8F-sg.JPEG.phucxt_0703%2F20210309_160150.jpg&type=sc960_832"
-  );
+  const user = useSelector((state) => state.user);
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
+  const [beforeImage, setBeforeImage] = useState(NoImage);
+  const [afterImage, setAfterImage] = useState(NoImage);
+  const [style, setStyle] = useState("스타일을 선택해주세요.");
+  const [tag, setTag] = useState("카테고리를 선택해주세요.");
+  const [loading, setLoading] = useState(false);
 
   const titleHandler = (event) => setTitle(event.target.value);
   const bodyHandler = (event) => setBody(event.target.value);
@@ -22,34 +48,78 @@ function ArticleModifyForm(props) {
         setBeforeImage(URL.createObjectURL(imageFile));
       else setAfterImage(URL.createObjectURL(imageFile));
     } else {
-      if (target === "Before_Image")
-        setBeforeImage(
-          "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMDAyMDRfMTI1%2FMDAxNTgwODEyNDY3Nzcw.0CwROtLN7llMZj-hTead7MRI2_dg4qNCLMzmMTQPtBgg.5gCii1I-gyUsg-nD60edSDJq3zgnkqHBdOJ5LzaAN54g.JPEG.validism%2FIMG_5805.JPG&type=sc960_832"
-        );
-      else
-        setAfterImage(
-          "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTAzMTFfMTU4%2FMDAxNjE1MzkwMTA4NDkw.39z3iICA5ZpAK16QpYRe4D6Cal-JJsjImnG_QeTkv7Ug.Cc00o27JILG41RJAy51JX161zt8PEg9Y_qt8qoV8F-sg.JPEG.phucxt_0703%2F20210309_160150.jpg&type=sc960_832"
-        );
+      if (target === "Before_Image") setBeforeImage(NoImage);
+      else setAfterImage(NoImage);
     }
   };
+  const styleHandler = (event) => {
+    setTag("카테고리를 선택해주세요.");
+    setStyle(event.target.value);
+  };
+  const tagHandler = (event) => setTag(event.target.value);
 
   const submitHandler = (event) => {
     event.preventDefault();
 
-    const selectedCategory = document.querySelectorAll(
-      'input[name="category"]:checked'
-    );
-    let category = "";
-    selectedCategory.forEach((item, index) => {
-      if (index === 0) category += item.value;
-      else category += " / " + item.value;
-    });
+    if (title === "") return alert("제목을 입력해주세요.");
+    if (body === "") return alert("내용을 입력해주세요.");
+    if (style === "스타일을 선택해주세요.")
+      return alert("스타일을 선택해주세요.");
+    if (tag === "카테고리를 선택해주세요.")
+      return alert("카테고리를 선택해주세요.");
+    if (document.getElementById("Kakao_Address").value === "")
+      return alert("지역을 선택해주세요.");
 
-    console.log(title);
-    console.log(body);
-    console.log(category);
-    console.log(document.getElementById("Kakao_Address").value);
+    setLoading(true);
+
+    let articleInfo = {
+      title: title,
+      body: body,
+      region: document.getElementById("Kakao_Address").value,
+      category: style,
+      gender: user.gender === 0 ? "남성" : "여성",
+      tag: tag,
+      articleId: props.modifyData.articleId.toString(),
+    };
+
+    const formData = new FormData();
+    formData.append("jsonlist", JSON.stringify(articleInfo));
+
+    let Before_Image = document.getElementById("Before_Image");
+    formData.append("beforeimage", Before_Image.files[0] || null);
+    let After_Image = document.getElementById("After_Image");
+    formData.append("afterimage", After_Image.files[0] || null);
+
+    axios
+      .put(API + "/advice/article", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((response) => {
+        if (response.data.success) {
+          alert("수정 완료!");
+          window.location.reload();
+        } else alert("요청 글 수정에 실패했습니다.");
+      })
+      .catch((err) => {
+        if (err.response.data.message) alert(err.response.data.message);
+        else alert("요청 글 수정에 실패했습니다.");
+      })
+      .then(() => setLoading(false));
   };
+
+  useEffect(() => {
+    if (props.modifyData) {
+      setTitle(props.modifyData.title || "");
+      setBody(props.modifyData.body || "");
+      setBeforeImage(props.modifyData.beforeimage);
+      setAfterImage(props.modifyData.afterimage);
+      setStyle(props.modifyData.category || "스타일을 선택해주세요.");
+      setTag(props.modifyData.tag || "카테고리를 선택해주세요.");
+    }
+  }, [props.modifyData]);
 
   return (
     <div
@@ -181,21 +251,40 @@ function ArticleModifyForm(props) {
                     <select
                       id="style"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      value={style}
+                      onChange={styleHandler}
                     >
-                      <option defaultValue>스타일을 선택해주세요.</option>
-                      <option value="커트">커트</option>
-                      <option value="펌">펌</option>
-                      <option value="염색">염색</option>
+                      {styleList.map((item) => (
+                        <option value={item} key={item}>
+                          {item}
+                        </option>
+                      ))}
                     </select>
                     <select
                       id="tag"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      value={tag}
+                      onChange={tagHandler}
+                      disabled={style === "스타일을 선택해주세요."}
                     >
-                      <option defaultValue>카테고리를 선택해주세요.</option>
-                      <option value="레이어드컷">레이어드컷</option>
-                      <option value="허쉬컷">허쉬컷</option>
-                      <option value="샤기컷">샤기컷</option>
-                      <option value="원랭스컷">원랭스컷</option>
+                      {style === "커트" &&
+                        cutList.map((item) => (
+                          <option value={item} key={item}>
+                            {item}
+                          </option>
+                        ))}
+                      {style === "펌" &&
+                        permList.map((item) => (
+                          <option value={item} key={item}>
+                            {item}
+                          </option>
+                        ))}
+                      {style === "염색" &&
+                        dyeingList.map((item) => (
+                          <option value={item} key={item}>
+                            {item}
+                          </option>
+                        ))}
                     </select>
                   </div>
                 </div>
@@ -205,12 +294,16 @@ function ArticleModifyForm(props) {
                   </label>
                   <KakaoMap />
                 </div>
-                <button
-                  type="submit"
-                  className="w-full text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                >
-                  등록하기
-                </button>
+                {loading ? (
+                  <Loading />
+                ) : (
+                  <button
+                    type="submit"
+                    className="w-full text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  >
+                    등록하기
+                  </button>
+                )}
               </form>
             </div>
           </div>
