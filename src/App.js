@@ -15,6 +15,8 @@ import AddportfolioPage from "./pages/AddportfolioPage";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
+  const AuthMatchingPage = Auth(MatchingPage, true);
+  const AuthChattingPage = Auth(ChattingPage, true);
 
   return (
     <div className="bg-gray-50 dark:bg-gray-900 m-0">
@@ -23,9 +25,10 @@ function App() {
         <Route path="/" element={<AuthLandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="/matching" element={<MatchingPage />} />
+        <Route path="/matching" element={<AuthMatchingPage />} />
+        <Route path="/chat" element={<AuthChattingPage />} />
+
         <Route path="/changeprofile" element={<ChangeprofilePage />} />
-        <Route path="/chat" element={<ChattingPage />} />
         <Route path="/lookupprofile" element={<LookupprofilePage />} />
         <Route path="/portfoliolist" element={<AddportfolioPage />} />
       </Routes>

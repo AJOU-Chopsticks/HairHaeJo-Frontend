@@ -33,8 +33,8 @@ export default function Auth(SpecificComponent, option, adminRoute = false) {
 
     useEffect(() => {
       if (!user.auth && localStorage.getItem("token")) {
-        dispatch(__asyncAuth()).then(() => {
-          checkRender(user.auth, user.isAdmin);
+        dispatch(__asyncAuth()).then((payload) => {
+          checkRender(payload.payload.auth, user.isAdmin);
         });
       } else checkRender(user.auth, user.isAdmin);
     });
