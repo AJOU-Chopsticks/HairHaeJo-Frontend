@@ -1,14 +1,14 @@
 import React from "react";
-import LookupForm from "../components/LookupprofilePage/LookupForm";
+import ChangeForm from "../components/ChangeprofilePage/ChangeForm";
 import ProfileSidebar from "../components/LookupprofilePage/ProfileSidebar";
 
-function LookupprofilePage() {
+function ChangeprofilePage() {
   return (
     <div className="container mx-auto pt-16 h-screen">
       <ProfileSidebar />
-      <LookupForm />
+      <ChangeForm />
     </div>
   );
 }
 
-export default LookupprofilePage;
+export default ChangeprofilePage;
