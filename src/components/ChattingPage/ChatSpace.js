@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import ChatBubble from "./ChatBubble";
 import { IoIosArrowBack } from "react-icons/io";
-import { BsThreeDotsVertical } from "react-icons/bs";
 import axios from "axios";
 import { API } from "../../global/Constants";
 import { useSelector } from "react-redux";
 import { Stomp } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import NoImage from "../../images/noImage.jpg";
+import ExitModal from "./ExitModal";
 
 function ChatSpace(props) {
   const user = useSelector((state) => state.user);
@@ -16,6 +16,7 @@ function ChatSpace(props) {
   const [chatHistory, setChatHistory] = useState([]);
   const [chatText, setChatText] = useState("");
   const [chatImage, setChatImage] = useState(NoImage);
+  const [showExitModal, setShowExitModal] = useState(false);
 
   useEffect(() => {
     const chatBubbleSpace = chatBubbleSpaceRef.current;
@@ -154,7 +155,7 @@ function ChatSpace(props) {
         <div className="flex flex-col justify-between gap-3 pb-5 px-1 h-full bg-gray-50 border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700">
           <div className="flex flex-row justify-between pt-3 pb-2 h-16 text-xl border-b-2 border-solid border-gray-300">
             <button
-              className="flex flex-row"
+              className="flex flex-row dark:text-gray-400"
               onClick={() => {
                 props.setShowChatSpace(false);
                 props.setChatItem("");
@@ -167,9 +168,37 @@ function ChatSpace(props) {
                   : props.chatItem.designerName}
               </span>
             </button>
-            <button>
-              <BsThreeDotsVertical className="mr-2" />
-            </button>
+            <div>
+              {user.role !== "ROLE_DESIGNER" && (
+                <button
+                  type="button"
+                  className="text-white inline-flex items-center justify-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  // onClick={articleModifyHandler}
+                >
+                  예약하기
+                </button>
+              )}
+              <button
+                type="button"
+                className="mx-3 inline-flex items-center justify-center text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
+                onClick={() => setShowExitModal(true)}
+              >
+                나가기
+                <svg
+                  aria-hidden="true"
+                  className="w-5 h-5 ml-2 -mr-1"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  ></path>
+                </svg>
+              </button>
+            </div>
           </div>
 
           <div
@@ -184,6 +213,7 @@ function ChatSpace(props) {
                 isMyMessage={item.writerName === user.name}
                 createdAt={item.createdAt}
                 info={props.chatItem}
+                type={item.type}
               />
             ))}
           </div>
@@ -277,6 +307,13 @@ function ChatSpace(props) {
             </div>
           </form>
         </div>
+        <ExitModal
+          showModal={showExitModal}
+          setShowModal={setShowExitModal}
+          roomId={props.chatItem.chatRoomId}
+          setShowChatSpace={props.setShowChatSpace}
+          setChatItem={props.setChatItem}
+        />
       </div>
     </div>
   );

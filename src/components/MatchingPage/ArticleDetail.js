@@ -5,9 +5,11 @@ import DeleteModal from "./DeleteModal";
 import axios from "axios";
 import { API } from "../../global/Constants";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function ArticleDetail(props) {
   const user = useSelector((state) => state.user);
+  const navigation = useNavigate();
   const [articleInfo, setArticleInfo] = useState({});
   const [showReport, setShowReport] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
@@ -31,7 +33,7 @@ function ArticleDetail(props) {
       )
       .then((response) => {
         if (response.data.success) {
-          console.log(response.data.data.chatRoomId);
+          navigation("/chat");
         } else alert("채팅방 생성에 실패했습니다.");
       })
       .catch((err) => {
