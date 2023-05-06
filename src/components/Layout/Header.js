@@ -17,7 +17,7 @@ function Header() {
   }, [location]);
 
   return (
-    <header className="fixed w-full z-50 top-0 left-0">
+    <header className="fixed w-full z-40 top-0 left-0">
       <nav className="bg-white border-gray-200 px-4 md:px-6 py-2.5 dark:bg-gray-800">
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
           <button
