@@ -8,6 +8,7 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import MatchingPage from "./pages/MatchingPage";
 import ChattingPage from "./pages/ChattingPage";
+import MyPage from "./pages/MyPage";
 
 import ChangeprofilePage from "./pages/ChangeprofilePage";
 import LookupprofilePage from "./pages/LookupprofilePage";
@@ -27,6 +28,7 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/matching" element={<AuthMatchingPage />} />
         <Route path="/chat" element={<AuthChattingPage />} />
+        <Route path="/mypage" element={<MyPage />} />
 
         <Route path="/changeprofile" element={<ChangeprofilePage />} />
         <Route path="/lookupprofile" element={<LookupprofilePage />} />
