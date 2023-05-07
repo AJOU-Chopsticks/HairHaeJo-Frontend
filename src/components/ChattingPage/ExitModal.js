@@ -17,8 +17,7 @@ function ExitModal(props) {
       })
       .then((response) => {
         if (response.data.success) {
-          props.setShowChatSpace(false);
-          props.setChatItem("");
+          props.exitHandler();
         } else alert("채팅방 나가기에 실패했습니다.");
       })
       .catch((err) => {
