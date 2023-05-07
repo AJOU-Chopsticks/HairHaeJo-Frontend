@@ -1,15 +1,20 @@
 import React, { useState } from "react";
 import Loading from "../Layout/Loading";
-import { DEFAULT_PROFILE_IMAGE } from "../../global/Constants";
+import { API, DEFAULT_PROFILE_IMAGE } from "../../global/Constants";
+import { useDispatch, useSelector } from "react-redux";
+import { __asyncAuth } from "../../redux/modules/userSlice";
+import axios from "axios";
 
-function AccoutForm() {
+function AccoutForm(props) {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
-
   const [accoutInfo, setAccoutInfo] = useState({
-    name: "",
-    phoneNumber: "",
-    age: "",
-    profileImage: DEFAULT_PROFILE_IMAGE,
+    name: user.name,
+    phoneNumber: user.phoneNumber,
+    age: user.age,
+    profileImage: user.profileImage,
+    gender: user.gender,
   });
 
   const nameHandler = (event) =>
@@ -33,15 +38,56 @@ function AccoutForm() {
   const submitHandler = (event) => {
     event.preventDefault();
 
+    if (accoutInfo.name === "") return alert("이름을 입력해주세요.");
+    if (event.target.gender.value === "") return alert("성별을 선택해주세요.");
+    if (accoutInfo.phoneNumber === "") return alert("전화번호를 입력해주세요.");
+    if (accoutInfo.age === "") return alert("나이를 입력해주세요.");
+    if (accoutInfo.profileImage === DEFAULT_PROFILE_IMAGE)
+      return alert("프로필 사진을 등록해주세요.");
+
     setLoading(true);
 
-    console.log(accoutInfo.name);
-    console.log(event.target.gender.value);
-    console.log(accoutInfo.phoneNumber);
-    console.log(accoutInfo.age);
-    console.log(accoutInfo.profileImage);
+    let body = {
+      name: accoutInfo.name,
+      phoneNumber: accoutInfo.phoneNumber,
+      gender: Number(event.target.gender.value),
+      age: Number(accoutInfo.age),
+    };
 
-    setTimeout(() => setLoading(false), 1000);
+    const formData = new FormData();
+    formData.append("jsonList", JSON.stringify(body));
+
+    let profileImage_input = document.getElementById("profileImage_input");
+    formData.append("profileImage", profileImage_input.files[0] || null);
+
+    axios
+      .put(API + "/user/account", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((response) => {
+        if (response.data.success) {
+          alert("계정 정보 변경 완료!");
+          dispatch(__asyncAuth()).then((payload) => {
+            setAccoutInfo({
+              ...accoutInfo,
+              name: payload.payload.name,
+              phoneNumber: payload.payload.phoneNumber,
+              age: payload.payload.age,
+              profileImage: payload.payload.profileImage,
+              gender: payload.payload.gender,
+            });
+            props.setTarget(0);
+          });
+        } else alert("계정 정보 변경에 실패했습니다.");
+      })
+      .catch((err) => {
+        if (err.response.data.message) alert(err.response.data.message);
+        else alert("계정 정보 변경에 실패했습니다.");
+      })
+      .then(() => setLoading(false));
   };
   return (
     <form className="space-y-4 md:space-y-6" onSubmit={submitHandler}>
@@ -77,6 +123,7 @@ function AccoutForm() {
                 name="gender"
                 value="0"
                 className="hidden peer"
+                defaultChecked={accoutInfo.gender === 0}
               />
               <label
                 htmlFor="MALE"
@@ -92,6 +139,7 @@ function AccoutForm() {
                 name="gender"
                 value="1"
                 className="hidden peer"
+                defaultChecked={accoutInfo.gender === 1}
               />
               <label
                 htmlFor="FEMALE"

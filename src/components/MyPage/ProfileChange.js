@@ -3,6 +3,7 @@ import CustomerForm from "./CustomerForm";
 import DesignerForm from "./DesignerForm";
 import AccoutForm from "./AccoutForm";
 import PasswordForm from "./PasswordForm";
+import { useSelector } from "react-redux";
 
 const up = (
   <svg
@@ -36,7 +37,8 @@ const down = (
   </svg>
 );
 
-function ProfileChange() {
+function ProfileChange(props) {
+  const user = useSelector((state) => state.user);
   const [target, setTarget] = useState(0);
 
   const targetHandler = (select) => {
@@ -61,8 +63,11 @@ function ProfileChange() {
       </h2>
       <div className={target === 1 ? "block" : "hidden"}>
         <div className="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
-          {/* <CustomerForm /> */}
-          <DesignerForm />
+          {user.role === "ROLE_USER" ? (
+            <CustomerForm profileInfo={props.profileInfo} />
+          ) : (
+            <DesignerForm profileInfo={props.profileInfo} />
+          )}
         </div>
       </div>
       <h2>
@@ -80,7 +85,7 @@ function ProfileChange() {
       </h2>
       <div className={target === 2 ? "block" : "hidden"}>
         <div className="p-5 border border-b-0 border-gray-200 dark:border-gray-700">
-          <AccoutForm />
+          <AccoutForm setTarget={setTarget} />
         </div>
       </div>
       <h2>
@@ -98,7 +103,7 @@ function ProfileChange() {
       </h2>
       <div className={target === 3 ? "block" : "hidden"}>
         <div className="p-5 border border-t-0 border-gray-200 dark:border-gray-700 rounded-b-xl">
-          <PasswordForm />
+          <PasswordForm setTarget={setTarget} />
         </div>
       </div>
     </div>

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Loading from "../Layout/Loading";
 import KakaoMap from "../../global/KakaoMap";
 
-function CustomerForm() {
+function CustomerForm(props) {
   const [loading, setLoading] = useState(false);
 
   const customerSubmitHandler = (event) => {
@@ -67,6 +67,13 @@ function CustomerForm() {
     //   .then(() => setLoading(false));
   };
 
+  useEffect(() => {
+    if (!document.getElementById("Kakao_Address")) return;
+    if (document.getElementById("Kakao_Address").value !== "") return;
+    document.getElementById("Kakao_Address").value =
+      props.profileInfo.abstractLocation;
+  });
+
   return (
     <form className="space-y-4 md:space-y-6" onSubmit={customerSubmitHandler}>
       <div>
@@ -84,6 +91,7 @@ function CustomerForm() {
               name="skinType"
               value="0"
               className="hidden peer"
+              defaultChecked={props.profileInfo.skinType === 0}
             />
             <label
               htmlFor="skinType_0"
@@ -99,6 +107,7 @@ function CustomerForm() {
               name="skinType"
               value="1"
               className="hidden peer"
+              defaultChecked={props.profileInfo.skinType === 1}
             />
             <label
               htmlFor="skinType_1"
@@ -114,6 +123,7 @@ function CustomerForm() {
               name="skinType"
               value="2"
               className="hidden peer"
+              defaultChecked={props.profileInfo.skinType === 2}
             />
             <label
               htmlFor="skinType_2"
@@ -139,6 +149,7 @@ function CustomerForm() {
               name="hairType"
               value="0"
               className="hidden peer"
+              defaultChecked={props.profileInfo.hairType === 0}
             />
             <label
               htmlFor="hairType_0"
@@ -154,6 +165,7 @@ function CustomerForm() {
               name="hairType"
               value="1"
               className="hidden peer"
+              defaultChecked={props.profileInfo.hairType === 1}
             />
             <label
               htmlFor="hairType_1"
@@ -169,6 +181,7 @@ function CustomerForm() {
               name="hairType"
               value="2"
               className="hidden peer"
+              defaultChecked={props.profileInfo.hairType === 2}
             />
             <label
               htmlFor="hairType_2"
@@ -194,6 +207,7 @@ function CustomerForm() {
               name="hairThickness"
               value="0"
               className="hidden peer"
+              defaultChecked={props.profileInfo.hairThickness === 0}
             />
             <label
               htmlFor="hairThickness_0"
@@ -209,6 +223,7 @@ function CustomerForm() {
               name="hairThickness"
               value="1"
               className="hidden peer"
+              defaultChecked={props.profileInfo.hairThickness === 1}
             />
             <label
               htmlFor="hairThickness_1"
@@ -224,6 +239,7 @@ function CustomerForm() {
               name="hairThickness"
               value="2"
               className="hidden peer"
+              defaultChecked={props.profileInfo.hairThickness === 2}
             />
             <label
               htmlFor="hairThickness_2"
@@ -249,6 +265,7 @@ function CustomerForm() {
               name="dyeingHistory"
               value="0"
               className="hidden peer"
+              defaultChecked={props.profileInfo.dyeingHistory === 0}
             />
             <label
               htmlFor="dyeinghistory_0"
@@ -264,6 +281,7 @@ function CustomerForm() {
               name="dyeingHistory"
               value="1"
               className="hidden peer"
+              defaultChecked={props.profileInfo.dyeingHistory === 1}
             />
             <label
               htmlFor="dyeinghistory_1"
@@ -279,6 +297,7 @@ function CustomerForm() {
               name="dyeingHistory"
               value="2"
               className="hidden peer"
+              defaultChecked={props.profileInfo.dyeingHistory === 2}
             />
             <label
               htmlFor="dyeinghistory_2"
@@ -304,6 +323,7 @@ function CustomerForm() {
               name="decolorizationHistory"
               value="0"
               className="hidden peer"
+              defaultChecked={props.profileInfo.decolorizationHistory === 0}
             />
             <label
               htmlFor="decolorizationHistory_0"
@@ -319,6 +339,7 @@ function CustomerForm() {
               name="decolorizationHistory"
               value="1"
               className="hidden peer"
+              defaultChecked={props.profileInfo.decolorizationHistory === 1}
             />
             <label
               htmlFor="decolorizationHistory_1"
@@ -334,6 +355,7 @@ function CustomerForm() {
               name="decolorizationHistory"
               value="2"
               className="hidden peer"
+              defaultChecked={props.profileInfo.decolorizationHistory === 2}
             />
             <label
               htmlFor="decolorizationHistory_2"

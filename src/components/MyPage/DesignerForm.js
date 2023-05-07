@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Loading from "../Layout/Loading";
 import KakaoMap from "../../global/KakaoMap";
 
-function DesignerForm() {
+function DesignerForm(props) {
   const [loading, setLoading] = useState(false);
   const [designerInfo, setDesignerInfo] = useState({
-    introduction: "",
-    hairSalonName: "",
-    hairSalonNumber: "",
+    introduction: props.profileInfo.introduction,
+    hairSalonName: props.profileInfo.hairSalonName,
+    hairSalonNumber: props.profileInfo.hairSalonNumber,
     hairSalonAddress: "",
   });
 
@@ -60,6 +60,13 @@ function DesignerForm() {
     //     setLoading(false);
     //   });
   };
+
+  useEffect(() => {
+    if (!document.getElementById("Kakao_Address")) return;
+    if (document.getElementById("Kakao_Address").value !== "") return;
+    document.getElementById("Kakao_Address").value =
+      props.profileInfo.hairSalonAddress;
+  });
 
   return (
     <form className="space-y-4 md:space-y-6" onSubmit={submitHandler}>

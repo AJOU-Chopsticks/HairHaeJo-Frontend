@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import Loading from "../Layout/Loading";
+import axios from "axios";
+import { API } from "../../global/Constants";
 
-function PasswordForm() {
+function PasswordForm(props) {
   const [loading, setLoading] = useState(false);
   const [exPassword, setExPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -10,13 +12,36 @@ function PasswordForm() {
   const submitHandler = (event) => {
     event.preventDefault();
 
+    if (newPassword !== newConfirmPassword)
+      return alert("새로운 비밀번호를 다시 확인해주세요.");
+
     setLoading(true);
 
-    console.log(exPassword);
-    console.log(newPassword);
-    console.log(newConfirmPassword);
+    axios
+      .put(
+        API + "/user/password",
+        { exPassword: exPassword, newPassword: newPassword },
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      )
+      .then((response) => {
+        if (response.data.success) {
+          alert("비밀번호 변경 완료!");
 
-    setTimeout(() => setLoading(false), 1000);
+          setExPassword("");
+          setNewPassword("");
+          setNewConfirmPassword("");
+          props.setTarget(0);
+        } else alert("비밀번호 변경에 실패했습니다.");
+      })
+      .catch((err) => {
+        if (err.response.data.message) alert(err.response.data.message);
+        else alert("비밀번호 변경에 실패했습니다.");
+      })
+      .then(() => setLoading(false));
   };
 
   return (
