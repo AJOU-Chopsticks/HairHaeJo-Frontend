@@ -4,6 +4,7 @@ import DesignerForm from "./DesignerForm";
 import AccoutForm from "./AccoutForm";
 import PasswordForm from "./PasswordForm";
 import { useSelector } from "react-redux";
+import DeleteForm from "./DeleteForm";
 
 const up = (
   <svg
@@ -91,9 +92,9 @@ function ProfileChange(props) {
       <h2>
         <button
           type="button"
-          className={`flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 border border-gray-200 rounded-b-xl dark:border-gray-700 dark:text-gray-400 hover:bg-primary-100 dark:hover:bg-gray-800 ${
+          className={`flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 border border-b-0 border-gray-200 dark:border-gray-700 dark:text-gray-400 hover:bg-primary-100 dark:hover:bg-gray-800 ${
             target === 3 &&
-            "bg-primary-100 dark:bg-gray-800 text-primary-600 dark:text-white rounded-b-none"
+            "bg-primary-100 dark:bg-gray-800 text-primary-600 dark:text-white"
           }`}
           onClick={() => targetHandler(3)}
         >
@@ -102,8 +103,27 @@ function ProfileChange(props) {
         </button>
       </h2>
       <div className={target === 3 ? "block" : "hidden"}>
-        <div className="p-5 border border-t-0 border-gray-200 dark:border-gray-700 rounded-b-xl">
+        <div className="p-5 border border-b-0 border-gray-200 dark:border-gray-700">
           <PasswordForm setTarget={setTarget} />
+        </div>
+      </div>
+      <h2>
+        <button
+          type="button"
+          className={`flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 border border-gray-200 dark:border-gray-700 dark:text-gray-400 hover:bg-primary-100 dark:hover:bg-gray-800 ${
+            target === 4
+              ? "bg-primary-100 dark:bg-gray-800 text-primary-600 dark:text-white rounded-b-none"
+              : "rounded-b-xl"
+          }`}
+          onClick={() => targetHandler(4)}
+        >
+          <span>회원 탈퇴</span>
+          {target === 4 ? up : down}
+        </button>
+      </h2>
+      <div className={target === 4 ? "block" : "hidden"}>
+        <div className="p-5 border border-t-0 border-gray-200 dark:border-gray-700 rounded-b-xl">
+          <DeleteForm />
         </div>
       </div>
     </div>
