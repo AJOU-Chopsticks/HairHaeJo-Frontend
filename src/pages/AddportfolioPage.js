@@ -5,9 +5,9 @@ import PortfolioList from "../components/AddportfolioPage/PortfolioList";
 
 function AddportfolioPage() {
   return (
-    <div className="mx-auto pt-16 min-h-screen">
+    <div className="container mx-auto pt-16 h-screen">
       <ProfileSidebar />
-      <PortfolioList />
+      {/*<PortfolioList />*/}
       <PortfolioForm />
     </div>
   );

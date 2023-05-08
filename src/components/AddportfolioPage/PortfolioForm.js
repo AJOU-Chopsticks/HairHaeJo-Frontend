@@ -112,12 +112,11 @@ function PortfolioForm() {
               htmlFor="body"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              근무장소 및 주요 활동{" "}
-              <span className="text-red-600 font-bold">*</span>
+              고객 시술 이력<span className="text-red-600 font-bold">*</span>
             </label>
             <textarea
               id="body"
-              placeholder="근무장소 및 주요 활동"
+              placeholder="고객 시술 이력"
               rows={4}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
               value={body}
