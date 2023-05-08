@@ -66,6 +66,19 @@ const userSlice = createSlice({
       state.isAdmin = false;
       state.userId = 0;
     },
+    deleteUser: (state) => {
+      localStorage.removeItem("token");
+      state.auth = false;
+      state.age = 0;
+      state.email = "";
+      state.gender = 0;
+      state.name = "";
+      state.phoneNumber = "";
+      state.profileImage = DEFAULT_PROFILE_IMAGE;
+      state.role = "";
+      state.isAdmin = false;
+      state.userId = 0;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(__asyncAuth.fulfilled, (state, payload) => {
@@ -84,5 +97,5 @@ const userSlice = createSlice({
 });
 
 export default userSlice;
-export const { logout } = userSlice.actions;
+export const { logout, deleteUser } = userSlice.actions;
 export { __asyncLogin, __asyncAuth };

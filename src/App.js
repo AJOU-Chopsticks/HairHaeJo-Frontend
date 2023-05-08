@@ -8,6 +8,7 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import MatchingPage from "./pages/MatchingPage";
 import ChattingPage from "./pages/ChattingPage";
+import MyPage from "./pages/MyPage";
 
 import ChangeprofilePage from "./pages/ChangeprofilePage";
 import LookupprofilePage from "./pages/LookupprofilePage";
@@ -17,6 +18,7 @@ function App() {
   const AuthLandingPage = Auth(LandingPage, null);
   const AuthMatchingPage = Auth(MatchingPage, true);
   const AuthChattingPage = Auth(ChattingPage, true);
+  const AuthMyPage = Auth(MyPage, true);
 
   return (
     <div className="bg-gray-50 dark:bg-gray-900 m-0">
@@ -27,6 +29,7 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/matching" element={<AuthMatchingPage />} />
         <Route path="/chat" element={<AuthChattingPage />} />
+        <Route path="/mypage" element={<AuthMyPage />} />
 
         <Route path="/changeprofile" element={<ChangeprofilePage />} />
         <Route path="/lookupprofile" element={<LookupprofilePage />} />

@@ -1,35 +1,43 @@
-import axios from "axios";
 import React, { useState } from "react";
-import { API } from "../../global/Constants";
 import Loading from "../Layout/Loading";
+import axios from "axios";
+import { API } from "../../global/Constants";
+import { useDispatch } from "react-redux";
+import { deleteUser } from "../../redux/modules/userSlice";
 
-function ExitModal(props) {
+function DeleteModal(props) {
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
   const exitHandler = () => {
     setLoading(true);
 
     axios
-      .delete(API + "/chat/leave?roomId=" + props.roomId, {
+      .delete(API + "/user", {
         headers: {
           Authorization: localStorage.getItem("token"),
         },
+        data: { email: props.email, password: props.password },
       })
       .then((response) => {
         if (response.data.success) {
-          props.exitHandler();
-        } else alert("채팅방 나가기에 실패했습니다.");
+          alert("회원 탈퇴 완료!");
+          dispatch(deleteUser());
+        } else alert("회원 탈퇴에 실패했습니다.");
       })
       .catch((err) => {
         if (err.response.data.message) alert(err.response.data.message);
-        else alert("채팅방 나가기에 실패했습니다.");
+        else alert("회원 탈퇴에 실패했습니다.");
       })
-      .then(() => setLoading(false));
+      .then(() => {
+        setLoading(false);
+        props.setShowModal(false);
+      });
   };
 
   return (
     <div
-      className={`modal-container fixed top-0 left-0 right-0 z-50 w-full pl-0 md:pl-64 lg:pl-96 overflow-x-hidden overflow-y-auto md:inset-0 h-full max-h-full bg-gray-900 bg-opacity-50 dark:bg-opacity-80 scale-100 flex ${
+      className={`modal-container fixed top-0 left-0 right-0 z-50 w-full overflow-x-hidden overflow-y-auto md:inset-0 h-full max-h-full bg-gray-900 bg-opacity-50 dark:bg-opacity-80 scale-100 flex ${
         props.showModal ? "active" : ""
       }`}
     >
@@ -71,9 +79,9 @@ function ExitModal(props) {
               ></path>
             </svg>
             <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-              정말로 채팅방을 나가시겠습니까?
+              정말로 회원 탈퇴를 진행하시겠습니까?
               <br />
-              채팅방을 나가면 채팅 내역은 삭제됩니다.
+              회원 탈퇴 시, 모든 계정 정보가 삭제됩니다.
             </h3>
             {loading ? (
               <Loading />
@@ -84,7 +92,7 @@ function ExitModal(props) {
                   className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
                   onClick={exitHandler}
                 >
-                  네 나갈게요
+                  네 탈퇴할게요
                 </button>
                 <button
                   type="button"
@@ -102,4 +110,4 @@ function ExitModal(props) {
   );
 }
 
-export default ExitModal;
+export default DeleteModal;
