@@ -65,9 +65,17 @@ function ProfileChange(props) {
       <div className={target === 1 ? "block" : "hidden"}>
         <div className="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
           {user.role === "ROLE_USER" ? (
-            <CustomerForm profileInfo={props.profileInfo} />
+            <CustomerForm
+              profileInfo={props.profileInfo}
+              reload={props.reload}
+              setReload={props.setReload}
+            />
           ) : (
-            <DesignerForm profileInfo={props.profileInfo} />
+            <DesignerForm
+              profileInfo={props.profileInfo}
+              reload={props.reload}
+              setReload={props.setReload}
+            />
           )}
         </div>
       </div>

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Loading from "../Layout/Loading";
 import KakaoMap from "../../global/KakaoMap";
+import axios from "axios";
+import { API } from "../../global/Constants";
 
 function CustomerForm(props) {
   const [loading, setLoading] = useState(false);
@@ -25,13 +27,13 @@ function CustomerForm(props) {
     );
     let abstractLocation = document.getElementById("Kakao_Address").value;
 
-    // if (skinType === null) return alert("두피형을 선택해주세요.");
-    // if (hairType === null) return alert("헤어 스타일을 선택해주세요.");
-    // if (hairThickness === null) return alert("모발 두께을 선택해주세요.");
-    // if (dyeingHistory === null) return alert("염색 시술 이력을 선택해주세요.");
-    // if (decolorizationHistory === null)
-    //   return alert("탈색 시술 이력을 선택해주세요.");
-    // if (abstractLocation === "") return alert("관심 지역을 선택해주세요.");
+    if (skinType === null) return alert("두피형을 선택해주세요.");
+    if (hairType === null) return alert("헤어 스타일을 선택해주세요.");
+    if (hairThickness === null) return alert("모발 두께을 선택해주세요.");
+    if (dyeingHistory === null) return alert("염색 시술 이력을 선택해주세요.");
+    if (decolorizationHistory === null)
+      return alert("탈색 시술 이력을 선택해주세요.");
+    if (abstractLocation === "") return alert("관심 지역을 선택해주세요.");
 
     setLoading(true);
 
@@ -44,27 +46,23 @@ function CustomerForm(props) {
       abstractLocation: abstractLocation,
     };
 
-    console.log(body);
-
-    setTimeout(() => setLoading(false), 1000);
-
-    // axios
-    //   .post(API + "/user/profile", body, {
-    //     headers: {
-    //       Authorization: token,
-    //     },
-    //   })
-    //   .then((response) => {
-    //     if (!response.data.success)
-    //       return alert(response.data.message || "서버 오류");
-    //     alert("회원가입이 정상적으로 완료되었습니다.");
-    //     navigation("/login", { replace: true });
-    //   })
-    //   .catch((err) => {
-    //     if (err.response.data.message) alert(err.response.data.message);
-    //     else alert("프로필 설정에 실패했습니다.");
-    //   })
-    //   .then(() => setLoading(false));
+    axios
+      .put(API + "/user/profile", body, {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((response) => {
+        if (response.data.success) {
+          alert("프로필 변경 완료!");
+          props.setReload(!props.reload);
+        } else alert("프로필 변경에 실패했습니다.");
+      })
+      .catch((err) => {
+        if (err.response.data.message) alert(err.response.data.message);
+        else alert("프로필 변경에 실패했습니다.");
+      })
+      .then(() => setLoading(false));
   };
 
   useEffect(() => {

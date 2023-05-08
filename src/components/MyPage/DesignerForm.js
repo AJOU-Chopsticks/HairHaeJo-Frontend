@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Loading from "../Layout/Loading";
 import KakaoMap from "../../global/KakaoMap";
+import { API } from "../../global/Constants";
+import axios from "axios";
 
 function DesignerForm(props) {
   const [loading, setLoading] = useState(false);
@@ -40,25 +42,23 @@ function DesignerForm(props) {
       hairSalonNumber: hairSalonNumber,
     };
 
-    console.log(body);
-
-    setTimeout(() => setLoading(false), 1000);
-
-    // axios
-    //   .post(API + "/designer/profile", body, {
-    //     headers: {
-    //       Authorization: token,
-    //     },
-    //   })
-    //   .then((response) => {
-    //     if (!response.data.success)
-    //       return alert(response.data.message || "서버 오류");
-    //   })
-    //   .catch((err) => {
-    //     if (err.response.data.message) alert(err.response.data.message);
-    //     else alert("프로필 설정에 실패했습니다.");
-    //     setLoading(false);
-    //   });
+    axios
+      .put(API + "/designer/profile", body, {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((response) => {
+        if (response.data.success) {
+          alert("프로필 변경 완료!");
+          props.setReload(!props.reload);
+        } else alert("프로필 변경에 실패했습니다.");
+      })
+      .catch((err) => {
+        if (err.response.data.message) alert(err.response.data.message);
+        else alert("프로필 변경에 실패했습니다.");
+      })
+      .then(() => setLoading(false));
   };
 
   useEffect(() => {
