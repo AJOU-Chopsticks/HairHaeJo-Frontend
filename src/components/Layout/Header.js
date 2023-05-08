@@ -4,6 +4,8 @@ import MainIcon from "../../images/MainIcon.png";
 import { FaArrowLeft } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/modules/userSlice";
+import axios from "axios";
+import { API } from "../../global/Constants";
 
 function Header() {
   const navigate = useNavigate();
@@ -11,6 +13,28 @@ function Header() {
   const location = useLocation();
   const [mobileMenu, setMobileMenu] = useState(false);
   const user = useSelector((state) => state.user);
+
+  const logoutHandler = () => {
+    axios
+      .put(
+        API + "/user/logout",
+        {},
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      )
+      .then((response) => {
+        if (response.data.success) {
+          dispatch(logout());
+        } else alert("로그아웃에 실패했습니다.");
+      })
+      .catch((err) => {
+        if (err.response.data.message) alert(err.response.data.message);
+        else alert("로그아웃에 실패했습니다.");
+      });
+  };
 
   useEffect(() => {
     setMobileMenu(false);
@@ -62,7 +86,7 @@ function Header() {
                   {user.name}
                 </Link>
                 <button
-                  onClick={() => dispatch(logout())}
+                  onClick={logoutHandler}
                   className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 md:px-5 py-2 md:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 hidden md:block"
                 >
                   로그아웃
