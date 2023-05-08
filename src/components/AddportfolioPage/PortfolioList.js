@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import axios from "axios";
-import PortfolioDetail from "./PortfolioDetail";
+import React, { useEffect, useState } from "react";
 import Portfolio from "./Portfolio";
+import PortfolioDetail from "./PortfolioDetail";
+import axios from "axios";
 import { API } from "../../global/Constants";
 import Loading from "../Layout/Loading";
 
 function PortfolioList(props) {
   const [showDetail, setShowDetail] = useState(false);
-  const [portfolioData, setportfolioData] = useState([]);
+  const [portfolioData, setPortfolioData] = useState([]);
   const [detailTarget, setDetailTarget] = useState("");
   const [loading, setLoading] = useState(true);
 
@@ -30,7 +30,9 @@ function PortfolioList(props) {
           <PortfolioDetail
             showDetail={showDetail}
             setShowDetail={setShowDetail}
+            setShowModifyForm={props.setShowModifyForm}
             detailTarget={detailTarget}
+            setModifyData={props.setModifyData}
           />
         </>
       )}

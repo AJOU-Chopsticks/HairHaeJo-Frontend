@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ProfileSidebar from "../components/LookupprofilePage/ProfileSidebar";
 import PortfolioForm from "../components/AddportfolioPage/PortfolioForm";
 import PortfolioList from "../components/AddportfolioPage/PortfolioList";
+import PortfolioModifyForm from "../components/AddportfolioPage/PortfolioModifyForm";
 
 function AddportfolioPage() {
   const [showModifyForm, setShowModifyForm] = useState(false);
@@ -14,6 +15,11 @@ function AddportfolioPage() {
         setModifyData={setModifyData}
       />
       <PortfolioForm />
+      <PortfolioModifyForm
+        showModal={showModifyForm}
+        setShowModal={setShowModifyForm}
+        modifyData={modifyData}
+      />
     </div>
   );
 }

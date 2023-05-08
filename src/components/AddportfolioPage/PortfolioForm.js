@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import NoImage from "../../images/noImage.jpg";
+import { useSelector } from "react-redux";
+import { API } from "../../global/Constants";
+import axios from "axios";
 import Loading from "../Layout/Loading";
 
 function PortfolioForm() {
@@ -36,6 +39,33 @@ function PortfolioForm() {
       period: period,
       detail: detail,
     };
+
+    const formData = new FormData();
+    formData.append("jsonlist", JSON.stringify(PortfolioInfo));
+
+    let Before_Image = document.getElementById("Before_Image");
+    formData.append("beforeimage", Before_Image.files[0] || null);
+    let After_Image = document.getElementById("After_Image");
+    formData.append("afterimage", After_Image.files[0] || null);
+
+    /*axios
+      .post(API + "/advice/article", formData, {
+        headers: {
+          "Contest-Type": "multipart/form-data",
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((response) => {
+        if (response.data.success) {
+          alert("작성 완료!");
+          window.location.reload();
+        } else alert("포트폴리오 작성에 실패했습니다.");
+      })
+      .catch((err) => {
+        if (err.response.data.message) alert(err.response.data.message);
+        else alert("포트폴리오 작성에 실패했습니다.");
+      })
+      .then(() => setLoading(false));*/
   };
   return (
     <>
