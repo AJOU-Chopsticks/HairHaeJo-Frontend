@@ -88,6 +88,25 @@ function ChatSpace(props) {
     }
   };
 
+  const exitHandler = () => {
+    client.current.publish({
+      destination: "/pub/chat/message",
+      body: JSON.stringify({
+        type: "TYPE_INFO",
+        roomId: props.chatItem.chatRoomId,
+        writerId:
+          user.role === "ROLE_DESIGNER"
+            ? props.chatItem.designerId
+            : props.chatItem.clientId,
+        text: user.name + "님이 상담을 종료했습니다.",
+      }),
+    });
+
+    setShowExitModal(false);
+    props.setShowChatSpace(false);
+    props.setChatItem("");
+  };
+
   const imageHandler = () => {
     let imageFile = document.getElementById("Input_Image").files[0];
     if (imageFile !== undefined) {
@@ -313,6 +332,7 @@ function ChatSpace(props) {
           roomId={props.chatItem.chatRoomId}
           setShowChatSpace={props.setShowChatSpace}
           setChatItem={props.setChatItem}
+          exitHandler={exitHandler}
         />
       </div>
     </div>
