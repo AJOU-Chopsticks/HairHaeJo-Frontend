@@ -27,6 +27,7 @@ function LoginForm() {
       __asyncLogin({
         email: email,
         password: password,
+        fcmToken: localStorage.getItem("fcmToken"),
       })
     ).then((response) => {
       if (response.payload) navigation("/", { replace: true });
