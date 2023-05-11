@@ -5,52 +5,82 @@ import axios from "axios";
 import { API } from "../../global/Constants";
 import Loading from "../Layout/Loading";
 
+const styleList = ["스타일을 선택해주세요.", "커트", "펌", "염색"];
+const cutList = [
+  "카테고리를 선택해주세요.",
+  "레이어드컷",
+  "허쉬컷",
+  "샤기컷",
+  "원랭스컷",
+];
+const permList = [
+  "카테고리를 선택해주세요.",
+  "히피펌",
+  "레이어드펌",
+  "허쉬펌",
+  "애즈펌",
+];
+const dyeingList = [
+  "카테고리를 선택해주세요.",
+  "다크브라운",
+  "레드브라운",
+  "애쉬블루",
+  "애쉬브라운",
+];
+
 function PortfolioModifyForm(props) {
   const user = useSelector((state) => state.user);
-  const [period, setPeriod] = useState("");
-  const [detail, setDetail] = useState("");
-  const [beforeImage, setBeforeImage] = useState(NoImage);
-  const [afterImage, setAfterImage] = useState(NoImage);
+  const [image, setImage] = useState(NoImage);
+  const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
+  const [style, setStyle] = useState("스타일을 선택해주세요.");
+  const [tag, setTag] = useState("카테고리를 선택해주세요.");
 
-  const periodHandler = (event) => setPeriod(event.target.value);
-  const detailHandler = (event) => setDetail(event.target.value);
-  const imageHandler = (target) => {
-    let imageFile = document.getElementById(target).files[0];
+  const imageHandler = () => {
+    let imageFile = document.getElementById("Portpolio_Image").files[0];
     if (imageFile !== undefined) {
-      if (target === "Before_Image")
-        setBeforeImage(URL.createObjectURL(imageFile));
-      else setAfterImage(URL.createObjectURL(imageFile));
+      setImage(URL.createObjectURL(imageFile));
     } else {
-      if (target === "Before_Image") setBeforeImage(NoImage);
-      else setAfterImage(NoImage);
+      setImage(NoImage);
     }
   };
+  const textHandler = (event) => setText(event.target.value);
+
+  const styleHandler = (event) => {
+    setTag("카테고리를 선택해주세요.");
+    setStyle(event.target.value);
+  };
+  const tagHandler = (event) => setTag(event.target.value);
 
   const submitHandler = (event) => {
     event.preventDefault();
 
-    if (period === "") return alert("시술날짜를 입력해주세요.");
-    if (detail === "") return alert("고객 시술 이력을 입력해주세요.");
+    if (image === NoImage) return alert("시술 이미지을 첨부해주세요.");
+    if (text === "") return alert("간략한 시술 설명을 적어주세요.");
+    if (style === "스타일을 선택해주세요.")
+      return alert("스타일을 선택해주세요.");
+    if (tag === "카테고리를 선택해주세요.")
+      return alert("카테고리를 선택해주세요.");
+    if (event.target.gender.value === "") return alert("성별을 선택해주세요.");
 
     setLoading(true);
 
     let PortfolioInfo = {
-      period: period,
-      detail: detail,
-      PortfolioId: props.modifyData.PortfolioId.toString(),
+      portfolioId: props.modifyData.portfolioId,
+      text: text,
+      category: style,
+      tag: tag,
+      gender: event.target.gender.value,
     };
 
     const formData = new FormData();
-    formData.append("jsonlist", JSON.stringify(PortfolioInfo));
+    formData.append("jsonList", JSON.stringify(PortfolioInfo));
 
-    let Before_Image = document.getElementById("Before_Image");
-    formData.append("beforeimage", Before_Image.files[0] || null);
-    let After_Image = document.getElementById("After_Image");
-    formData.append("afterimage", After_Image.files[0] || null);
+    let Portpolio_Image = document.getElementById("Portpolio_Image");
+    formData.append("image", Portpolio_Image.files[0] || null);
 
-    /*axios
-      .put(API + "/advice/article", formData, {
+    axios
+      .put(API + "/portfolio", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: localStorage.getItem("token"),
@@ -66,15 +96,15 @@ function PortfolioModifyForm(props) {
         if (err.response.data.message) alert(err.response.data.message);
         else alert("포트폴리오 수정에 실패했습니다.");
       })
-      .then(() => setLoading(false));*/
+      .then(() => setLoading(false));
   };
 
   useEffect(() => {
     if (props.modifyData) {
-      setPeriod(props.modifyData.period || "");
-      setDetail(props.modifyData.detail || "");
-      setBeforeImage(props.modifyData.beforeimage);
-      setAfterImage(props.modifyData.afterimage);
+      setImage(props.modifyData.image || NoImage);
+      setText(props.modifyData.text || "");
+      setStyle(props.modifyData.category || "스타일을 선택해주세요.");
+      setTag(props.modifyData.tag || "카테고리를 선택해주세요.");
     }
   }, [props.modifyData]);
 
@@ -114,96 +144,138 @@ function PortfolioModifyForm(props) {
                 포트폴리오 작성
               </h3>
               <form className="space-y-6" onSubmit={submitHandler}>
-                <div>
-                  <label
-                    htmlFor="period"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    시술 날짜 <span className="text-red-600 font-bold">*</span>
-                  </label>
-                  <input
-                    type="period"
-                    id="period"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                    placeholder="2022/03/01"
-                    value={period}
-                    onChange={periodHandler}
-                  />
-                </div>
-                <br></br>
                 <div className="flex items-center space-x-6">
                   <div className="shrink-0">
                     <img
                       className="h-16 w-16 object-cover rounded-lg"
-                      src={beforeImage}
-                      alt="Before_Image"
+                      src={image}
+                      alt="Portpolio_Image"
                     />
                   </div>
                   <label className="block w-full">
                     <label
-                      htmlFor="Before_Image"
+                      htmlFor="Portpolio_Image"
                       className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
                     >
-                      시술 전 <span className="text-red-600 font-bold">*</span>
+                      시술 이미지{" "}
+                      <span className="text-red-600 font-bold">*</span>
                     </label>
                     <input
                       className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                      id="Before_Image"
+                      id="Portpolio_Image"
                       type="file"
                       accept="image/*"
-                      onChange={() => imageHandler("Before_Image")}
+                      onChange={imageHandler}
                     />
                     <p className="mt-1 text-sm text-gray-500 dark:text-gray-300">
                       이미지 파일을 선택해주세요.
                     </p>
                   </label>
                 </div>
-                <div className="flex items-center space-x-6">
-                  <div className="shrink-0">
-                    <img
-                      className="h-16 w-16 object-cover rounded-lg"
-                      src={afterImage}
-                      alt="After_Image"
-                    />
-                  </div>
-                  <label className="block w-full">
-                    <label
-                      htmlFor="After_Image"
-                      className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                      시술 후 <span className="text-red-600 font-bold">*</span>
-                    </label>
-                    <input
-                      className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                      id="After_Image"
-                      type="file"
-                      accept="image/*"
-                      onChange={() => imageHandler("After_Image")}
-                    />
-                    <p className="mt-1 text-sm text-gray-500 dark:text-gray-300">
-                      이미지 파일을 선택해주세요.
-                    </p>
-                  </label>
-                </div>
-                <br></br>
                 <div>
                   <label
-                    htmlFor="detail"
+                    htmlFor="text"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    고객 시술 이력
+                    설명
                     <span className="text-red-600 font-bold">*</span>
                   </label>
                   <textarea
-                    id="detail"
-                    placeholder="고객 시술 이력"
+                    id="text"
+                    placeholder="설명"
                     rows={4}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                    value={detail}
-                    onChange={detailHandler}
+                    value={text}
+                    onChange={textHandler}
                   />
                 </div>
-                <br></br>
+                <div>
+                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    카테고리 <span className="text-red-600 font-bold">*</span>
+                  </label>
+                  <div className="flex flex-row gap-4">
+                    <select
+                      id="style"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      value={style}
+                      onChange={styleHandler}
+                    >
+                      {styleList.map((item) => (
+                        <option value={item} key={item}>
+                          {item}
+                        </option>
+                      ))}
+                    </select>
+                    <select
+                      id="tag"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      value={tag}
+                      onChange={tagHandler}
+                      disabled={style === "스타일을 선택해주세요."}
+                    >
+                      {style === "커트" &&
+                        cutList.map((item) => (
+                          <option value={item} key={item}>
+                            {item}
+                          </option>
+                        ))}
+                      {style === "펌" &&
+                        permList.map((item) => (
+                          <option value={item} key={item}>
+                            {item}
+                          </option>
+                        ))}
+                      {style === "염색" &&
+                        dyeingList.map((item) => (
+                          <option value={item} key={item}>
+                            {item}
+                          </option>
+                        ))}
+                    </select>
+                  </div>
+                </div>
+                <div className="w-full">
+                  <label
+                    htmlFor="gender"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    성별 <span className="text-red-600 font-bold">*</span>
+                  </label>
+                  <ul className="flex flex-row justify-between w-full gap-2">
+                    <li className="w-full">
+                      <input
+                        type="radio"
+                        id="MALE"
+                        name="gender"
+                        value="0"
+                        className="hidden peer"
+                        defaultChecked={props.modifyData.gender === 0}
+                      />
+                      <label
+                        htmlFor="MALE"
+                        className="inline-flex items-center justify-between w-full p-2 text-gray-500 bg-white border border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-primary-500 peer-checked:border-primary-600 peer-checked:text-primary-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
+                      >
+                        <div className="w-full text-md text-center">남</div>
+                      </label>
+                    </li>
+                    <li className="w-full">
+                      <input
+                        type="radio"
+                        id="FEMALE"
+                        name="gender"
+                        value="1"
+                        className="hidden peer"
+                        defaultChecked={props.modifyData.gender === 1}
+                      />
+                      <label
+                        htmlFor="FEMALE"
+                        className="inline-flex items-center justify-between w-full p-2 text-gray-500 bg-white border border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-primary-500 peer-checked:border-primary-600 peer-checked:text-primary-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
+                      >
+                        <div className="w-full text-md text-center">여</div>
+                      </label>
+                    </li>
+                  </ul>
+                </div>
                 {loading ? (
                   <Loading />
                 ) : (

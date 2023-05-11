@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import Loading from "../Layout/Loading";
 import Profile from "./Profile";
 import ProfileChange from "./ProfileChange";
-import PortfolioForm from "../AddportfolioPage/PortfolioForm";
 import axios from "axios";
 import { API } from "../../global/Constants";
 import { useSelector } from "react-redux";
+import AddportfolioPage from "../../pages/AddportfolioPage";
 
 function MyPageSpace(props) {
   const user = useSelector((state) => state.user);
@@ -78,8 +78,10 @@ function MyPageSpace(props) {
         <>
           {props.profileType === "profile" ? (
             <Profile profileInfo={profileInfo} />
-          ) : (
+          ) : props.profileType === "change" ? (
             <ProfileChange profileInfo={profileInfo} />
+          ) : (
+            <AddportfolioPage profileInfo={profileInfo} />
           )}
         </>
       )}

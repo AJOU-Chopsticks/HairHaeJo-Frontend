@@ -1,22 +1,37 @@
-import React, { useState } from "react";
-import { BsFillSendFill } from "react-icons/bs";
+import React, { useEffect, useState } from "react";
 import DeleteModal from "./DeleteModal";
 import axios from "axios";
 import { API } from "../../global/Constants";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 
 function PortfolioDetail(props) {
-  const user = useSelector((state) => state.user);
-  const navigation = useNavigate();
   const [PortfolioInfo, setPortfolioInfo] = useState({});
   const [showDelete, setShowDelete] = useState(false);
 
   const PortfolioModifyHandler = () => {
-    props.setModifyData({ ...PortfolioInfo, PortfolioId: props.detailTarget });
+    props.setModifyData({ ...PortfolioInfo, portfolioId: props.detailTarget });
     props.setShowDetail(false);
     props.setShowModifyForm(true);
   };
+
+  useEffect(() => {
+    if (props.detailTarget !== "") {
+      axios
+        .get(API + "/portfolio/view?portfolioId=" + props.detailTarget, {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        })
+        .then((response) => {
+          if (response.data.success) {
+            setPortfolioInfo(response.data.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response.data.message) alert(err.response.data.message);
+          else alert("포트폴리오 상세 조회에 실패했습니다.");
+        });
+    }
+  }, [props.detailTarget]);
 
   return (
     <div
@@ -28,7 +43,7 @@ function PortfolioDetail(props) {
         <div className="relative p-4 bg-white rounded-lg shadow dark:bg-gray-700 sm:p-5">
           <div className="flex justify-between mb-4 rounded-t sm:mb-5">
             <div className="text-lg text-gray-900 md:text-xl dark:text-white">
-              <h3 className="font-semibold ">{PortfolioInfo.period}</h3>
+              <h3 className="font-semibold ">{PortfolioInfo.tag}</h3>
             </div>
             <div>
               <button
@@ -55,33 +70,31 @@ function PortfolioDetail(props) {
               </button>
             </div>
           </div>
-          <div className="grid gap-4 mb-4 grid-cols-2">
-            <figure className="max-w-lg">
-              <img
-                className="h-auto max-w-full rounded-lg"
-                src={PortfolioInfo.beforeimage}
-                alt="Before_Image"
-              />
-              <figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
-                시술 전
-              </figcaption>
-            </figure>
-            <figure className="max-w-lg">
-              <img
-                className="h-auto max-w-full rounded-lg"
-                src={PortfolioInfo.afterimage}
-                alt="After_Image"
-              />
-              <figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
-                시술 후
-              </figcaption>
-            </figure>
-          </div>
+
+          <figure className="w-full">
+            <img
+              className="h-auto w-full rounded-lg"
+              src={PortfolioInfo.image}
+              alt="Portpolio_Image"
+            />
+            <figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
+              시술 이미지
+            </figcaption>
+          </figure>
+
           <div className="mb-2 font-semibold leading-none text-gray-900 dark:text-white">
-            내용
+            설명
           </div>
           <div className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-            {PortfolioInfo.detail}
+            {PortfolioInfo.text}
+          </div>
+          <div className="mb-2 font-semibold leading-none text-gray-900 dark:text-white">
+            카테고리
+          </div>
+          <div className="mb-8 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
+            {`${PortfolioInfo.gender === 0 ? "남성" : "여성"} / ${
+              PortfolioInfo.category
+            } / ${PortfolioInfo.tag}`}
           </div>
           {
             <div className="flex justify-between items-center gap-4">

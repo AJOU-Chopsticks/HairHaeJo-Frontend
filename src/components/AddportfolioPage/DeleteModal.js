@@ -9,20 +9,11 @@ function DeleteModal(props) {
   const deleteHandler = () => {
     setLoading(true);
 
-    let PortfolioInfo = {
-      PortfolioId: props.detailTarget.toString(),
-    };
-
-    const formData = new FormData();
-    formData.append("jsonlist", JSON.stringify(PortfolioInfo));
-
-    /*axios
-      .delete(API + "/advice/article", {
+    axios
+      .delete(API + "/portfolio?portfolioId=" + props.detailTarget, {
         headers: {
-          "Content-Type": "multipart/form-data",
           Authorization: localStorage.getItem("token"),
         },
-        data: formData,
       })
       .then((response) => {
         if (response.data.success) {
@@ -34,7 +25,7 @@ function DeleteModal(props) {
         if (err.response.data.message) alert(err.response.data.message);
         else alert("포트폴리오 삭제에 실패했습니다.");
       })
-      .then(() => setLoading(false));*/
+      .then(() => setLoading(false));
   };
 
   return (
