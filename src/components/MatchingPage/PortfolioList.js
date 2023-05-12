@@ -1,27 +1,29 @@
 import React, { useEffect, useState } from "react";
-import Article from "./Article";
-import ArticleDetail from "./ArticleDetail";
-import ArticleSearch from "./ArticleSearch";
-import ArticleCategory from "./ArticleCategory";
+import Loading from "../Layout/Loading";
+import PortfolioCategory from "./PortfolioCategory";
+import Portfolio from "./Portfolio";
+import PortfolioDetail from "./PortfolioDetail";
 import axios from "axios";
 import { API } from "../../global/Constants";
-import Loading from "../Layout/Loading";
 
-function ArticleList(props) {
-  const [showDetail, setShowDetail] = useState(false);
-  const [articleData, setArticleData] = useState([]);
+function PortfolioList() {
+  const [loading, setLoading] = useState(false);
+  const [portfolioData, setPortfolioData] = useState([]);
   const [detailTarget, setDetailTarget] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [showDetail, setShowDetail] = useState(false);
   const [style, setStyle] = useState("all");
   const [region, setRegion] = useState("all");
   const [gender, setGender] = useState("all");
   const [tag, setTag] = useState("all");
 
   useEffect(() => {
+    setLoading(true);
     axios
       .get(
         API +
-          `/advice/article/list?region=${region}&category=${style}&tag=${tag}&gender=${gender}`,
+          `/portfolio/style?region=${region}&category=${style}&tag=${tag}&gender=${
+            gender === "남성" ? 0 : gender === "여성" ? 1 : 2
+          }`,
         {
           headers: {
             Authorization: localStorage.getItem("token"),
@@ -30,12 +32,12 @@ function ArticleList(props) {
       )
       .then((response) => {
         if (response.data.success) {
-          setArticleData(response.data.data);
-        }
+          setPortfolioData(response.data.data);
+        } else alert("스타일 목록 조회에 실패했습니다.");
       })
       .catch((err) => {
         if (err.response.data.message) alert(err.response.data.message);
-        else alert("요청 글 목록 조회에 실패했습니다.");
+        else alert("스타일 목록 조회에 실패했습니다.");
       })
       .then(() => setLoading(false));
   }, [style, region, gender, tag]);
@@ -46,11 +48,7 @@ function ArticleList(props) {
         <Loading full={true} />
       ) : (
         <>
-          <ArticleSearch
-            setArticleData={setArticleData}
-            setLoading={setLoading}
-          />
-          <ArticleCategory
+          <PortfolioCategory
             style={style}
             region={region}
             gender={gender}
@@ -60,22 +58,20 @@ function ArticleList(props) {
             setGender={setGender}
             setTag={setTag}
           />
-          <div className="pt-6 grid gap-4 mb-8 md:mb-12 md:grid-cols-2 xl:grid-cols-3">
-            {articleData.map((item) => (
-              <Article
+          <div className="pt-6 mb-8 md:mb-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {portfolioData.map((item) => (
+              <Portfolio
                 data={item}
-                key={item.articleId}
+                key={item.portfolioId}
                 setShowDetail={setShowDetail}
                 setDetailTarget={setDetailTarget}
               />
             ))}
           </div>
-          <ArticleDetail
+          <PortfolioDetail
             showDetail={showDetail}
             setShowDetail={setShowDetail}
-            setShowModifyForm={props.setShowModifyForm}
             detailTarget={detailTarget}
-            setModifyData={props.setModifyData}
           />
         </>
       )}
@@ -83,4 +79,4 @@ function ArticleList(props) {
   );
 }
 
-export default ArticleList;
+export default PortfolioList;

@@ -12,33 +12,40 @@ const config = {
 };
 
 const app = initializeApp(config);
-const messaging = getMessaging();
+const messaging = getMessaging(app);
 
-//토큰값 얻기
-getToken(messaging, {
-  vapidKey:
-    "BDL_b33Cnjf7ohhAKM1Zba-ym7POtMSBEE4Jaajwq9ByC0TIZuT8t_m9CNRxKLjhbNJnJajbhKGd4d_6g-VRKgw",
-})
-  .then((currentToken) => {
-    if (currentToken) {
-      // Send the token to your server and update the UI if necessary
-      // ...
-      localStorage.setItem("fcmToken", currentToken);
-    } else {
-      // Show permission request UI
-      console.log(
-        "No registration token available. Request permission to generate one."
-      );
-      // ...
-    }
-  })
-  .catch((err) => {
-    console.log("An error occurred while retrieving token. ", err);
-    // ...
-  });
+Notification.requestPermission().then(function (permission) {
+  if (permission === "granted") {
+    console.log("Notification permission granted.");
+    //토큰값 얻기
+    getToken(messaging, {
+      vapidKey:
+        "BDL_b33Cnjf7ohhAKM1Zba-ym7POtMSBEE4Jaajwq9ByC0TIZuT8t_m9CNRxKLjhbNJnJajbhKGd4d_6g-VRKgw",
+    })
+      .then((currentToken) => {
+        if (currentToken) {
+          // Send the token to your server and update the UI if necessary
+          // ...
+          localStorage.setItem("fcmToken", currentToken);
+        } else {
+          // Show permission request UI
+          console.log(
+            "No registration token available. Request permission to generate one."
+          );
+          // ...
+        }
+      })
+      .catch((err) => {
+        console.log("An error occurred while retrieving token. ", err);
+        // ...
+      });
 
-//포그라운드 메시지 수신
-onMessage(messaging, (payload) => {
-  console.log("Message received. ", payload);
-  // ...
+    //포그라운드 메시지 수신
+    onMessage(messaging, (payload) => {
+      console.log("Message received. ", payload);
+      // ...
+    });
+  } else {
+    console.log("Unable to get permission to notify.");
+  }
 });
