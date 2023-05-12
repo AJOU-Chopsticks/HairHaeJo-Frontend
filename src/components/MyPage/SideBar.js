@@ -63,7 +63,7 @@ function SideBar(props) {
                   }`}
                 >
                   <img className="mr-3 w-6" src={Portfolio} alt="Portfolio" />
-                  <span>포트폴리오 리스트</span>
+                  <span>포트폴리오</span>
                 </button>
               </li>
             )}

@@ -102,7 +102,7 @@ function PortfolioDetail(props) {
                 <div className="space-y-0.5 font-medium dark:text-white text-left">
                   <div>{portfolioInfo.designerName}</div>
                   <div className="text-sm text-gray-500 dark:text-gray-400">
-                    {`${"리안헤어"} (${portfolioInfo.region})`}
+                    {`${portfolioInfo.hairSalonName} (${portfolioInfo.hairSalonAddress})`}
                   </div>
                 </div>
               </div>
@@ -132,7 +132,7 @@ function PortfolioDetail(props) {
               카테고리
             </div>
             <div className="mb-8 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-              <Badge item={portfolioInfo.gender} />
+              <Badge item={portfolioInfo.gender === 0 ? "남성" : "여성"} />
               <Badge item={portfolioInfo.category} />
               <Badge item={portfolioInfo.tag} />
             </div>

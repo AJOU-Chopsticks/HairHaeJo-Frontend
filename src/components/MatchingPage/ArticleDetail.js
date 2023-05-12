@@ -6,6 +6,7 @@ import axios from "axios";
 import { API } from "../../global/Constants";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Badge from "./Badge";
 
 function ArticleDetail(props) {
   const user = useSelector((state) => state.user);
@@ -155,7 +156,9 @@ function ArticleDetail(props) {
               카테고리
             </div>
             <div className="mb-8 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-              {`${articleInfo.gender} / ${articleInfo.category} / ${articleInfo.tag}`}
+              <Badge item={articleInfo.gender} />
+              <Badge item={articleInfo.category} />
+              <Badge item={articleInfo.tag} />
             </div>
           </div>
           {user.profileImage === articleInfo.profileImage && (

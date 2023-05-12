@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import NoImage from "../../images/noImage.jpg";
-import { useSelector } from "react-redux";
 import axios from "axios";
 import { API } from "../../global/Constants";
 import Loading from "../Layout/Loading";
@@ -29,7 +28,6 @@ const dyeingList = [
 ];
 
 function PortfolioModifyForm(props) {
-  const user = useSelector((state) => state.user);
   const [image, setImage] = useState(NoImage);
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
@@ -89,7 +87,9 @@ function PortfolioModifyForm(props) {
       .then((response) => {
         if (response.data.success) {
           alert("수정 완료!");
-          window.location.reload();
+          document.body.classList.remove("overflow-hidden");
+          props.setShowModal(false);
+          props.setReload(!props.reload);
         } else alert("포트폴리오 수정에 실패했습니다.");
       })
       .catch((err) => {
