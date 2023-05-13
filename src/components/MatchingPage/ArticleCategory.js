@@ -25,7 +25,7 @@ function ArticleCategory(props) {
 
   return (
     <>
-      <div className="flex flex-row flex-wrap">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-1">
         <button
           type="button"
           className={`${
@@ -38,7 +38,7 @@ function ArticleCategory(props) {
             setShowStyleModal(true);
           }}
         >
-          <div className="mr-2">
+          <div className="mx-auto">
             {props.style === "all" ? "모든 스타일" : props.style}
           </div>{" "}
           <IoIosArrowDown className="text-lg" />
@@ -55,7 +55,7 @@ function ArticleCategory(props) {
             setShowRegionModal(true);
           }}
         >
-          <div className="mr-2">
+          <div className="mx-auto">
             {props.region === "all" ? "모든 지역" : props.region}
           </div>{" "}
           <IoIosArrowDown className="text-lg" />
@@ -72,7 +72,7 @@ function ArticleCategory(props) {
             setShowGenderModal(true);
           }}
         >
-          <div className="mr-2">
+          <div className="mx-auto">
             {props.gender === "all" ? "모든 성별" : props.gender}
           </div>{" "}
           <IoIosArrowDown className="text-lg" />
@@ -89,7 +89,7 @@ function ArticleCategory(props) {
             setShowTagModal(true);
           }}
         >
-          <div className="mr-2">
+          <div className="mx-auto">
             {props.tag === "all" ? "모든 카테고리" : props.tag}
           </div>{" "}
           <IoIosArrowDown className="text-lg" />

@@ -18,6 +18,7 @@ function PortfolioCategory(props) {
     let selected = document.getElementById("Kakao_Address").value;
     if (selected === "") selected = "all";
 
+    props.setRecommend(false);
     props.setRegion(selected);
     document.body.classList.remove("overflow-hidden");
     setShowRegionModal(false);
@@ -25,75 +26,90 @@ function PortfolioCategory(props) {
 
   return (
     <>
-      <div className="flex flex-row flex-wrap">
-        <button
-          type="button"
-          className={`${
-            props.style === "all"
-              ? "flex flex-row text-primary-700 bg-white border border-2 border-primary-700 hover:bg-primary-700 hover:text-white focus:outline-none focus:ring-4 focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-gray-900 dark:text-gray-100 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-              : "flex flex-row text-white bg-primary-700 border border-2 border-primary-700 hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-          }`}
-          onClick={() => {
-            document.body.classList.add("overflow-hidden");
-            setShowStyleModal(true);
-          }}
-        >
-          <div className="mr-2">
-            {props.style === "all" ? "모든 스타일" : props.style}
-          </div>{" "}
-          <IoIosArrowDown className="text-lg" />
-        </button>
-        <button
-          type="button"
-          className={`${
-            props.region === "all"
-              ? "flex flex-row text-primary-700 bg-white border border-2 border-primary-700 hover:bg-primary-700 hover:text-white focus:outline-none focus:ring-4 focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-gray-900 dark:text-gray-100 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-              : "flex flex-row text-white bg-primary-700 border border-2 border-primary-700 hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-          }`}
-          onClick={() => {
-            document.body.classList.add("overflow-hidden");
-            setShowRegionModal(true);
-          }}
-        >
-          <div className="mr-2">
-            {props.region === "all" ? "모든 지역" : props.region}
-          </div>{" "}
-          <IoIosArrowDown className="text-lg" />
-        </button>
-        <button
-          type="button"
-          className={`${
-            props.gender === "all"
-              ? "flex flex-row text-primary-700 bg-white border border-2 border-primary-700 hover:bg-primary-700 hover:text-white focus:outline-none focus:ring-4 focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-gray-900 dark:text-gray-100 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-              : "flex flex-row text-white bg-primary-700 border border-2 border-primary-700 hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-          }`}
-          onClick={() => {
-            document.body.classList.add("overflow-hidden");
-            setShowGenderModal(true);
-          }}
-        >
-          <div className="mr-2">
-            {props.gender === "all" ? "모든 성별" : props.gender}
-          </div>{" "}
-          <IoIosArrowDown className="text-lg" />
-        </button>
-        <button
-          type="button"
-          className={`${
-            props.tag === "all"
-              ? "flex flex-row text-primary-700 bg-white border border-2 border-primary-700 hover:bg-primary-700 hover:text-white focus:outline-none focus:ring-4 focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-gray-900 dark:text-gray-100 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-              : "flex flex-row text-white bg-primary-700 border border-2 border-primary-700 hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-          }`}
-          onClick={() => {
-            document.body.classList.add("overflow-hidden");
-            setShowTagModal(true);
-          }}
-        >
-          <div className="mr-2">
-            {props.tag === "all" ? "모든 카테고리" : props.tag}
-          </div>{" "}
-          <IoIosArrowDown className="text-lg" />
-        </button>
+      <button
+        type="button"
+        className="w-full flex flex-row text-white bg-primary-700 border border-2 border-primary-700 hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+        onClick={() => {
+          props.setRecommend(!props.recommend);
+        }}
+      >
+        <p className="mx-auto">
+          {props.recommend ? "헤어 디자이너 추천" : "포트폴리오 검색"}
+        </p>
+      </button>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-1">
+        {!props.recommend && (
+          <>
+            <button
+              type="button"
+              className={`${
+                props.style === "all"
+                  ? "flex flex-row text-primary-700 bg-white border border-2 border-primary-700 hover:bg-primary-700 hover:text-white focus:outline-none focus:ring-4 focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-gray-900 dark:text-gray-100 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  : "flex flex-row text-white bg-primary-700 border border-2 border-primary-700 hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+              }`}
+              onClick={() => {
+                document.body.classList.add("overflow-hidden");
+                setShowStyleModal(true);
+              }}
+            >
+              <div className="mx-auto">
+                {props.style === "all" ? "모든 스타일" : props.style}
+              </div>{" "}
+              <IoIosArrowDown className="text-lg" />
+            </button>
+            <button
+              type="button"
+              className={`${
+                props.region === "all"
+                  ? "flex flex-row text-primary-700 bg-white border border-2 border-primary-700 hover:bg-primary-700 hover:text-white focus:outline-none focus:ring-4 focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-gray-900 dark:text-gray-100 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  : "flex flex-row text-white bg-primary-700 border border-2 border-primary-700 hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+              }`}
+              onClick={() => {
+                document.body.classList.add("overflow-hidden");
+                setShowRegionModal(true);
+              }}
+            >
+              <div className="mx-auto">
+                {props.region === "all" ? "모든 지역" : props.region}
+              </div>{" "}
+              <IoIosArrowDown className="text-lg" />
+            </button>
+            <button
+              type="button"
+              className={`${
+                props.gender === "all"
+                  ? "flex flex-row text-primary-700 bg-white border border-2 border-primary-700 hover:bg-primary-700 hover:text-white focus:outline-none focus:ring-4 focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-gray-900 dark:text-gray-100 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  : "flex flex-row text-white bg-primary-700 border border-2 border-primary-700 hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+              }`}
+              onClick={() => {
+                document.body.classList.add("overflow-hidden");
+                setShowGenderModal(true);
+              }}
+            >
+              <div className="mx-auto">
+                {props.gender === "all" ? "모든 성별" : props.gender}
+              </div>{" "}
+              <IoIosArrowDown className="text-lg" />
+            </button>
+            <button
+              type="button"
+              className={`${
+                props.tag === "all"
+                  ? "flex flex-row text-primary-700 bg-white border border-2 border-primary-700 hover:bg-primary-700 hover:text-white focus:outline-none focus:ring-4 focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-gray-900 dark:text-gray-100 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  : "flex flex-row text-white bg-primary-700 border border-2 border-primary-700 hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+              }`}
+              onClick={() => {
+                document.body.classList.add("overflow-hidden");
+                setShowTagModal(true);
+              }}
+            >
+              <div className="mx-auto">
+                {props.tag === "all" ? "모든 카테고리" : props.tag}
+              </div>{" "}
+              <IoIosArrowDown className="text-lg" />
+            </button>
+          </>
+        )}
       </div>
 
       {showStyleModal && (
@@ -136,6 +152,7 @@ function PortfolioCategory(props) {
                     onClick={() => {
                       document.body.classList.remove("overflow-hidden");
                       setShowStyleModal(false);
+                      props.setRecommend(false);
                       props.setStyle("all");
                       props.setTag("all");
                     }}
@@ -149,6 +166,7 @@ function PortfolioCategory(props) {
                     onClick={() => {
                       document.body.classList.remove("overflow-hidden");
                       setShowStyleModal(false);
+                      props.setRecommend(false);
                       props.setStyle("all");
                       props.setTag("all");
                     }}
@@ -164,6 +182,7 @@ function PortfolioCategory(props) {
                       onClick={() => {
                         document.body.classList.remove("overflow-hidden");
                         setShowStyleModal(false);
+                        props.setRecommend(false);
                         props.setStyle(item);
                         props.setTag("all");
                       }}
@@ -178,6 +197,7 @@ function PortfolioCategory(props) {
                       onClick={() => {
                         document.body.classList.remove("overflow-hidden");
                         setShowStyleModal(false);
+                        props.setRecommend(false);
                         props.setStyle(item);
                         props.setTag("all");
                       }}
@@ -279,6 +299,7 @@ function PortfolioCategory(props) {
                     onClick={() => {
                       document.body.classList.remove("overflow-hidden");
                       setShowGenderModal(false);
+                      props.setRecommend(false);
                       props.setGender("all");
                     }}
                   >
@@ -291,6 +312,7 @@ function PortfolioCategory(props) {
                     onClick={() => {
                       document.body.classList.remove("overflow-hidden");
                       setShowGenderModal(false);
+                      props.setRecommend(false);
                       props.setGender("all");
                     }}
                   >
@@ -303,6 +325,7 @@ function PortfolioCategory(props) {
                     onClick={() => {
                       document.body.classList.remove("overflow-hidden");
                       setShowGenderModal(false);
+                      props.setRecommend(false);
                       props.setGender("남성");
                     }}
                   >
@@ -315,6 +338,7 @@ function PortfolioCategory(props) {
                     onClick={() => {
                       document.body.classList.remove("overflow-hidden");
                       setShowGenderModal(false);
+                      props.setRecommend(false);
                       props.setGender("남성");
                     }}
                   >
@@ -327,6 +351,7 @@ function PortfolioCategory(props) {
                     onClick={() => {
                       document.body.classList.remove("overflow-hidden");
                       setShowGenderModal(false);
+                      props.setRecommend(false);
                       props.setGender("여성");
                     }}
                   >
@@ -339,6 +364,7 @@ function PortfolioCategory(props) {
                     onClick={() => {
                       document.body.classList.remove("overflow-hidden");
                       setShowGenderModal(false);
+                      props.setRecommend(false);
                       props.setGender("여성");
                     }}
                   >
@@ -391,6 +417,7 @@ function PortfolioCategory(props) {
                     onClick={() => {
                       document.body.classList.remove("overflow-hidden");
                       setShowTagModal(false);
+                      props.setRecommend(false);
                       props.setTag("all");
                     }}
                   >
@@ -403,6 +430,7 @@ function PortfolioCategory(props) {
                     onClick={() => {
                       document.body.classList.remove("overflow-hidden");
                       setShowTagModal(false);
+                      props.setRecommend(false);
                       props.setTag("all");
                     }}
                   >
@@ -418,6 +446,7 @@ function PortfolioCategory(props) {
                         onClick={() => {
                           document.body.classList.remove("overflow-hidden");
                           setShowTagModal(false);
+                          props.setRecommend(false);
                           props.setTag(item);
                         }}
                       >
@@ -431,6 +460,7 @@ function PortfolioCategory(props) {
                         onClick={() => {
                           document.body.classList.remove("overflow-hidden");
                           setShowTagModal(false);
+                          props.setRecommend(false);
                           props.setTag(item);
                         }}
                       >
@@ -447,6 +477,7 @@ function PortfolioCategory(props) {
                         onClick={() => {
                           document.body.classList.remove("overflow-hidden");
                           setShowTagModal(false);
+                          props.setRecommend(false);
                           props.setTag(item);
                         }}
                       >
@@ -460,6 +491,7 @@ function PortfolioCategory(props) {
                         onClick={() => {
                           document.body.classList.remove("overflow-hidden");
                           setShowTagModal(false);
+                          props.setRecommend(false);
                           props.setTag(item);
                         }}
                       >
@@ -476,6 +508,7 @@ function PortfolioCategory(props) {
                         onClick={() => {
                           document.body.classList.remove("overflow-hidden");
                           setShowTagModal(false);
+                          props.setRecommend(false);
                           props.setTag(item);
                         }}
                       >
@@ -489,6 +522,7 @@ function PortfolioCategory(props) {
                         onClick={() => {
                           document.body.classList.remove("overflow-hidden");
                           setShowTagModal(false);
+                          props.setRecommend(false);
                           props.setTag(item);
                         }}
                       >
