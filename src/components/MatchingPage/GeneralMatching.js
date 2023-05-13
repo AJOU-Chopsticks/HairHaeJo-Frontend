@@ -6,18 +6,23 @@ import ArticleModifyForm from "./ArticleModifyForm";
 function GeneralMatching() {
   const [showModifyForm, setShowModifyForm] = useState(false);
   const [modifyData, setModifyData] = useState({});
+  const [reload, setReload] = useState(false);
 
   return (
     <>
       <ArticleList
         setShowModifyForm={setShowModifyForm}
         setModifyData={setModifyData}
+        reload={reload}
+        setReload={setReload}
       />
-      <ArticleForm />
+      <ArticleForm reload={reload} setReload={setReload} />
       <ArticleModifyForm
         showModal={showModifyForm}
         setShowModal={setShowModifyForm}
         modifyData={modifyData}
+        reload={reload}
+        setReload={setReload}
       />
     </>
   );

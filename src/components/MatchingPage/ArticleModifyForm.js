@@ -100,7 +100,10 @@ function ArticleModifyForm(props) {
       .then((response) => {
         if (response.data.success) {
           alert("수정 완료!");
-          window.location.reload();
+
+          document.body.classList.remove("overflow-hidden");
+          props.setShowModal(false);
+          props.setReload(!props.reload);
         } else alert("요청 글 수정에 실패했습니다.");
       })
       .catch((err) => {

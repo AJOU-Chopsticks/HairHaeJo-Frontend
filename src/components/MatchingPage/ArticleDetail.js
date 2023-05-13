@@ -234,11 +234,18 @@ function ArticleDetail(props) {
           )}
         </div>
       </div>
-      <ReportModal showModal={showReport} setShowModal={setShowReport} />
+      <ReportModal
+        showModal={showReport}
+        setShowModal={setShowReport}
+        userId={articleInfo.userId}
+      />
       <DeleteModal
         showModal={showDelete}
         setShowModal={setShowDelete}
         detailTarget={props.detailTarget}
+        reload={props.reload}
+        setReload={props.setReload}
+        setShowDetail={props.setShowDetail}
       />
     </div>
   );

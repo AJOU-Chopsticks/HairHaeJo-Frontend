@@ -1,11 +1,45 @@
 import React, { useState } from "react";
+import Loading from "../Layout/Loading";
+import axios from "axios";
+import { API } from "../../global/Constants";
 
 function ReportModal(props) {
+  const [loading, setLoading] = useState(false);
   const [reportReason, setReportReason] = useState("");
+
   const submitHandler = (event) => {
     event.preventDefault();
 
-    console.log(reportReason);
+    if (reportReason === "") return alert("신고 내용을 작성해주세요.");
+
+    setLoading(true);
+    axios
+      .post(
+        API + "/user/report",
+        {
+          type: "ARTICLE",
+          targetUserId: props.userId,
+          reason: reportReason,
+        },
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      )
+      .then((response) => {
+        if (response.data.success) {
+          alert("신고 등록 완료!");
+
+          setReportReason("");
+          props.setShowModal(false);
+        } else alert("신고 등록에 실패했습니다.");
+      })
+      .catch((err) => {
+        if (err.response.data.message) alert(err.response.data.message);
+        else alert("신고 등록에 실패했습니다.");
+      })
+      .then(() => setLoading(false));
   };
 
   return (
@@ -58,12 +92,16 @@ function ReportModal(props) {
                   onChange={(event) => setReportReason(event.target.value)}
                 />
               </div>
-              <button
-                type="submit"
-                className="w-full text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
-              >
-                신고하기
-              </button>
+              {loading ? (
+                <Loading />
+              ) : (
+                <button
+                  type="submit"
+                  className="w-full text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                >
+                  신고하기
+                </button>
+              )}
             </form>
           </div>
         </div>

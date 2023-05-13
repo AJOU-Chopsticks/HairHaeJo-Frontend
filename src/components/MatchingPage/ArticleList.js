@@ -41,7 +41,11 @@ function ArticleList(props) {
         else alert("요청 글 목록 조회에 실패했습니다.");
       })
       .then(() => setLoading(false));
-  }, [style, region, gender, tag]);
+  }, [style, region, gender, tag, props.reload]);
+
+  useEffect(() => {
+    setDetailTarget("");
+  }, [props.reload]);
 
   return (
     <div className="p-4 mb-8 md:ml-64">
@@ -79,6 +83,8 @@ function ArticleList(props) {
             setShowModifyForm={props.setShowModifyForm}
             detailTarget={detailTarget}
             setModifyData={props.setModifyData}
+            reload={props.reload}
+            setReload={props.setReload}
           />
         </>
       )}
