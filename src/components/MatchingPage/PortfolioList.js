@@ -6,6 +6,7 @@ import PortfolioDetail from "./PortfolioDetail";
 import axios from "axios";
 import { API } from "../../global/Constants";
 import ProfileCard from "./ProfileCard";
+import { AddressToSearch } from "../../global/Functions";
 
 function PortfolioList() {
   const [loading, setLoading] = useState(false);
@@ -44,7 +45,9 @@ function PortfolioList() {
       axios
         .get(
           API +
-            `/portfolio/style?region=${region}&category=${style}&tag=${tag}&gender=${
+            `/portfolio/style?region=${AddressToSearch(
+              region
+            )}&category=${style}&tag=${tag}&gender=${
               gender === "남성" ? 0 : gender === "여성" ? 1 : 2
             }`,
           {

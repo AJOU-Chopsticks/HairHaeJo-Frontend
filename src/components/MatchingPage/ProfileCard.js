@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { API } from "../../global/Constants";
 import axios from "axios";
+import { AddressToSimple } from "../../global/Functions";
 
 function ProfileCard(props) {
   const navigation = useNavigate();
@@ -44,7 +45,9 @@ function ProfileCard(props) {
           {props.data.name}
         </h5>
         <span className="text-sm text-gray-500 dark:text-gray-400">
-          {`${props.data.hairSalonName} (${props.data.hairSalonAddress})`}
+          {`${props.data.hairSalonName} (${AddressToSimple(
+            props.data.hairSalonAddress
+          )})`}
         </span>
         <div className="flex mt-4 space-x-3 md:mt-6">
           <button

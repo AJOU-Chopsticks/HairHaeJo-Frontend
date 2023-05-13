@@ -6,6 +6,7 @@ import ArticleCategory from "./ArticleCategory";
 import axios from "axios";
 import { API } from "../../global/Constants";
 import Loading from "../Layout/Loading";
+import { AddressToSearch } from "../../global/Functions";
 
 function ArticleList(props) {
   const [showDetail, setShowDetail] = useState(false);
@@ -21,7 +22,9 @@ function ArticleList(props) {
     axios
       .get(
         API +
-          `/advice/article/list?region=${region}&category=${style}&tag=${tag}&gender=${gender}`,
+          `/advice/article/list?region=${AddressToSearch(
+            region
+          )}&category=${style}&tag=${tag}&gender=${gender}`,
         {
           headers: {
             Authorization: localStorage.getItem("token"),
