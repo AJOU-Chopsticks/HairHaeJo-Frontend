@@ -3,15 +3,20 @@ import { useNavigate } from "react-router-dom";
 import { API } from "../../global/Constants";
 import axios from "axios";
 import { AddressToSimple } from "../../global/Functions";
+import { useSelector } from "react-redux";
 
 function ProfileCard(props) {
   const navigation = useNavigate();
+  const user = useSelector((state) => state.user);
 
   const showProfile = () => {
     navigation("/profile/designer/" + props.data.designerId);
   };
 
   const sendChatting = () => {
+    if (user.role === "ROLE_DESIGNER")
+      return alert("디자이너가 디자이너에게 상담을 신청할 수 없습니다.");
+
     axios
       .post(
         API + "/chat?userId=" + props.data.designerId,

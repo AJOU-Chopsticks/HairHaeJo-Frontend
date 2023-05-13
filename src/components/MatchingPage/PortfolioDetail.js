@@ -4,9 +4,11 @@ import Badge from "./Badge";
 import axios from "axios";
 import { API } from "../../global/Constants";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function PortfolioDetail(props) {
   const navigation = useNavigate();
+  const user = useSelector((state) => state.user);
   const [portfolioInfo, setPortfolioInfo] = useState({});
 
   const showProfile = () => {
@@ -144,14 +146,16 @@ function PortfolioDetail(props) {
               <Badge item={portfolioInfo.tag} />
             </div>
           </div>
-          <button
-            type="button"
-            className="w-full text-white inline-flex items-center justify-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-            onClick={sendChatting}
-          >
-            <BsFillSendFill className="mr-2 w-4 h-4" />
-            상담 메시지 보내기
-          </button>
+          {user.role !== "ROLE_DESIGNER" && (
+            <button
+              type="button"
+              className="w-full text-white inline-flex items-center justify-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+              onClick={sendChatting}
+            >
+              <BsFillSendFill className="mr-2 w-4 h-4" />
+              상담 메시지 보내기
+            </button>
+          )}
         </div>
       </div>
     </div>
