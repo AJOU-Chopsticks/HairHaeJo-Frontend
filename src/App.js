@@ -14,21 +14,24 @@ import ProfilePage from "./pages/ProfilePage";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
+  const AuthLoginPage = Auth(LoginPage, false);
+  const AuthSignupPage = Auth(SignupPage, false);
   const AuthMatchingPage = Auth(MatchingPage, true);
   const AuthChattingPage = Auth(ChattingPage, true);
   const AuthMyPage = Auth(MyPage, true);
+  const AuthProfilePage = Auth(ProfilePage, true);
 
   return (
     <div className="bg-gray-50 dark:bg-gray-900 m-0">
       <Header />
       <Routes>
         <Route path="/" element={<AuthLandingPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/login" element={<AuthLoginPage />} />
+        <Route path="/signup" element={<AuthSignupPage />} />
         <Route path="/matching" element={<AuthMatchingPage />} />
         <Route path="/chat" element={<AuthChattingPage />} />
         <Route path="/mypage" element={<AuthMyPage />} />
-        <Route path="/profile/:role/:id" element={<ProfilePage />} />
+        <Route path="/profile/:role/:id" element={<AuthProfilePage />} />
       </Routes>
       <BottomNav />
     </div>
