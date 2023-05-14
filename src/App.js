@@ -14,6 +14,7 @@ import MyPage from "./pages/MyPage";
 import ChangeprofilePage from "./pages/ChangeprofilePage";
 import LookupprofilePage from "./pages/LookupprofilePage";
 import AddportfolioPage from "./pages/AddportfolioPage";
+import HomePage from "./pages/HomePage";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
@@ -26,6 +27,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<AuthLandingPage />} />
+        <Route path="/home" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/matching" element={<AuthMatchingPage />} />
