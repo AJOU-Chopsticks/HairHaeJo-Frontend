@@ -10,6 +10,7 @@ import SignupPage from "./pages/SignupPage";
 import MatchingPage from "./pages/MatchingPage";
 import ChattingPage from "./pages/ChattingPage";
 import MyPage from "./pages/MyPage";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
@@ -25,6 +26,8 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<AuthLandingPage />} />
+        <Route path="/login" element={<AuthLoginPage />} />
+        <Route path="/signup" element={<AuthSignupPage />} />
         <Route path="/matching" element={<AuthMatchingPage />} />
         <Route path="/chat" element={<AuthChattingPage />} />
         <Route path="/mypage" element={<AuthMyPage />} />
