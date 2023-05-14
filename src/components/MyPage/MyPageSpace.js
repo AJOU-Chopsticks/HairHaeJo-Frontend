@@ -5,7 +5,7 @@ import ProfileChange from "./ProfileChange";
 import axios from "axios";
 import { API } from "../../global/Constants";
 import { useSelector } from "react-redux";
-import AddportfolioPage from "../../pages/AddportfolioPage";
+import PortfolioSpace from "./PortfolioSpace";
 
 function MyPageSpace(props) {
   const user = useSelector((state) => state.user);
@@ -67,9 +67,13 @@ function MyPageSpace(props) {
           {props.profileType === "profile" ? (
             <Profile profileInfo={profileInfo} />
           ) : props.profileType === "change" ? (
-            <ProfileChange profileInfo={profileInfo} />
+            <ProfileChange
+              profileInfo={profileInfo}
+              reload={reload}
+              setReload={setReload}
+            />
           ) : (
-            <AddportfolioPage profileInfo={profileInfo} />
+            <PortfolioSpace reload={reload} setReload={setReload} />
           )}
         </>
       )}

@@ -4,13 +4,15 @@ import Hair_Cutting from "../../images/Hair_Cutting.png";
 import Hair_Dryer from "../../images/Hair_Dryer.png";
 import Tabs from "./Tabs";
 
-function SideBar() {
+function SideBar(props) {
   const [showNotice, setShowNotice] = useState(true);
-  const [matchingType, setMatchingType] = useState("general");
 
   return (
     <div>
-      <Tabs matchingType={matchingType} setMatchingType={setMatchingType} />
+      <Tabs
+        matchingType={props.matchingType}
+        setMatchingType={props.setMatchingType}
+      />
       <aside
         id="matching-sidebar"
         className="fixed top-16 left-0 z-40 w-64 h-screen transition-transform -translate-x-full md:translate-x-0"
@@ -24,9 +26,9 @@ function SideBar() {
           <ul className="space-y-2 border-y-2 border-solid border-gray-100 py-3">
             <li>
               <button
-                onClick={() => setMatchingType("general")}
+                onClick={() => props.setMatchingType("general")}
                 className={`w-full flex items-center justify-center p-2 text-base font-normal rounded-lg dark:text-white dark:hover:bg-gray-700 group ${
-                  matchingType === "general"
+                  props.matchingType === "general"
                     ? "bg-primary-500 text-white hover:bg-primary-700"
                     : "text-gray-900 hover:bg-gray-200"
                 }`}
@@ -41,9 +43,9 @@ function SideBar() {
             </li>
             <li>
               <button
-                onClick={() => setMatchingType("fast")}
+                onClick={() => props.setMatchingType("fast")}
                 className={`w-full flex items-center justify-center p-2 text-base font-normal rounded-lg dark:text-white dark:hover:bg-gray-700 group ${
-                  matchingType === "fast"
+                  props.matchingType === "fast"
                     ? "bg-primary-500 text-white hover:bg-primary-700"
                     : "text-gray-900 hover:bg-gray-200"
                 }`}

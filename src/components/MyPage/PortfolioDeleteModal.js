@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { API } from "../../global/Constants";
 import Loading from "../Layout/Loading";
 
-function DeleteModal(props) {
+function PortfolioDeleteModal(props) {
   const [loading, setLoading] = useState(false);
 
   const deleteHandler = () => {
@@ -18,7 +18,8 @@ function DeleteModal(props) {
       .then((response) => {
         if (response.data.success) {
           alert("삭제 완료!");
-          window.location.reload();
+          props.setShowModal(false);
+          props.setReload(!props.reload);
         } else alert("포트폴리오 삭제에 실패했습니다.");
       })
       .catch((err) => {
@@ -101,4 +102,4 @@ function DeleteModal(props) {
   );
 }
 
-export default DeleteModal;
+export default PortfolioDeleteModal;

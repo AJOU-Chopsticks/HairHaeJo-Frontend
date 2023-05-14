@@ -6,24 +6,25 @@ import ArticleCategory from "./ArticleCategory";
 import axios from "axios";
 import { API } from "../../global/Constants";
 import Loading from "../Layout/Loading";
-import { useSearchParams } from "react-router-dom";
+import { AddressToSearch } from "../../global/Functions";
 
 function ArticleList(props) {
-  const [searchParams] = useSearchParams();
   const [showDetail, setShowDetail] = useState(false);
   const [articleData, setArticleData] = useState([]);
   const [detailTarget, setDetailTarget] = useState("");
   const [loading, setLoading] = useState(true);
-  const [style, setStyle] = useState(searchParams.get("style") || "all");
-  const [region, setRegion] = useState(searchParams.get("region") || "all");
-  const [gender, setGender] = useState(searchParams.get("gender") || "all");
-  const [tag, setTag] = useState(searchParams.get("tag") || "all");
+  const [style, setStyle] = useState("all");
+  const [region, setRegion] = useState("all");
+  const [gender, setGender] = useState("all");
+  const [tag, setTag] = useState("all");
 
   useEffect(() => {
     axios
       .get(
         API +
-          `/advice/article/list?region=${region}&category=${style}&tag=${tag}&gender=${gender}`,
+          `/advice/article/list?region=${AddressToSearch(
+            region
+          )}&category=${style}&tag=${tag}&gender=${gender}`,
         {
           headers: {
             Authorization: localStorage.getItem("token"),
@@ -40,7 +41,11 @@ function ArticleList(props) {
         else alert("요청 글 목록 조회에 실패했습니다.");
       })
       .then(() => setLoading(false));
-  }, [style, region, gender, tag]);
+  }, [style, region, gender, tag, props.reload]);
+
+  useEffect(() => {
+    setDetailTarget("");
+  }, [props.reload]);
 
   return (
     <div className="p-4 mb-8 md:ml-64">
@@ -78,6 +83,8 @@ function ArticleList(props) {
             setShowModifyForm={props.setShowModifyForm}
             detailTarget={detailTarget}
             setModifyData={props.setModifyData}
+            reload={props.reload}
+            setReload={props.setReload}
           />
         </>
       )}

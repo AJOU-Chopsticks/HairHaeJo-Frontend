@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import DeleteModal from "./DeleteModal";
 import axios from "axios";
 import { API } from "../../global/Constants";
+import PortfolioDeleteModal from "./PortfolioDeleteModal";
+import Badge from "../MatchingPage/Badge";
 
 function PortfolioDetail(props) {
   const [PortfolioInfo, setPortfolioInfo] = useState({});
@@ -43,7 +44,7 @@ function PortfolioDetail(props) {
         <div className="relative p-4 bg-white rounded-lg shadow dark:bg-gray-700 sm:p-5">
           <div className="flex justify-between mb-4 rounded-t sm:mb-5">
             <div className="text-lg text-gray-900 md:text-xl dark:text-white">
-              <h3 className="font-semibold ">{PortfolioInfo.tag}</h3>
+              <h3 className="font-semibold ">{PortfolioInfo.category}</h3>
             </div>
             <div>
               <button
@@ -92,9 +93,9 @@ function PortfolioDetail(props) {
             카테고리
           </div>
           <div className="mb-8 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-            {`${PortfolioInfo.gender === 0 ? "남성" : "여성"} / ${
-              PortfolioInfo.category
-            } / ${PortfolioInfo.tag}`}
+            <Badge item={PortfolioInfo.gender === 0 ? "남성" : "여성"} />
+            <Badge item={PortfolioInfo.category} />
+            <Badge item={PortfolioInfo.tag} />
           </div>
           {
             <div className="flex justify-between items-center gap-4">
@@ -143,10 +144,12 @@ function PortfolioDetail(props) {
           }
         </div>
       </div>
-      <DeleteModal
+      <PortfolioDeleteModal
         showModal={showDelete}
         setShowModal={setShowDelete}
         detailTarget={props.detailTarget}
+        reload={props.reload}
+        setReload={props.setReload}
       />
     </div>
   );

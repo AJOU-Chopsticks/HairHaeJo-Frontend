@@ -170,7 +170,7 @@ function Header() {
                   상담
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link
                   to="/"
                   className={`
@@ -182,7 +182,7 @@ function Header() {
                 >
                   관리자
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link
                   to="/mypage"

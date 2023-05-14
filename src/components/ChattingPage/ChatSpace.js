@@ -8,6 +8,8 @@ import { Stomp } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import NoImage from "../../images/noImage.jpg";
 import ExitModal from "./ExitModal";
+import { IoCall } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 function ChatSpace(props) {
   const user = useSelector((state) => state.user);
@@ -191,7 +193,7 @@ function ChatSpace(props) {
               {user.role !== "ROLE_DESIGNER" && (
                 <button
                   type="button"
-                  className="text-white inline-flex items-center justify-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  className="ml-3 text-white inline-flex items-center justify-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                   // onClick={articleModifyHandler}
                 >
                   예약하기
@@ -199,7 +201,7 @@ function ChatSpace(props) {
               )}
               <button
                 type="button"
-                className="mx-3 inline-flex items-center justify-center text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
+                className="ml-3 inline-flex items-center justify-center text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
                 onClick={() => setShowExitModal(true)}
               >
                 나가기
@@ -248,6 +250,17 @@ function ChatSpace(props) {
           )}
           <form onSubmit={sendMessage}>
             <div className="flex items-center px-3 py-2 rounded-lg bg-primary-200 dark:bg-gray-700">
+              <Link
+                type="button"
+                className="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600"
+                to={
+                  user.role === "ROLE_DESIGNER"
+                    ? "tel:" + props.chatItem.clientPhoneNumber
+                    : "tel:" + props.chatItem.designerPhoneNumber
+                }
+              >
+                <IoCall className="w-6 h-6" />
+              </Link>
               <label
                 htmlFor="Input_Image"
                 className={`inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 ${

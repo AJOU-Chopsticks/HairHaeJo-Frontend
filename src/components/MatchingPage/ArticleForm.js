@@ -29,7 +29,7 @@ const dyeingList = [
   "애쉬브라운",
 ];
 
-function ArticleForm() {
+function ArticleForm(props) {
   const user = useSelector((state) => state.user);
   const [showModal, setShowModal] = useState(false);
   const [title, setTitle] = useState("");
@@ -100,7 +100,16 @@ function ArticleForm() {
       .then((response) => {
         if (response.data.success) {
           alert("작성 완료!");
-          window.location.reload();
+
+          setTitle("");
+          setBody("");
+          setBeforeImage(NoImage);
+          setAfterImage(NoImage);
+          setStyle("스타일을 선택해주세요.");
+          setTag("카테고리를 선택해주세요.");
+          document.body.classList.remove("overflow-hidden");
+          setShowModal(false);
+          props.setReload(!props.reload);
         } else alert("요청 글 작성에 실패했습니다.");
       })
       .catch((err) => {

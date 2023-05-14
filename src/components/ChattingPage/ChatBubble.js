@@ -1,8 +1,16 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const ChatBubble = ({ message, image, isMyMessage, createdAt, info, type }) => {
   const user = useSelector((state) => state.user);
+  const navigation = useNavigate();
+
+  const showProfile = () => {
+    if (user.role === "ROLE_DESIGNER")
+      navigation("/profile/user/" + info.clientId);
+    else navigation("/profile/designer/" + info.designerId);
+  };
 
   const convertTime = (updatedAt) => {
     let date = new Date(updatedAt);
@@ -30,13 +38,14 @@ const ChatBubble = ({ message, image, isMyMessage, createdAt, info, type }) => {
       >
         {!isMyMessage && (
           <img
-            className="mr-2 w-12 h-12 rounded-full"
+            className="mr-2 w-12 h-12 rounded-full hover:cursor-pointer"
             src={
               user.role === "ROLE_DESIGNER"
                 ? info.clientImage
                 : info.designerImage
             }
             alt="Profile_Image"
+            onClick={showProfile}
           />
         )}
         {message && (

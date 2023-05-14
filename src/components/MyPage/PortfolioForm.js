@@ -27,7 +27,7 @@ const dyeingList = [
   "애쉬브라운",
 ];
 
-function PortfolioForm() {
+function PortfolioForm(props) {
   const [showModal, setShowModal] = useState(false);
   const [image, setImage] = useState(NoImage);
   const [text, setText] = useState("");
@@ -87,12 +87,14 @@ function PortfolioForm() {
       .then((response) => {
         if (response.data.success) {
           alert("포트폴리오 등록 완료!");
-          // window.location.reload();
           setImage(NoImage);
           setText("");
           setStyle("스타일을 선택해주세요.");
           setTag("카테고리를 선택해주세요.");
+
+          document.body.classList.remove("overflow-hidden");
           setShowModal(false);
+          props.setReload(!props.reload);
         } else alert("포트폴리오 등록에 실패했습니다.");
       })
       .catch((err) => {

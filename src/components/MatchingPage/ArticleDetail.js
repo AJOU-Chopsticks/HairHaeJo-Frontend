@@ -6,6 +6,7 @@ import axios from "axios";
 import { API } from "../../global/Constants";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Badge from "./Badge";
 
 function ArticleDetail(props) {
   const user = useSelector((state) => state.user);
@@ -18,6 +19,10 @@ function ArticleDetail(props) {
     props.setModifyData({ ...articleInfo, articleId: props.detailTarget });
     props.setShowDetail(false);
     props.setShowModifyForm(true);
+  };
+
+  const showProfile = () => {
+    navigation("/profile/user/" + articleInfo.userId);
   };
 
   const sendChatting = () => {
@@ -117,7 +122,10 @@ function ArticleDetail(props) {
                   </div>
                 </div>
               </div>
-              <button className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+              <button
+                className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
+                onClick={showProfile}
+              >
                 <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                   프로필 보기
                 </span>
@@ -155,7 +163,9 @@ function ArticleDetail(props) {
               카테고리
             </div>
             <div className="mb-8 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-              {`${articleInfo.gender} / ${articleInfo.category} / ${articleInfo.tag}`}
+              <Badge item={articleInfo.gender} />
+              <Badge item={articleInfo.category} />
+              <Badge item={articleInfo.tag} />
             </div>
           </div>
           {user.profileImage === articleInfo.profileImage && (
@@ -224,11 +234,18 @@ function ArticleDetail(props) {
           )}
         </div>
       </div>
-      <ReportModal showModal={showReport} setShowModal={setShowReport} />
+      <ReportModal
+        showModal={showReport}
+        setShowModal={setShowReport}
+        userId={articleInfo.userId}
+      />
       <DeleteModal
         showModal={showDelete}
         setShowModal={setShowDelete}
         detailTarget={props.detailTarget}
+        reload={props.reload}
+        setReload={props.setReload}
+        setShowDetail={props.setShowDetail}
       />
     </div>
   );

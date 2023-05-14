@@ -27,7 +27,9 @@ function DeleteModal(props) {
       .then((response) => {
         if (response.data.success) {
           alert("삭제 완료!");
-          window.location.reload();
+          props.setShowModal(false);
+          props.setShowDetail(false);
+          props.setReload(!props.reload);
         } else alert("요청 글 삭제에 실패했습니다.");
       })
       .catch((err) => {
