@@ -7,8 +7,10 @@ import axios from "axios";
 import { API } from "../../global/Constants";
 import ProfileCard from "./ProfileCard";
 import { AddressToSearch } from "../../global/Functions";
+import { useSelector } from "react-redux";
 
 function PortfolioList() {
+  const user = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
   const [portfolioData, setPortfolioData] = useState([]);
   const [detailTarget, setDetailTarget] = useState("");
@@ -24,12 +26,14 @@ function PortfolioList() {
     if (recommend) {
       setLoading(true);
       axios
-        // .get(API + "/designer/recommend?region=" + "팔달구", {
-        .get(API + "/designer/recommend?region=팔달구", {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        })
+        .get(
+          API + "/designer/recommend?region=" + AddressToSearch(user.location),
+          {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          }
+        )
         .then((response) => {
           if (response.data.success) {
             setRecommendData(response.data.data);

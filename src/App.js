@@ -12,6 +12,7 @@ import ChattingPage from "./pages/ChattingPage";
 import MyPage from "./pages/MyPage";
 import ProfilePage from "./pages/ProfilePage";
 import HomePage from "./pages/HomePage";
+import ReservationPage from "./pages/ReservationPage";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
@@ -22,6 +23,7 @@ function App() {
   const AuthChattingPage = Auth(ChattingPage, true);
   const AuthMyPage = Auth(MyPage, true);
   const AuthProfilePage = Auth(ProfilePage, true);
+  const AuthReservationPage = Auth(ReservationPage, true);
 
   return (
     <div className="bg-gray-50 dark:bg-gray-900 m-0">
@@ -35,6 +37,10 @@ function App() {
         <Route path="/chat" element={<AuthChattingPage />} />
         <Route path="/mypage" element={<AuthMyPage />} />
         <Route path="/profile/:role/:id" element={<AuthProfilePage />} />
+        <Route
+          path="/reservation/:designerId"
+          element={<AuthReservationPage />}
+        />
       </Routes>
       <BottomNav />
     </div>
