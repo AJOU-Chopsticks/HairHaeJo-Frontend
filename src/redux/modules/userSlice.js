@@ -14,6 +14,7 @@ const initialState = {
   role: "",
   isAdmin: false,
   userId: 0,
+  location: "",
 };
 
 const __asyncLogin = createAsyncThunk(
@@ -92,6 +93,7 @@ const userSlice = createSlice({
       state.role = payload.payload.role;
       state.isAdmin = payload.payload.role === 3 ? true : false;
       state.userId = payload.payload.userId;
+      state.location = payload.payload.location;
     });
   },
 });
