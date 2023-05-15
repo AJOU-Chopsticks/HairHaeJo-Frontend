@@ -3,8 +3,11 @@ import Loading from "../Layout/Loading";
 import KakaoMap from "../../global/KakaoMap";
 import axios from "axios";
 import { API } from "../../global/Constants";
+import { __asyncAuth } from "../../redux/modules/userSlice";
+import { useDispatch } from "react-redux";
 
 function CustomerForm(props) {
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
   const customerSubmitHandler = (event) => {
@@ -55,7 +58,9 @@ function CustomerForm(props) {
       .then((response) => {
         if (response.data.success) {
           alert("프로필 변경 완료!");
-          props.setReload(!props.reload);
+          dispatch(__asyncAuth()).then(() => {
+            props.setReload(!props.reload);
+          });
         } else alert("프로필 변경에 실패했습니다.");
       })
       .catch((err) => {

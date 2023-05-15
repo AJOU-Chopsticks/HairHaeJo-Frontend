@@ -1,37 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DateItem from "./DateItem";
 import TimeItem from "./TimeItem";
-
-const date = [
-  {
-    day: "일",
-    date: "11",
-  },
-  {
-    day: "월",
-    date: "12",
-  },
-  {
-    day: "화",
-    date: "13",
-  },
-  {
-    day: "수",
-    date: "14",
-  },
-  {
-    day: "목",
-    date: "15",
-  },
-  {
-    day: "금",
-    date: "16",
-  },
-  {
-    day: "토",
-    date: "17",
-  },
-];
+import axios from "axios";
+import { API } from "../../global/Constants";
+import { useParams } from "react-router-dom";
 
 const time = [
   "11:00",
@@ -48,6 +20,58 @@ const time = [
 ];
 
 function DateList(props) {
+  const { designerId } = useParams();
+  const [date, setDate] = useState([]);
+
+  useEffect(() => {
+    let dateList = [];
+    let today = new Date();
+
+    dateList.push(today.setDate(today.getDate() + 0));
+    dateList.push(today.setDate(today.getDate() + 1));
+    dateList.push(today.setDate(today.getDate() + 1));
+    dateList.push(today.setDate(today.getDate() + 1));
+    dateList.push(today.setDate(today.getDate() + 1));
+    dateList.push(today.setDate(today.getDate() + 1));
+    dateList.push(today.setDate(today.getDate() + 1));
+    setDate(dateList);
+  }, []);
+
+  useEffect(() => {
+    if (!props.when.date) return;
+
+    const selected = new Date(props.when.date);
+    const year = selected.getFullYear();
+    const month =
+      selected.getMonth() + 1 > 9
+        ? selected.getMonth() + 1
+        : "0" + (selected.getMonth() + 1);
+    const date =
+      selected.getDate() > 9 ? selected.getDate() : "0" + selected.getDate();
+
+    axios
+      .get(
+        API +
+          `/reservation?designerId=${designerId}&reservationday=${year}-${month}-${date}`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        // if (response.data.success) {
+        //   setMenuList(response.data.data);
+        // } else alert("메뉴 조회에 실패했습니다.");
+      })
+      .catch((err) => {
+        console.log(err);
+        // if (err.response.data.message) alert(err.response.data.message);
+        // else alert("메뉴 조회에 실패했습니다.");
+      });
+  }, [props.when.date, designerId]);
+
   return (
     <div className="w-5/6 sm:w-2/3 xl:w-3/4 mx-auto sm:mx-0 mb-40">
       <div className="text-lg">날짜 선택</div>
@@ -55,7 +79,7 @@ function DateList(props) {
       <div className="flex bg-white shadow-md justify-start md:justify-center rounded-lg overflow-x-auto mx-auto py-4 px-2 dark:bg-gray-800 dark:border-gray-700">
         {date.map((item) => (
           <DateItem
-            key={item.date}
+            key={item}
             item={item}
             when={props.when}
             setWhen={props.setWhen}

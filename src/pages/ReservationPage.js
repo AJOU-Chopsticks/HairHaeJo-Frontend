@@ -10,9 +10,9 @@ import { API } from "../global/Constants";
 import { useParams } from "react-router-dom";
 
 function ReservationPage() {
-  // const user = useSelector((state) => state.user);
   const { designerId } = useParams();
   const [designerInfo, setDesignerInfo] = useState({});
+  const [designerProfileInfo, setDesignerProfileInfo] = useState({});
   const [agree, setAgree] = useState(false);
   const [step, setStep] = useState(1);
   const [menu, setMenu] = useState({});
@@ -30,7 +30,7 @@ function ReservationPage() {
       })
       .then((response) => {
         if (response.data.success) {
-          setDesignerInfo({ ...designerInfo, ...response.data.data });
+          setDesignerInfo(response.data.data);
           axios
             .get(API + "/designer/profile/" + designerId, {
               headers: {
@@ -39,7 +39,7 @@ function ReservationPage() {
             })
             .then((response) => {
               if (response.data.success) {
-                setDesignerInfo({ ...designerInfo, ...response.data.data });
+                setDesignerProfileInfo(response.data.data);
               } else alert("프로필 정보 조회에 실패했습니다.");
             })
             .catch((err) => {
@@ -52,19 +52,29 @@ function ReservationPage() {
         if (err.response.data.message) alert(err.response.data.message);
         else alert("유저 정보 조회에 실패했습니다.");
       });
-  }, []);
+  }, [designerId]);
 
   return (
     <div className="container mx-auto pt-16 min-h-screen">
       <Stepper step={step} />
       <div className="flex flex-row gap-4">
-        <DesignerProfile designerInfo={designerInfo} />
+        <DesignerProfile
+          designerInfo={designerInfo}
+          designerProfileInfo={designerProfileInfo}
+        />
         {step === 1 ? (
           <MenuList menu={menu} setMenu={setMenu} />
         ) : step === 2 ? (
           <DateList when={when} setWhen={setWhen} />
         ) : (
-          <Payment agree={agree} setAgree={setAgree} />
+          <Payment
+            agree={agree}
+            setAgree={setAgree}
+            menu={menu}
+            when={when}
+            designerInfo={designerInfo}
+            designerProfileInfo={designerProfileInfo}
+          />
         )}
       </div>
       <BottomInfo

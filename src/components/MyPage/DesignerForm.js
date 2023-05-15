@@ -3,8 +3,11 @@ import Loading from "../Layout/Loading";
 import KakaoMap from "../../global/KakaoMap";
 import { API } from "../../global/Constants";
 import axios from "axios";
+import { __asyncAuth } from "../../redux/modules/userSlice";
+import { useDispatch } from "react-redux";
 
 function DesignerForm(props) {
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [designerInfo, setDesignerInfo] = useState({
     introduction: props.profileInfo.introduction,
@@ -51,7 +54,9 @@ function DesignerForm(props) {
       .then((response) => {
         if (response.data.success) {
           alert("프로필 변경 완료!");
-          props.setReload(!props.reload);
+          dispatch(__asyncAuth()).then(() => {
+            props.setReload(!props.reload);
+          });
         } else alert("프로필 변경에 실패했습니다.");
       })
       .catch((err) => {
