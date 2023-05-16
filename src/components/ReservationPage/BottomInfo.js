@@ -55,7 +55,6 @@ function BottomInfo(props) {
         },
       })
       .then((response) => {
-        console.log(response);
         if (response.data.success) {
           const popup = window.open(
             response.data.data.next_redirect_pc_url,

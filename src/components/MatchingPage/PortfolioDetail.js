@@ -151,9 +151,10 @@ function PortfolioDetail(props) {
               <button
                 type="button"
                 className="w-full text-white inline-flex items-center justify-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                onClick={() =>
-                  navigation("/reservation/" + portfolioInfo.designerId)
-                }
+                onClick={() => {
+                  document.body.classList.remove("overflow-hidden");
+                  navigation("/reservation/" + portfolioInfo.designerId);
+                }}
               >
                 <BsFillCalendarCheckFill className="mr-2 w-4 h-4" />
                 바로 예약하기

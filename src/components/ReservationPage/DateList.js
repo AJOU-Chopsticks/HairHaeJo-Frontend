@@ -61,7 +61,6 @@ function DateList(props) {
         }
       )
       .then((response) => {
-        console.log(response.data.data);
         if (response.data.success) {
           setNoTime(response.data.data);
         } else alert("예약 가능 시간 조회에 실패했습니다.");
