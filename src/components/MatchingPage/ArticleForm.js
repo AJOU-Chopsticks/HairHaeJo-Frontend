@@ -2,32 +2,16 @@ import React, { useState } from "react";
 import NoImage from "../../images/noImage.jpg";
 import KakaoMap from "../../global/KakaoMap";
 import { useSelector } from "react-redux";
-import { API } from "../../global/Constants";
+import {
+  API,
+  styleList,
+  cutMaleList,
+  cutFemaleList,
+  permList,
+  dyeingList,
+} from "../../global/Constants";
 import axios from "axios";
 import Loading from "../Layout/Loading";
-
-const styleList = ["스타일을 선택해주세요.", "커트", "펌", "염색"];
-const cutList = [
-  "카테고리를 선택해주세요.",
-  "레이어드컷",
-  "허쉬컷",
-  "샤기컷",
-  "원랭스컷",
-];
-const permList = [
-  "카테고리를 선택해주세요.",
-  "히피펌",
-  "레이어드펌",
-  "허쉬펌",
-  "애즈펌",
-];
-const dyeingList = [
-  "카테고리를 선택해주세요.",
-  "다크브라운",
-  "레드브라운",
-  "애쉬블루",
-  "애쉬브라운",
-];
 
 function ArticleForm(props) {
   const user = useSelector((state) => state.user);
@@ -287,11 +271,17 @@ function ArticleForm(props) {
                         disabled={style === "스타일을 선택해주세요."}
                       >
                         {style === "커트" &&
-                          cutList.map((item) => (
-                            <option value={item} key={item}>
-                              {item}
-                            </option>
-                          ))}
+                          (user.gender === 0
+                            ? cutMaleList.map((item) => (
+                                <option value={item} key={item}>
+                                  {item}
+                                </option>
+                              ))
+                            : cutFemaleList.map((item) => (
+                                <option value={item} key={item}>
+                                  {item}
+                                </option>
+                              )))}
                         {style === "펌" &&
                           permList.map((item) => (
                             <option value={item} key={item}>

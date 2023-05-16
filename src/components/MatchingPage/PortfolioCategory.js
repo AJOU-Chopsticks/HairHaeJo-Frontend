@@ -1,18 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { BsCheck } from "react-icons/bs";
 import KakaoMap from "../../global/KakaoMap";
+import {
+  styleList,
+  cutList,
+  cutMaleList,
+  cutFemaleList,
+  permList,
+  dyeingList,
+} from "../../global/Constants";
 
-const styleList = ["커트", "펌", "염색"];
-const cutList = ["레이어드컷", "허쉬컷", "샤기컷", "원랭스컷"];
-const permList = ["히피펌", "레이어드펌", "허쉬펌", "애즈펌"];
-const dyeingList = ["다크브라운", "레드브라운", "애쉬블루", "애쉬브라운"];
+const shortStyleList = styleList.slice(1);
+const shortCutList = cutList.slice(1);
+const shortCutMaleList = cutMaleList.slice(1);
+const shortCutFemaleList = cutFemaleList.slice(1);
+const shortPermList = permList.slice(1);
+const shortDyeingList = dyeingList.slice(1);
 
 function PortfolioCategory(props) {
   const [showStyleModal, setShowStyleModal] = useState(false);
   const [showRegionModal, setShowRegionModal] = useState(false);
   const [showGenderModal, setShowGenderModal] = useState(false);
   const [showTagModal, setShowTagModal] = useState(false);
+  const [genderCutList, setGenderCutList] = useState(shortCutList);
 
   const regionHandler = () => {
     let selected = document.getElementById("Kakao_Address").value;
@@ -23,6 +34,12 @@ function PortfolioCategory(props) {
     document.body.classList.remove("overflow-hidden");
     setShowRegionModal(false);
   };
+
+  useEffect(() => {
+    if (props.gender === "남성") setGenderCutList(shortCutMaleList);
+    else if (props.gender === "여성") setGenderCutList(shortCutFemaleList);
+    else setGenderCutList(shortCutList);
+  }, [props.gender]);
 
   return (
     <>
@@ -191,7 +208,7 @@ function PortfolioCategory(props) {
                     모든 스타일
                   </button>
                 )}
-                {styleList.map((item) =>
+                {shortStyleList.map((item) =>
                   props.style === item ? (
                     <button
                       key={item}
@@ -344,6 +361,7 @@ function PortfolioCategory(props) {
                       setShowGenderModal(false);
                       props.setRecommend(false);
                       props.setGender("남성");
+                      props.setTag("all");
                     }}
                   >
                     <BsCheck className="text-xl my-auto" />
@@ -357,6 +375,7 @@ function PortfolioCategory(props) {
                       setShowGenderModal(false);
                       props.setRecommend(false);
                       props.setGender("남성");
+                      props.setTag("all");
                     }}
                   >
                     남성
@@ -370,6 +389,7 @@ function PortfolioCategory(props) {
                       setShowGenderModal(false);
                       props.setRecommend(false);
                       props.setGender("여성");
+                      props.setTag("all");
                     }}
                   >
                     <BsCheck className="text-xl my-auto" />
@@ -383,6 +403,7 @@ function PortfolioCategory(props) {
                       setShowGenderModal(false);
                       props.setRecommend(false);
                       props.setGender("여성");
+                      props.setTag("all");
                     }}
                   >
                     여성
@@ -455,7 +476,7 @@ function PortfolioCategory(props) {
                   </button>
                 )}
                 {(props.style === "all" || props.style === "커트") &&
-                  cutList.map((item) =>
+                  genderCutList.map((item) =>
                     props.tag === item ? (
                       <button
                         key={item}
@@ -486,7 +507,7 @@ function PortfolioCategory(props) {
                     )
                   )}
                 {props.style === "펌" &&
-                  permList.map((item) =>
+                  shortPermList.map((item) =>
                     props.tag === item ? (
                       <button
                         key={item}
@@ -517,7 +538,7 @@ function PortfolioCategory(props) {
                     )
                   )}
                 {props.style === "염색" &&
-                  dyeingList.map((item) =>
+                  shortDyeingList.map((item) =>
                     props.tag === item ? (
                       <button
                         key={item}

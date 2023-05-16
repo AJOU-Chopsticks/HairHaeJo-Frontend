@@ -71,7 +71,7 @@ function PortfolioList() {
         })
         .then(() => setLoading(false));
     }
-  }, [style, region, gender, tag, recommend]);
+  }, [style, region, gender, tag, recommend, user.location]);
 
   return (
     <div className="p-4 mb-8 md:ml-64">
