@@ -14,7 +14,7 @@ function Profile(props) {
             <img
               alt="Profile_Image"
               src={props.userInfo.profileImage}
-              className="shadow-xl w-1/5 bg-white dark:bg-gray-700 rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 min-w-[120px] max-w-[150px]"
+              className="w-40 h-40 mb-3 rounded-full shadow-lg absolute -m-16 -ml-16"
             />
           </div>
           <div className="w-full lg:w-5/12 px-4 lg:order-1">

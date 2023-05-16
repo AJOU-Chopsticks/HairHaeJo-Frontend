@@ -125,6 +125,8 @@ function ArticleForm(props) {
         type="button"
         className="animate-bounce flex items-center justify-center fixed bottom-24 right-6 md:right-12 group ml-auto text-white bg-primary-700 rounded-full w-14 h-14 hover:bg-primary-800 dark:bg-primary-600 dark:hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 focus:outline-none dark:focus:ring-primary-800"
         onClick={() => {
+          if (user.role === "ROLE_DESIGNER")
+            return alert("디자이너는 요청 글을 작성할 수 없습니다.");
           document.body.classList.add("overflow-hidden");
           setShowModal(true);
         }}

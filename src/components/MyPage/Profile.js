@@ -17,7 +17,7 @@ function Profile(props) {
             <img
               alt="Profile_Image"
               src={user.profileImage}
-              className="shadow-xl w-[150px] h-[150px] aspect-w-1:1 bg-white dark:bg-gray-700 rounded-full align-middle border-none absolute -m-16 -ml-20 lg:-ml-16"
+              className="w-40 h-40 mb-3 rounded-full shadow-lg absolute -m-16 -ml-16"
             />
           </div>
           <div className="w-full lg:w-5/12 px-4 lg:order-1">

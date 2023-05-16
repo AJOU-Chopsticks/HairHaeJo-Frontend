@@ -9,12 +9,13 @@ import SockJS from "sockjs-client";
 import NoImage from "../../images/noImage.jpg";
 import ExitModal from "./ExitModal";
 import { IoCall } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function ChatSpace(props) {
   const user = useSelector((state) => state.user);
   const chatBubbleSpaceRef = useRef(null);
   const client = useRef({});
+  const navigation = useNavigate();
   const [chatHistory, setChatHistory] = useState([]);
   const [chatText, setChatText] = useState("");
   const [chatImage, setChatImage] = useState(NoImage);
@@ -194,7 +195,9 @@ function ChatSpace(props) {
                 <button
                   type="button"
                   className="ml-3 text-white inline-flex items-center justify-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                  // onClick={articleModifyHandler}
+                  onClick={() =>
+                    navigation("/reservation/" + props.chatItem.designerId)
+                  }
                 >
                   예약하기
                 </button>
