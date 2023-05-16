@@ -67,7 +67,7 @@ function ReservationPage() {
   return (
     <div className="container mx-auto pt-16 min-h-screen">
       {result ? (
-        <>결제 완료 페이지</>
+        <>결제 완료</>
       ) : (
         <>
           <Stepper step={step} />

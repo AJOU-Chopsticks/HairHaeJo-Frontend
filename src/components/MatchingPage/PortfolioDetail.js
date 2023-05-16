@@ -12,6 +12,7 @@ function PortfolioDetail(props) {
   const [portfolioInfo, setPortfolioInfo] = useState({});
 
   const showProfile = () => {
+    document.body.classList.remove("overflow-hidden");
     navigation("/profile/designer/" + portfolioInfo.designerId);
   };
 
@@ -28,6 +29,7 @@ function PortfolioDetail(props) {
       )
       .then((response) => {
         if (response.data.success) {
+          document.body.classList.remove("overflow-hidden");
           navigation("/chat");
         } else alert("채팅방 생성에 실패했습니다.");
       })
