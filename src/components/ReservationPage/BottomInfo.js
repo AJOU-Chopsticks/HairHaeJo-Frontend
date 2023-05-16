@@ -22,8 +22,8 @@ function BottomInfo(props) {
     const date =
       selected.getDate() > 9 ? selected.getDate() : "0" + selected.getDate();
 
-    const width = 500;
-    const height = 400;
+    const width = 600;
+    const height = 800;
     const left = window.screenX + (window.outerWidth - width) / 2;
     const top = window.screenY + (window.outerHeight - height) / 2;
 
@@ -36,7 +36,7 @@ function BottomInfo(props) {
       end_time: `${year}-${month}-${date}T${
         props.when.time.substr(3, 2) === "00"
           ? props.when.time.substr(0, 2)
-          : props.when.time.substr(0, 2) + 1
+          : parseInt(props.when.time.substr(0, 2)) + 1
       }:${props.when.time.substr(3, 2) === "00" ? "30" : "00"}:00`,
       menu_id: props.menu.menuId,
     };
@@ -69,27 +69,64 @@ function BottomInfo(props) {
   };
 
   useEffect(() => {
+    const currentUrl = window.location.href;
+    const searchParams = new URL(currentUrl).searchParams;
+    const pg_token = searchParams.get("pg_token");
+    if (pg_token) {
+      window.opener.postMessage({ pg_token }, window.location.origin);
+    }
+  }, []);
+
+  useEffect(() => {
     if (!popup) {
       return;
     }
 
-    const timer = setInterval(() => {
-      if (!popup) {
-        timer && clearInterval(timer);
-        return;
-      }
-
-      const currentUrl = popup.location.href;
-      if (!currentUrl) return;
-
-      const searchParams = new URL(currentUrl).searchParams;
-      const pg_token = searchParams.get("pg_token");
+    const kakaoPayListener = (e) => {
+      // 동일한 Origin 의 이벤트만 처리하도록 제한
+      // if (e.origin !== window.location.origin) {
+      //   return;
+      // }
+      console.log(e.data);
+      const { pg_token } = e.data;
       if (pg_token) {
-        popup.close();
-        console.log(`pg_token = ${pg_token}`);
+        console.log(`The popup URL has URL code param = ${pg_token}`);
       }
-    }, 500);
+      popup?.close();
+      setPopup(null);
+    };
+
+    window.addEventListener("message", kakaoPayListener, false);
+
+    return () => {
+      window.removeEventListener("message", kakaoPayListener);
+      popup?.close();
+      setPopup(null);
+    };
   }, [popup]);
+
+  // useEffect(() => {
+  //   if (!popup) {
+  //     return;
+  //   }
+
+  //   const timer = setInterval(() => {
+  //     if (!popup) {
+  //       timer && clearInterval(timer);
+  //       return;
+  //     }
+
+  //     const currentUrl = popup.location.href;
+  //     if (!currentUrl) return;
+
+  //     const searchParams = new URL(currentUrl).searchParams;
+  //     const pg_token = searchParams.get("pg_token");
+  //     if (pg_token) {
+  //       popup.close();
+  //       console.log(`pg_token = ${pg_token}`);
+  //     }
+  //   }, 500);
+  // }, [popup]);
 
   return (
     <div className="fixed left-0 bottom-16 md:bottom-0 w-full h-20 bg-primary-100">
