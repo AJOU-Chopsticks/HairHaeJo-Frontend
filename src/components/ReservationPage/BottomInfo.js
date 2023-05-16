@@ -6,6 +6,10 @@ import { useParams } from "react-router-dom";
 function BottomInfo(props) {
   const { designerId } = useParams();
   const [popup, setPopup] = useState();
+  const [initial_pg_token] = useState(localStorage.getItem("pg_token"));
+  const [kakaoPay, setKakaoPay] = useState({ tid: "", pg_token: "" });
+  const [ready, setReady] = useState(false);
+  const [paymentDone, setPaymentDone] = useState(false);
 
   const clickHandler = () => {
     if (props.step < 3) {
@@ -59,6 +63,7 @@ function BottomInfo(props) {
             `width=${width},height=${height},left=${left},top=${top}`
           );
           setPopup(popup);
+          setKakaoPay({ ...kakaoPay, tid: response.data.data.tid });
         } else alert("카카오페이 결제 시도에 실패했습니다.");
       })
       .catch((err) => {
@@ -69,78 +74,68 @@ function BottomInfo(props) {
   };
 
   useEffect(() => {
-    const currentUrl = window.location.href;
-    const searchParams = new URL(currentUrl).searchParams;
-    const pg_token = searchParams.get("pg_token");
-    if (pg_token) {
-      window.opener.postMessage({ pg_token }, window.location.origin);
-    }
-  }, []);
-
-  useEffect(() => {
     if (!popup) {
       return;
     }
 
-    const kakaoPayListener = (e) => {
-      // 동일한 Origin 의 이벤트만 처리하도록 제한
-      // if (e.origin !== window.location.origin) {
-      //   return;
-      // }
-      console.log(e.data);
-      const { pg_token } = e.data;
-      if (pg_token) {
-        console.log(`The popup URL has URL code param = ${pg_token}`);
+    const timer = setInterval(() => {
+      if (!popup) {
+        timer && clearInterval(timer);
+        return;
       }
-      popup?.close();
-      setPopup(null);
-    };
+      const pg_token = localStorage.getItem("pg_token");
 
-    window.addEventListener("message", kakaoPayListener, false);
+      if (pg_token !== initial_pg_token) {
+        timer && clearInterval(timer);
+        setKakaoPay({ ...kakaoPay, pg_token: pg_token });
+        setReady(true);
+        return;
+      }
+    }, 500);
+  }, [popup, initial_pg_token, kakaoPay]);
 
-    return () => {
-      window.removeEventListener("message", kakaoPayListener);
-      popup?.close();
-      setPopup(null);
-    };
-  }, [popup]);
+  useEffect(() => {
+    if (!ready || paymentDone) {
+      return;
+    }
 
-  // useEffect(() => {
-  //   if (!popup) {
-  //     return;
-  //   }
-
-  //   const timer = setInterval(() => {
-  //     if (!popup) {
-  //       timer && clearInterval(timer);
-  //       return;
-  //     }
-
-  //     const currentUrl = popup.location.href;
-  //     if (!currentUrl) return;
-
-  //     const searchParams = new URL(currentUrl).searchParams;
-  //     const pg_token = searchParams.get("pg_token");
-  //     if (pg_token) {
-  //       popup.close();
-  //       console.log(`pg_token = ${pg_token}`);
-  //     }
-  //   }, 500);
-  // }, [popup]);
+    axios
+      .get(
+        API +
+          `/payment/success?pg_token=${kakaoPay.pg_token}&tid=${kakaoPay.tid}`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      )
+      .then((response) => {
+        if (response.data.success) {
+          props.setStep(props.step + 1);
+          setPaymentDone(true);
+        } else alert("카카오페이 결제에 실패했습니다.");
+      })
+      .catch((err) => {
+        if (err.response.data.message) alert(err.response.data.message);
+        else alert("카카오페이 결제에 실패했습니다.");
+      });
+  }, [ready, kakaoPay, paymentDone, props]);
 
   return (
-    <div className="fixed left-0 bottom-16 md:bottom-0 w-full h-20 bg-primary-100">
-      <div className="flex flex-row justify-around md:justify-center mt-3">
-        <div className="flex flex-col justify-between text-left text-center">
-          <span className="text-xl text-black font-bold dark:text-white">
-            {props.menu.menuName || "메뉴"}
-          </span>
-          <span className="text-lg text-black dark:text-white">
-            {(props.menu.menuPrice || "0") + "원"}
-          </span>
-        </div>
-        <button
-          className={`w-60 md:w-96 md:ml-56 text-white font-medium rounded-lg text-md px-4 md:px-5 py-2 md:py-2.5 mr-2 focus:outline-none
+    <>
+      {props.step < 4 && (
+        <div className="fixed left-0 bottom-16 md:bottom-0 w-full h-20 bg-primary-100">
+          <div className="flex flex-row justify-around md:justify-center mt-3">
+            <div className="flex flex-col justify-between text-left text-center">
+              <span className="text-xl text-black font-bold dark:text-white">
+                {props.menu.menuName || "메뉴"}
+              </span>
+              <span className="text-lg text-black dark:text-white">
+                {(props.menu.menuPrice || "0") + "원"}
+              </span>
+            </div>
+            <button
+              className={`w-60 md:w-96 md:ml-56 text-white font-medium rounded-lg text-md px-4 md:px-5 py-2 md:py-2.5 mr-2 focus:outline-none
           ${
             (props.step === 1 && props.menu.menuName) ||
             (props.step === 2 && props.when.date && props.when.time) ||
@@ -148,19 +143,25 @@ function BottomInfo(props) {
               ? "bg-primary-700 dark:bg-primary-600 dark:hover:bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-800"
               : "bg-gray-300 dark:bg-gray-300"
           }`}
-          onClick={clickHandler}
-          disabled={
-            !(
-              (props.step === 1 && props.menu.menuName) ||
-              (props.step === 2 && props.when.date && props.when.time) ||
-              (props.step === 3 && props.agree)
-            )
-          }
-        >
-          예약 하기
-        </button>
-      </div>
-    </div>
+              onClick={clickHandler}
+              disabled={
+                !(
+                  (props.step === 1 && props.menu.menuName) ||
+                  (props.step === 2 && props.when.date && props.when.time) ||
+                  (props.step === 3 && props.agree)
+                )
+              }
+            >
+              {props.step === 1
+                ? "메뉴 선택"
+                : props.step === 2
+                ? "예약 하기"
+                : "결제 하기"}
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 

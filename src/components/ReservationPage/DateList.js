@@ -22,6 +22,7 @@ const time = [
 function DateList(props) {
   const { designerId } = useParams();
   const [date, setDate] = useState([]);
+  const [noTime, setNoTime] = useState([]);
 
   useEffect(() => {
     let dateList = [];
@@ -60,15 +61,14 @@ function DateList(props) {
         }
       )
       .then((response) => {
-        console.log(response);
-        // if (response.data.success) {
-        //   setMenuList(response.data.data);
-        // } else alert("메뉴 조회에 실패했습니다.");
+        console.log(response.data.data);
+        if (response.data.success) {
+          setNoTime(response.data.data);
+        } else alert("예약 가능 시간 조회에 실패했습니다.");
       })
       .catch((err) => {
-        console.log(err);
-        // if (err.response.data.message) alert(err.response.data.message);
-        // else alert("메뉴 조회에 실패했습니다.");
+        if (err.response.data.message) alert(err.response.data.message);
+        else alert("예약 가능 시간 조회에 실패했습니다.");
       });
   }, [props.when.date, designerId]);
 
@@ -95,6 +95,7 @@ function DateList(props) {
             item={item}
             when={props.when}
             setWhen={props.setWhen}
+            noTime={noTime}
           />
         ))}
       </div>
