@@ -14,6 +14,9 @@ function ProfilePage() {
   const [profileType, setProfileType] = useState("profile");
 
   const sendChatting = () => {
+    if (user.role === "ROLE_DESIGNER")
+      return alert("디자이너가 디자이너에게 상담을 신청할 수 없습니다.");
+
     axios
       .post(
         API + "/chat?userId=" + id,

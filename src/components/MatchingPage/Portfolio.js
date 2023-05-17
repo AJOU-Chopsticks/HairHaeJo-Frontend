@@ -11,7 +11,7 @@ function Portfolio(props) {
       }}
     >
       <img
-        className="h-auto max-w-full rounded-lg"
+        className="h-auto w-full rounded-lg"
         src={props.data.image}
         alt="Portfolio_Image"
       />

@@ -22,6 +22,7 @@ function ArticleDetail(props) {
   };
 
   const showProfile = () => {
+    document.body.classList.remove("overflow-hidden");
     navigation("/profile/user/" + articleInfo.userId);
   };
 
@@ -168,7 +169,7 @@ function ArticleDetail(props) {
               <Badge item={articleInfo.tag} />
             </div>
           </div>
-          {user.profileImage === articleInfo.profileImage && (
+          {user.userId === articleInfo.userId && (
             <div className="flex justify-between items-center gap-4">
               <button
                 type="button"

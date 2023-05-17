@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BsFillSendFill } from "react-icons/bs";
+import { BsFillSendFill, BsFillCalendarCheckFill } from "react-icons/bs";
 import Badge from "./Badge";
 import axios from "axios";
 import { API } from "../../global/Constants";
@@ -12,6 +12,7 @@ function PortfolioDetail(props) {
   const [portfolioInfo, setPortfolioInfo] = useState({});
 
   const showProfile = () => {
+    document.body.classList.remove("overflow-hidden");
     navigation("/profile/designer/" + portfolioInfo.designerId);
   };
 
@@ -28,6 +29,7 @@ function PortfolioDetail(props) {
       )
       .then((response) => {
         if (response.data.success) {
+          document.body.classList.remove("overflow-hidden");
           navigation("/chat");
         } else alert("채팅방 생성에 실패했습니다.");
       })
@@ -123,7 +125,7 @@ function PortfolioDetail(props) {
             </div>
             <figure className="w-full">
               <img
-                className="h-auto max-w-full rounded-lg"
+                className="h-auto max-w-full rounded-lg mx-auto"
                 src={portfolioInfo.image}
                 alt="After_Image"
               />
@@ -147,14 +149,27 @@ function PortfolioDetail(props) {
             </div>
           </div>
           {user.role !== "ROLE_DESIGNER" && (
-            <button
-              type="button"
-              className="w-full text-white inline-flex items-center justify-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-              onClick={sendChatting}
-            >
-              <BsFillSendFill className="mr-2 w-4 h-4" />
-              상담 메시지 보내기
-            </button>
+            <div className="flex flex-row justify-between gap-4">
+              <button
+                type="button"
+                className="w-full text-white inline-flex items-center justify-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                onClick={() => {
+                  document.body.classList.remove("overflow-hidden");
+                  navigation("/reservation/" + portfolioInfo.designerId);
+                }}
+              >
+                <BsFillCalendarCheckFill className="mr-2 w-4 h-4" />
+                바로 예약하기
+              </button>
+              <button
+                type="button"
+                className="w-full text-white inline-flex items-center justify-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                onClick={sendChatting}
+              >
+                <BsFillSendFill className="mr-2 w-4 h-4" />
+                상담 메시지 보내기
+              </button>
+            </div>
           )}
         </div>
       </div>

@@ -17,7 +17,9 @@ const checkIcon = (
 );
 
 function Payment(props) {
+  const WEEKDAY = ["일", "월", "화", "수", "목", "금", "토"];
   const [checkKakaoPay, setCheckKakaoPay] = useState(true);
+  const date = new Date(props.when.date);
 
   return (
     <div className="w-5/6 sm:w-2/3 xl:w-3/4 mx-auto sm:mx-0 mb-40">
@@ -27,22 +29,23 @@ function Payment(props) {
         <div className="flex mx-5 flex-row w-full">
           <div className="w-32">날짜/시간</div>
           <div>
-            2023년 5월 25일 목요일
+            {date.getFullYear()}년 {date.getMonth() + 1}월 {date.getDate()}일{" "}
+            {WEEKDAY[date.getDay()]}요일
             <br />
-            오후 01:00
+            {props.when.time.substr(0, 2)}:{props.when.time.substr(3, 2)}
           </div>
         </div>
         <div className="flex mx-5 flex-row w-full my-4">
           <div className="w-32">매장/담당</div>
           <div>
-            리안헤어 아주대점
+            {props.designerProfileInfo.hairSalonName}
             <br />
-            디자이너
+            {props.designerInfo.name}
           </div>
         </div>
         <div className="flex mx-5 flex-row w-full">
           <div className="w-32">선택 메뉴</div>
-          <div>메뉴 이름1</div>
+          <div>{props.menu.menuName}</div>
         </div>
       </div>
 
@@ -51,7 +54,7 @@ function Payment(props) {
       <div className="flex text-gray-500 dark:text-white bg-white shadow-md justify-start rounded-lg flex-wrap mx-auto py-4 px-2 dark:bg-gray-800 dark:border-gray-700">
         <div className="flex mx-5 flex-row w-full mb-4 justify-between">
           <div className="w-32">메뉴 가격</div>
-          <div className="text-black text-xl">55000원</div>
+          <div className="text-black text-xl">{props.menu.menuPrice}원</div>
         </div>
         <div className="flex mx-5 flex-row w-full mb-4 justify-between">
           <div className="w-32">할인</div>
@@ -59,7 +62,7 @@ function Payment(props) {
         </div>
         <div className="flex mx-5 flex-row w-full mb-8 justify-between">
           <div className="w-32">총 결제 금액</div>
-          <div className="text-black text-2xl">55000원</div>
+          <div className="text-black text-2xl">{props.menu.menuPrice}원</div>
         </div>
 
         <ul className="mb-8 mx-5 space-y-4 text-left text-gray-500 dark:text-gray-400">

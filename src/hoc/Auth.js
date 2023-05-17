@@ -20,13 +20,13 @@ export default function Auth(SpecificComponent, option, adminRoute = false) {
     const checkRender = (isAuth, isAdmin) => {
       if (!isAuth) {
         // 로그인 X
-        if (option === true) return navigate("/login");
+        if (option === true) return navigate("/login", { replace: true });
         else setLoading(false);
       } else {
         // 로그인 O
         if (adminRoute && !isAdmin) return navigate("/", { replace: true });
 
-        if (option === false) return navigate("/");
+        if (option === false) return navigate("/", { replace: true });
         else setLoading(false);
       }
     };

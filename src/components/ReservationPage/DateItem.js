@@ -1,22 +1,23 @@
 import React from "react";
 
 function DateItem(props) {
+  const date = new Date(props.item);
+  const WEEKDAY = ["일", "월", "화", "수", "목", "금", "토"];
+
   return (
     <>
-      {props.when.date !== props.item.date ? (
+      {props.when.date !== props.item ? (
         <div
           className="flex-shrink-0 flex group hover:bg-primary-500 hover:shadow-lg hover-dark-shadow rounded-full mx-1 transition-all duration-300 cursor-pointer justify-center w-16"
-          onClick={() =>
-            props.setWhen({ ...props.when, date: props.item.date })
-          }
+          onClick={() => props.setWhen({ ...props.when, date: props.item })}
         >
           <div className="flex items-center px-4 py-4">
             <div className="text-center">
               <p className="text-gray-900 group-hover:text-gray-100 text-sm transition-all dark:text-gray-400   group-hover:font-semibold duration-300">
-                {props.item.day}
+                {WEEKDAY[date.getDay()]}
               </p>
               <p className="text-gray-900 group-hover:text-gray-100 mt-3 group-hover:font-bold transition-all	duration-300 dark:text-gray-400">
-                {props.item.date}
+                {date.getDate()}
               </p>
             </div>
           </div>
@@ -26,9 +27,9 @@ function DateItem(props) {
           <div className="flex items-center px-4 py-4">
             <div className="text-center">
               <p className="text-gray-100 text-sm font-semibold">
-                {props.item.day}
+                {WEEKDAY[date.getDay()]}
               </p>
-              <p className="text-gray-100  mt-3 font-bold">{props.item.date}</p>
+              <p className="text-gray-100  mt-3 font-bold">{date.getDate()}</p>
             </div>
           </div>
         </div>
