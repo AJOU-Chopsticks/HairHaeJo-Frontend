@@ -8,6 +8,8 @@ import {
   cutMaleList,
   cutFemaleList,
   permList,
+  permMaleList,
+  permFemaleList,
   dyeingList,
 } from "../../global/Constants";
 
@@ -16,6 +18,8 @@ const shortCutList = cutList.slice(1);
 const shortCutMaleList = cutMaleList.slice(1);
 const shortCutFemaleList = cutFemaleList.slice(1);
 const shortPermList = permList.slice(1);
+const shortPermMaleList = permMaleList.slice(1);
+const shortPermFemaleList = permFemaleList.slice(1);
 const shortDyeingList = dyeingList.slice(1);
 
 function ArticleCategory(props) {
@@ -24,6 +28,7 @@ function ArticleCategory(props) {
   const [showGenderModal, setShowGenderModal] = useState(false);
   const [showTagModal, setShowTagModal] = useState(false);
   const [genderCutList, setGenderCutList] = useState(shortCutList);
+  const [genderPermList, setGenderPermList] = useState(shortPermList);
 
   const regionHandler = () => {
     let selected = document.getElementById("Kakao_Address").value;
@@ -35,9 +40,16 @@ function ArticleCategory(props) {
   };
 
   useEffect(() => {
-    if (props.gender === "남성") setGenderCutList(shortCutMaleList);
-    else if (props.gender === "여성") setGenderCutList(shortCutFemaleList);
-    else setGenderCutList(shortCutList);
+    if (props.gender === "남성") {
+      setGenderCutList(shortCutMaleList);
+      setGenderPermList(shortPermMaleList);
+    } else if (props.gender === "여성") {
+      setGenderCutList(shortCutFemaleList);
+      setGenderPermList(shortPermFemaleList);
+    } else {
+      setGenderCutList(shortCutList);
+      setGenderPermList(shortPermList);
+    }
   }, [props.gender]);
 
   return (
@@ -460,7 +472,7 @@ function ArticleCategory(props) {
                     )
                   )}
                 {props.style === "펌" &&
-                  shortPermList.map((item) =>
+                  genderPermList.map((item) =>
                     props.tag === item ? (
                       <button
                         key={item}

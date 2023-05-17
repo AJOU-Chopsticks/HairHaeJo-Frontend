@@ -162,7 +162,7 @@ function Payment(props) {
                 [필수] 제3자 정보 제공 동의
                 <div className="bg-gray-100 text-sm p-2 text-gray-400">
                   예약 서비스 및 커뮤니케이션을 위해 개인 정보를 제공받는 대상 :
-                  리안헤어
+                  {props.designerProfileInfo.hairSalonName}
                 </div>
               </div>
               <div className="text-base my-2">
