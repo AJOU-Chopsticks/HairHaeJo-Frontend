@@ -1,4 +1,5 @@
 import React from "react";
+import Badge from "./Badge";
 
 function Article(props) {
   return (
@@ -14,7 +15,11 @@ function Article(props) {
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
           {props.data.articleTitle}
         </h3>
-        <p className="my-4">{`${props.data.gender} / ${props.data.category} / ${props.data.tag}`}</p>
+        <div className="mt-5">
+          <Badge item={props.data.gender} />
+          <Badge item={props.data.category} />
+          <Badge item={props.data.tag} />
+        </div>
       </blockquote>
       <figcaption className="flex items-center justify-center space-x-3">
         <img

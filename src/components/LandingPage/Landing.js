@@ -1,7 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function Landing() {
+  const user = useSelector((state) => state.user);
+  const navigation = useNavigate();
+
+  const start = () => {
+    if (user.auth) navigation("/matching");
+    else navigation("/login");
+  };
+
   return (
     <section className="bg-center bg-no-repeat bg-[url('https://img.freepik.com/free-vector/flat-composition-with-hair-salon-interior-hairdressers-and-barber-working-with-clients-vector-illustration_1284-71554.jpg?w=1800&t=st=1684339492~exp=1684340092~hmac=00296d1a01a61f3f5f138783a908dddda0e314b2c0cd58e0474cc0245191a0b3')] bg-gray-500 bg-blend-multiply">
       <div className="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56">
@@ -14,8 +23,8 @@ function Landing() {
           소통의 창구 역할을 합니다!
         </p>
         <div className="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
-          <Link
-            to="/login"
+          <button
+            onClick={start}
             className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
           >
             시작해볼까요?
@@ -32,7 +41,7 @@ function Landing() {
                 clipRule="evenodd"
               ></path>
             </svg>
-          </Link>
+          </button>
         </div>
       </div>
     </section>

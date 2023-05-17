@@ -1,29 +1,18 @@
 import React from "react";
 import { Carousel } from "flowbite-react";
+import MainImage1 from "../../images/mainImage1.png";
+import MainImage2 from "../../images/mainImage2.png";
+import MainImage3 from "../../images/mainImage3.png";
+import MainImage4 from "../../images/mainImage4.png";
 
 function Slider() {
   return (
-    <Carousel className="mt-5 h-1/2">
-      <img
-        src="https://flowbite.com/docs/images/carousel/carousel-1.svg"
-        alt="..."
-      />
-      <img
-        src="https://flowbite.com/docs/images/carousel/carousel-2.svg"
-        alt="..."
-      />
-      <img
-        src="https://flowbite.com/docs/images/carousel/carousel-3.svg"
-        alt="..."
-      />
-      <img
-        src="https://flowbite.com/docs/images/carousel/carousel-4.svg"
-        alt="..."
-      />
-      <img
-        src="https://flowbite.com/docs/images/carousel/carousel-5.svg"
-        alt="..."
-      />
+    <Carousel className="mt-5 h-2/5">
+      <img src={MainImage1} alt="..." />
+      <img src={MainImage2} alt="..." />
+      <img src={MainImage3} alt="..." />
+      <img src={MainImage4} alt="..." />
+      <img src={MainImage1} alt="..." />
     </Carousel>
   );
 }
