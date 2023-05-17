@@ -11,10 +11,12 @@ import MatchingPage from "./pages/MatchingPage";
 import ChattingPage from "./pages/ChattingPage";
 import MyPage from "./pages/MyPage";
 import ProfilePage from "./pages/ProfilePage";
+import HomePage from "./pages/HomePage";
 import ReservationPage from "./pages/ReservationPage";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
+  const AuthHomePage = Auth(HomePage, null);
   const AuthLoginPage = Auth(LoginPage, false);
   const AuthSignupPage = Auth(SignupPage, false);
   const AuthMatchingPage = Auth(MatchingPage, true);
@@ -28,6 +30,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<AuthLandingPage />} />
+        <Route path="/home" element={<AuthHomePage />} />
         <Route path="/login" element={<AuthLoginPage />} />
         <Route path="/signup" element={<AuthSignupPage />} />
         <Route path="/matching" element={<AuthMatchingPage />} />
