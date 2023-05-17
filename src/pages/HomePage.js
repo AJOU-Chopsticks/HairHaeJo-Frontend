@@ -1,13 +1,15 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import Body from "../components/HomePage/Body";
 import Footer from "../components/HomePage/Footer";
+import Testmonial from "../components/HomePage/Testmonial";
 
 function HomePage() {
-  const user = useSelector((state) => state.user);
   return (
     <div className="container mx-auto pt-16 h-screen">
       <Body />
+      <br></br>
+      <Testmonial />
+      <br></br>
       <Footer />
     </div>
   );
