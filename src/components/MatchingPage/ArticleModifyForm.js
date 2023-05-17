@@ -8,7 +8,8 @@ import {
   styleList,
   cutMaleList,
   cutFemaleList,
-  permList,
+  permMaleList,
+  permFemaleList,
   dyeingList,
 } from "../../global/Constants";
 import Loading from "../Layout/Loading";
@@ -267,11 +268,17 @@ function ArticleModifyForm(props) {
                               </option>
                             )))}
                       {style === "펌" &&
-                        permList.map((item) => (
-                          <option value={item} key={item}>
-                            {item}
-                          </option>
-                        ))}
+                        (user.gender === 0
+                          ? permMaleList.map((item) => (
+                              <option value={item} key={item}>
+                                {item}
+                              </option>
+                            ))
+                          : permFemaleList.map((item) => (
+                              <option value={item} key={item}>
+                                {item}
+                              </option>
+                            )))}
                       {style === "염색" &&
                         dyeingList.map((item) => (
                           <option value={item} key={item}>
