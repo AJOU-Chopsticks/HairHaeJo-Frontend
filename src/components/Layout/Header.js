@@ -130,7 +130,7 @@ function Header() {
               !mobileMenu && "hidden"
             } justify-between items-center w-full md:flex md:w-auto md:order-1`}
           >
-            <ul className="flex flex-col mt-4 font-medium md:flex-row md:space-x-8 md:mt-0">
+            <ul className="flex flex-col mt-4 font-bold md:flex-row md:space-x-8 md:mt-0">
               <li>
                 <Link
                   to="/"

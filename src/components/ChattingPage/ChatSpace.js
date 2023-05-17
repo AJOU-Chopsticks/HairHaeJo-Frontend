@@ -313,8 +313,8 @@ function ChatSpace(props) {
                 </svg>
               </button>
 
-              <textarea
-                rows="1"
+              <input
+                type="text"
                 className="block mx-2 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 placeholder="메시지를 입력해주세요.."
                 value={
@@ -324,7 +324,7 @@ function ChatSpace(props) {
                 }
                 onChange={(e) => setChatText(e.target.value)}
                 disabled={chatImage !== NoImage}
-              ></textarea>
+              ></input>
               <button
                 type="submit"
                 className="inline-flex justify-center p-2 text-primary-600 rounded-full cursor-pointer hover:bg-primary-100 dark:text-primary-500 dark:hover:bg-gray-600"
