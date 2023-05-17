@@ -2,11 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+/* @import url(//fonts.googleapis.com/earlyaccess/jejugothic.css); */
+
+@font-face {
+  font-family: "GmarketSansMedium";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
 
 body {
   margin: 0;
-  font-family: "Jeju Gothic", sans-serif;
+  /* font-family: "Jeju Gothic", sans-serif; */
+  font-family: "GmarketSansMedium", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

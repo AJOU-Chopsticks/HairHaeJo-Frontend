@@ -1,12 +1,16 @@
 import React from "react";
-import TestButton from "../components/LandingPage/TestButton";
-import { useSelector } from "react-redux";
 import Landing from "../components/LandingPage/Landing";
+import Slider from "../components/LandingPage/Slider";
+import Testmonial from "../components/LandingPage/Testmonial";
+import Footer from "../components/LandingPage/Footer";
 
 function LandingPage() {
   return (
-    <div className="container mx-auto pt-16 h-screen">
+    <div className="mx-auto pt-16 h-screen">
       <Landing />
+      <Slider />
+      <Testmonial />
+      <Footer />
     </div>
   );
 }

@@ -52,8 +52,8 @@ function Header() {
           </button>
           <Link to="/" className="flex items-center">
             <img src={MainIcon} className="mr-3 h-9" alt="Header_Icon" />
-            <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-              HairHaeJo
+            <span className="self-center text-2xl font-bold whitespace-nowrap dark:text-white">
+              헤어해죠
             </span>
           </Link>
           <div className="flex items-center md:order-2">
@@ -75,8 +75,8 @@ function Header() {
             ) : (
               <>
                 <Link
-                  to="/"
-                  className="text-gray-800 dark:text-white hover:bg-gray-50 hover:text-primary-700 border-2 border-white dark:border-gray-800 hover:border-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-md px-3 py-1 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800 hidden md:flex flex-row items-center justify-center"
+                  to="/mypage"
+                  className="text-gray-800 dark:text-white hover:bg-gray-50 hover:text-primary-700 border-2 border-white dark:border-gray-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-md px-3 py-1 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800 hidden md:flex flex-row items-center justify-center"
                 >
                   <img
                     className="w-9 h-9 rounded-full mr-2"

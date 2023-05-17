@@ -1,14 +1,15 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Footer() {
   return (
-    <footer className="bg-neutral-100 text-center text-neutral-600 dark:bg-neutral-600 dark:text-neutral-200 lg:text-left">
-      <div className="flex items-center justify-center border-b-2 border-neutral-200 p-6 dark:border-neutral-500 lg:justify-between">
+    <footer className="mt-20 pb-16 md:pb-0 bg-primary-100 text-center text-neutral-600 dark:bg-primary-600 dark:text-neutral-200 lg:text-left">
+      <div className="flex items-center justify-center border-b-2 border-primary-200 p-6 dark:border-primary-500 lg:justify-between">
         <div className="mr-12 hidden lg:block">
-          <span>다양한 소셜 네트워크에서도 확인할 수 있습니다.:</span>
+          <span>다양한 소셜 네트워크에서도 확인할 수 있습니다.</span>
         </div>
         <div className="flex justify-center">
-          <a href="#!" className="mr-6 text-neutral-600 dark:text-neutral-200">
+          <button className="mr-6 text-neutral-600 dark:text-neutral-200">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4"
@@ -17,8 +18,8 @@ function Footer() {
             >
               <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
             </svg>
-          </a>
-          <a href="#!" className="mr-6 text-neutral-600 dark:text-neutral-200">
+          </button>
+          <button className="mr-6 text-neutral-600 dark:text-neutral-200">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4"
@@ -27,8 +28,8 @@ function Footer() {
             >
               <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
             </svg>
-          </a>
-          <a href="#!" className="mr-6 text-neutral-600 dark:text-neutral-200">
+          </button>
+          <button className="mr-6 text-neutral-600 dark:text-neutral-200">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4"
@@ -37,7 +38,7 @@ function Footer() {
             >
               <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
             </svg>
-          </a>
+          </button>
         </div>
       </div>
 
@@ -55,12 +56,16 @@ function Footer() {
               </svg>
               당부사항
             </h6>
-            <p>
-              * 헤어해죠에 대해 궁금한 점이 있다면, 오른쪽에 있는 정보들을
-              참고하여 언제든 연락주시길 바랍니다.<br></br>* 또한, 갤러리
-              이미지를 포함한 모든 컨텐츠의 저작권은 미창조(주)에 있으며
-              무단복제를 금합니다.
-            </p>
+            <ul class="list-disc ml-4">
+              <li>
+                헤어해죠에 대해 궁금한 점이 있다면, 오른쪽에 있는 정보들을
+                참고하여 언제든 연락주시기 바랍니다.
+              </li>
+              <li>
+                또한, 이미지를 포함한 모든 컨텐츠의 저작권은 컨텐츠 제공자에게
+                있으며 무단복제를 금합니다.
+              </li>
+            </ul>
           </div>
           <div>
             <h6 className="mb-4 flex justify-center font-semibold uppercase md:justify-start">
@@ -70,43 +75,43 @@ function Footer() {
               INFORMATION
             </h6>
             <p className="mb-4 flex items-center justify-center md:justify-start">
-              상호명: 미창조(주)
+              상호명: 헤어해죠
             </p>
             <p className="mb-4 flex items-center justify-center md:justify-start">
-              대표이사/회장: 오원석, 이성규, 홍건화, 목대희, 박수길
+              팀원: 오원석, 이성규, 홍건화, 목대희, 박수길
             </p>
             <p className="mb-4 flex items-center justify-center md:justify-start">
               사업자등록번호: 123-45-67890
             </p>
           </div>
-          <div className="">
+          <div>
             <h6 className="mb-4 flex justify-center font-semibold uppercase md:justify-start">
-              참고목록
+              후원
             </h6>
             <p className="mb-4">
-              <a href="#!" className="text-neutral-600 dark:text-neutral-200">
-                통계
-              </a>
+              <button className="text-neutral-600 dark:text-neutral-200">
+                아주대학교
+              </button>
             </p>
             <p className="mb-4">
-              <a href="#!" className="text-neutral-600 dark:text-neutral-200">
-                상품 매장
-              </a>
+              <button className="text-neutral-600 dark:text-neutral-200">
+                소프트웨어학과
+              </button>
             </p>
             <p className="mb-4">
-              <a href="#!" className="text-neutral-600 dark:text-neutral-200">
-                광고
-              </a>
+              <button className="text-neutral-600 dark:text-neutral-200">
+                SW캡스톤디자인
+              </button>
             </p>
             <p>
-              <a href="#!" className="text-neutral-600 dark:text-neutral-200">
-                FAQ
-              </a>
+              <button className="text-neutral-600 dark:text-neutral-200">
+                Chopsticks
+              </button>
             </p>
           </div>
           <div>
             <h6 className="mb-4 flex justify-center font-semibold uppercase md:justify-start">
-              Contact
+              연락
             </h6>
             <p className="mb-4 flex items-center justify-center md:justify-start">
               <svg
@@ -130,7 +135,7 @@ function Footer() {
                 <path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z" />
                 <path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z" />
               </svg>
-              help@hairhaejo.net
+              hairhaejo@gmail.com
             </p>
             <p className="mb-4 flex items-center justify-center md:justify-start">
               <svg
@@ -166,14 +171,14 @@ function Footer() {
         </div>
       </div>
 
-      <div className="bg-neutral-200 p-6 text-center dark:bg-neutral-700">
+      <div className="bg-primary-200 p-6 text-center dark:bg-primary-700">
         <span>© 2023 Copyright: </span>
-        <a
+        <Link
           className="font-semibold text-neutral-600 dark:text-neutral-400"
-          href="https://tailwind-elements.com/"
+          to="/"
         >
           HairHaeJo All rights reserved.
-        </a>
+        </Link>
       </div>
     </footer>
   );

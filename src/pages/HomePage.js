@@ -1,7 +1,7 @@
 import React from "react";
 import Body from "../components/HomePage/Body";
-import Footer from "../components/HomePage/Footer";
-import Testmonial from "../components/HomePage/Testmonial";
+import Footer from "../components/LandingPage/Footer";
+import Testmonial from "../components/LandingPage/Testmonial";
 
 function HomePage() {
   return (
