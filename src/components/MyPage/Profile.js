@@ -10,7 +10,7 @@ function Profile(props) {
   const user = useSelector((state) => state.user);
 
   return (
-    <div className="container mx-auto px-4 mt-20">
+    <div className="mx-auto px-4 mt-20">
       <div className="relative flex flex-col min-w-0 break-words bg-white dark:bg-gray-700 dark:text-gray-400 w-full mb-6 shadow-xl rounded-lg">
         <div className="flex flex-wrap justify-center">
           <div className="w-full lg:w-2/12 px-4 lg:order-2 flex justify-center">

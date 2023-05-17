@@ -135,7 +135,7 @@ function BottomNav() {
           type="button"
           className="inline-flex flex-col items-center justify-center px-0 hover:bg-gray-50 dark:hover:bg-gray-800 group"
           onClick={() => {
-            navigation("/");
+            navigation("/mypage");
           }}
         >
           <img
