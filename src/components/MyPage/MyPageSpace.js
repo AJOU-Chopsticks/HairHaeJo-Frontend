@@ -6,6 +6,7 @@ import axios from "axios";
 import { API } from "../../global/Constants";
 import { useSelector } from "react-redux";
 import PortfolioSpace from "./PortfolioSpace";
+import MenuSpace from "./MenuSpace";
 
 function MyPageSpace(props) {
   const user = useSelector((state) => state.user);
@@ -72,8 +73,10 @@ function MyPageSpace(props) {
               reload={reload}
               setReload={setReload}
             />
-          ) : (
+          ) : props.profileType === "portfolio" ? (
             <PortfolioSpace reload={reload} setReload={setReload} />
+          ) : (
+            <MenuSpace />
           )}
         </>
       )}

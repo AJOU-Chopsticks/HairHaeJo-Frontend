@@ -39,6 +39,7 @@ function ArticleDetail(props) {
       )
       .then((response) => {
         if (response.data.success) {
+          document.body.classList.remove("overflow-hidden");
           navigation("/chat");
         } else alert("채팅방 생성에 실패했습니다.");
       })

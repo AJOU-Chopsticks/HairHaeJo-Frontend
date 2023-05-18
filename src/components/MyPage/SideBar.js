@@ -3,6 +3,7 @@ import My_Celebrity from "../../images/My_Celebrity.png";
 import My_Haircut from "../../images/My_Haircut.png";
 import My_Salon from "../../images/My_Salon.png";
 import Portfolio from "../../images/Portfolio.png";
+import MenuImage from "../../images/MenuImage.png";
 import Tabs from "./Tabs";
 import { useSelector } from "react-redux";
 
@@ -64,6 +65,21 @@ function SideBar(props) {
                 >
                   <img className="mr-3 w-6" src={Portfolio} alt="Portfolio" />
                   <span>포트폴리오</span>
+                </button>
+              </li>
+            )}
+            {user.role === "ROLE_DESIGNER" && (
+              <li>
+                <button
+                  onClick={() => props.setProfileType("menu")}
+                  className={`w-full flex items-center justify-center p-2 text-base font-normal rounded-lg dark:text-white dark:hover:bg-gray-700 group ${
+                    props.profileType === "menu"
+                      ? "bg-primary-500 text-white hover:bg-primary-700"
+                      : "text-gray-900 hover:bg-gray-200"
+                  }`}
+                >
+                  <img className="mr-3 w-6" src={MenuImage} alt="MenuImage" />
+                  <span>내 메뉴</span>
                 </button>
               </li>
             )}
