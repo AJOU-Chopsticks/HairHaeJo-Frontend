@@ -3,6 +3,7 @@ import My_Haircut from "../../images/My_Haircut.png";
 import My_Salon from "../../images/My_Salon.png";
 import Portfolio from "../../images/Portfolio.png";
 import MenuImage from "../../images/MenuImage.png";
+import Reservation from "../../images/Reservation.png";
 import { useSelector } from "react-redux";
 
 function Tabs(props) {
@@ -68,6 +69,20 @@ function Tabs(props) {
               {"내 메뉴"}
             </button>
           </li>
+          <li>
+            <button
+              onClick={() => props.setProfileType("reservation")}
+              aria-current="page"
+              className={`whitespace-nowrap ${
+                props.profileType === "reservation"
+                  ? "w-full inline-flex justify-center p-4 text-primary-600 border-b-2 border-primary-600 rounded-t-lg active dark:text-primary-500 dark:border-primary-500 group"
+                  : "w-full inline-flex justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
+              }`}
+            >
+              <img className="mr-3 w-6" src={Reservation} alt="Reservation" />
+              {"예약 목록"}
+            </button>
+          </li>
         </ul>
       </div>
     );
@@ -79,7 +94,7 @@ function Tabs(props) {
           <li>
             <button
               onClick={() => props.setProfileType("profile")}
-              className={`${
+              className={`whitespace-nowrap ${
                 props.profileType === "profile"
                   ? "w-full inline-flex justify-center p-4 text-primary-600 border-b-2 border-primary-600 rounded-t-lg active dark:text-primary-500 dark:border-primary-500 group"
                   : "w-full inline-flex justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
@@ -93,7 +108,7 @@ function Tabs(props) {
             <button
               onClick={() => props.setProfileType("change")}
               aria-current="page"
-              className={`${
+              className={`whitespace-nowrap ${
                 props.profileType === "change"
                   ? "w-full inline-flex justify-center p-4 text-primary-600 border-b-2 border-primary-600 rounded-t-lg active dark:text-primary-500 dark:border-primary-500 group"
                   : "w-full inline-flex justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
@@ -101,6 +116,34 @@ function Tabs(props) {
             >
               <img className="mr-3 w-6" src={My_Salon} alt="My_Salon" />
               {"프로필 변경"}
+            </button>
+          </li>
+          <li>
+            <button
+              onClick={() => props.setProfileType("reservation")}
+              aria-current="page"
+              className={`whitespace-nowrap ${
+                props.profileType === "reservation"
+                  ? "w-full inline-flex justify-center p-4 text-primary-600 border-b-2 border-primary-600 rounded-t-lg active dark:text-primary-500 dark:border-primary-500 group"
+                  : "w-full inline-flex justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
+              }`}
+            >
+              <img className="mr-3 w-6" src={Reservation} alt="Reservation" />
+              {"예약 목록"}
+            </button>
+          </li>
+          <li>
+            <button
+              onClick={() => props.setProfileType("likeDesigner")}
+              aria-current="page"
+              className={`whitespace-nowrap ${
+                props.profileType === "likeDesigner"
+                  ? "w-full inline-flex justify-center p-4 text-primary-600 border-b-2 border-primary-600 rounded-t-lg active dark:text-primary-500 dark:border-primary-500 group"
+                  : "w-full inline-flex justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
+              }`}
+            >
+              <img className="mr-3 w-6" src={MenuImage} alt="MenuImage" />
+              {"관심 디자이너"}
             </button>
           </li>
         </ul>

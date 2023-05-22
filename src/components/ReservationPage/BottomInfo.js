@@ -115,8 +115,8 @@ function BottomInfo(props) {
         } else alert("카카오페이 결제에 실패했습니다.");
       })
       .catch((err) => {
-        if (err.response.data.message) alert(err.response.data.message);
-        else alert("카카오페이 결제에 실패했습니다.");
+        if (err.response.data.message) console.log(err.response.data.message);
+        else console.log("카카오페이 결제에 실패했습니다.");
       });
   }, [ready, kakaoPay, paymentDone, props]);
 
