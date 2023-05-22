@@ -85,6 +85,7 @@ function ReservationDesigner(props) {
       <ReviewModal
         showModal={showReviewModal}
         setShowModal={setShowReviewModal}
+        target={target}
       />
     </>
   );

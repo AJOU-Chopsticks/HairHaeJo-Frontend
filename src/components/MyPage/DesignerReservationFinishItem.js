@@ -38,10 +38,12 @@ function DesignerReservationFinishItem(props) {
   };
 
   const showReview = () => {
+    document.body.classList.add("overflow-hidden");
     props.setShowReviewModal(true);
     props.setTarget({
       ...props.target,
       reservationId: props.data.reservationId,
+      userId: props.data.userId,
     });
   };
 

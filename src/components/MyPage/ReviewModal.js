@@ -7,9 +7,12 @@ import axios from "axios";
 function ReviewModal(props) {
   const user = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
+  const [loadingReport, setLoadingReport] = useState(false);
   const [reload, setReload] = useState(false);
   const [reviewBody, setReviewBody] = useState("");
   const [reviewData, setReviewData] = useState({});
+  const [reportReason, setReportReason] = useState("");
+  const [showReport, setShowReport] = useState(false);
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -41,6 +44,41 @@ function ReviewModal(props) {
         else alert("후기 등록에 실패했습니다.");
       })
       .then(() => setLoading(false));
+  };
+
+  const reportSubmitHandler = (event) => {
+    event.preventDefault();
+
+    if (reportReason === "") return alert("신고 내용을 입력해주세요.");
+
+    setLoadingReport(true);
+    axios
+      .post(
+        API + "/user/report",
+        {
+          type: "REVIEW",
+          targetUserId: props.target.userId,
+          reason: reportReason,
+        },
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      )
+      .then((response) => {
+        if (response.data.success) {
+          alert("신고 등록 완료!");
+
+          setReportReason("");
+          setShowReport(false);
+        } else alert("신고 등록에 실패했습니다.");
+      })
+      .catch((err) => {
+        if (err.response.data.message) alert(err.response.data.message);
+        else alert("신고 등록에 실패했습니다.");
+      })
+      .then(() => setLoadingReport(false));
   };
 
   useEffect(() => {
@@ -77,6 +115,8 @@ function ReviewModal(props) {
             className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
             onClick={() => {
               document.body.classList.remove("overflow-hidden");
+              setShowReport(false);
+              setReportReason("");
               props.setShowModal(false);
             }}
           >
@@ -221,6 +261,50 @@ function ReviewModal(props) {
                     </button>
                   )}
                 </form>
+                {!showReport ? (
+                  <button
+                    type="button"
+                    className="w-full inline-flex items-center justify-center text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-10 text-center dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
+                    onClick={() => setShowReport(true)}
+                  >
+                    후기 신고
+                  </button>
+                ) : (
+                  <form
+                    className="space-y-6 mt-10"
+                    onSubmit={reportSubmitHandler}
+                  >
+                    <div>
+                      <label
+                        htmlFor="reason"
+                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      >
+                        신고 내용{" "}
+                        <span className="text-red-600 font-bold">*</span>
+                      </label>
+                      <textarea
+                        id="reason"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                        placeholder="신고 내용"
+                        rows={8}
+                        value={reportReason}
+                        onChange={(event) =>
+                          setReportReason(event.target.value)
+                        }
+                      />
+                    </div>
+                    {loadingReport ? (
+                      <Loading />
+                    ) : (
+                      <button
+                        type="submit"
+                        className="w-full text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                      >
+                        신고하기
+                      </button>
+                    )}
+                  </form>
+                )}
               </>
             )}
           </div>
