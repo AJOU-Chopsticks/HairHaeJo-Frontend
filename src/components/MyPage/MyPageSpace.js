@@ -7,6 +7,8 @@ import { API } from "../../global/Constants";
 import { useSelector } from "react-redux";
 import PortfolioSpace from "./PortfolioSpace";
 import MenuSpace from "./MenuSpace";
+import ReservationSpace from "./ReservationSpace";
+import LikeDesignerList from "./LikeDesignerList";
 
 function MyPageSpace(props) {
   const user = useSelector((state) => state.user);
@@ -75,8 +77,12 @@ function MyPageSpace(props) {
             />
           ) : props.profileType === "portfolio" ? (
             <PortfolioSpace reload={reload} setReload={setReload} />
-          ) : (
+          ) : props.profileType === "menu" ? (
             <MenuSpace />
+          ) : props.profileType === "reservation" ? (
+            <ReservationSpace />
+          ) : (
+            <LikeDesignerList />
           )}
         </>
       )}

@@ -12,7 +12,7 @@ function Landing() {
   };
 
   return (
-    <section className="bg-center bg-no-repeat bg-[url('https://img.freepik.com/free-vector/flat-composition-with-hair-salon-interior-hairdressers-and-barber-working-with-clients-vector-illustration_1284-71554.jpg?w=1800&t=st=1684339492~exp=1684340092~hmac=00296d1a01a61f3f5f138783a908dddda0e314b2c0cd58e0474cc0245191a0b3')] bg-gray-500 bg-blend-multiply">
+    <section className="bg-cover bg-center bg-no-repeat bg-[url('https://img.freepik.com/free-vector/flat-composition-with-hair-salon-interior-hairdressers-and-barber-working-with-clients-vector-illustration_1284-71554.jpg?w=1800&t=st=1684339492~exp=1684340092~hmac=00296d1a01a61f3f5f138783a908dddda0e314b2c0cd58e0474cc0245191a0b3')] bg-gray-500 bg-blend-multiply">
       <div className="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56">
         <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl">
           헤어해죠에 오신 것을 환영합니다!

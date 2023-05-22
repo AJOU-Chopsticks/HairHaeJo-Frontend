@@ -4,6 +4,7 @@ import My_Haircut from "../../images/My_Haircut.png";
 import My_Salon from "../../images/My_Salon.png";
 import Portfolio from "../../images/Portfolio.png";
 import MenuImage from "../../images/MenuImage.png";
+import Reservation from "../../images/Reservation.png";
 import Tabs from "./Tabs";
 import { useSelector } from "react-redux";
 
@@ -80,6 +81,34 @@ function SideBar(props) {
                 >
                   <img className="mr-3 w-6" src={MenuImage} alt="MenuImage" />
                   <span>내 메뉴</span>
+                </button>
+              </li>
+            )}
+            <li>
+              <button
+                onClick={() => props.setProfileType("reservation")}
+                className={`w-full flex items-center justify-center p-2 text-base font-normal rounded-lg dark:text-white dark:hover:bg-gray-700 group ${
+                  props.profileType === "reservation"
+                    ? "bg-primary-500 text-white hover:bg-primary-700"
+                    : "text-gray-900 hover:bg-gray-200"
+                }`}
+              >
+                <img className="mr-3 w-6" src={Reservation} alt="Reservation" />
+                <span>예약 목록</span>
+              </button>
+            </li>
+            {user.role === "ROLE_USER" && (
+              <li>
+                <button
+                  onClick={() => props.setProfileType("likeDesigner")}
+                  className={`w-full flex items-center justify-center p-2 text-base font-normal rounded-lg dark:text-white dark:hover:bg-gray-700 group ${
+                    props.profileType === "likeDesigner"
+                      ? "bg-primary-500 text-white hover:bg-primary-700"
+                      : "text-gray-900 hover:bg-gray-200"
+                  }`}
+                >
+                  <img className="mr-3 w-6" src={MenuImage} alt="MenuImage" />
+                  <span>관심 디자이너</span>
                 </button>
               </li>
             )}

@@ -22,7 +22,7 @@ function Profile(props) {
           </div>
           <div className="w-full lg:w-5/12 px-4 lg:order-1">
             {user.role === "ROLE_USER" && (
-              <div className="flex justify-around lg:py-4 lg:pt-4 pt-16">
+              <div className="flex justify-around lg:py-4 lg:pt-4 pt-24">
                 <div className="mr-4 py-3 text-center">
                   <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
                     {props.profileInfo.skinType === 0
