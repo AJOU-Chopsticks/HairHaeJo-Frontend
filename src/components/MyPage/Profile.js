@@ -3,7 +3,6 @@ import { FaMapMarkerAlt } from "react-icons/fa";
 import { HiOutlineMail } from "react-icons/hi";
 import { GrContactInfo } from "react-icons/gr";
 import { BsFillTelephoneFill } from "react-icons/bs";
-import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function Profile(props) {
@@ -11,7 +10,7 @@ function Profile(props) {
 
   return (
     <div className="mx-auto px-4 mt-20">
-      <div className="relative flex flex-col min-w-0 break-words bg-white dark:bg-gray-700 dark:text-gray-400 w-full mb-6 shadow-xl rounded-lg">
+      <div className="relative flex flex-col min-w-0 break-words bg-white dark:bg-gray-700 dark:text-gray-400 w-full pb-20 mb-6 shadow-xl rounded-lg">
         <div className="flex flex-wrap justify-center">
           <div className="w-full lg:w-2/12 px-4 lg:order-2 flex justify-center">
             <img
@@ -121,7 +120,7 @@ function Profile(props) {
             </div>
           )}
         </div>
-        <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
+        {/* <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
           <div className="flex flex-wrap justify-center">
             <div className="w-full lg:w-9/12 px-4">
               <p className="mb-4 text-lg leading-relaxed text-blueGray-700">
@@ -132,7 +131,7 @@ function Profile(props) {
               </Link>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
