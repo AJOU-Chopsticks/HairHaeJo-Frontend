@@ -94,10 +94,12 @@ function UserReservationFinishItem(props) {
   };
 
   const showReview = () => {
+    document.body.classList.add("overflow-hidden");
     props.setShowMyReviewModal(true);
     props.setTarget({
       ...props.target,
       reservationId: props.data.reservationId,
+      reviewId: props.data.reviewId,
     });
   };
 
@@ -108,7 +110,7 @@ function UserReservationFinishItem(props) {
           <span className="text-lg font-bold">
             {stringTodate(props.data.date)}
           </span>
-          {false ? ( // API 수정되면 후기 작성 여부 확인
+          {props.data.reviewId === -1 ? (
             <button className="text-primary-600" onClick={writeReview}>
               후기 작성
             </button>

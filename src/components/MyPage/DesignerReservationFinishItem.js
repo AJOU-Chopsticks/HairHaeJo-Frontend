@@ -44,6 +44,7 @@ function DesignerReservationFinishItem(props) {
       ...props.target,
       reservationId: props.data.reservationId,
       userId: props.data.userId,
+      reviewId: props.data.reviewId,
     });
   };
 
@@ -53,9 +54,11 @@ function DesignerReservationFinishItem(props) {
         <span className="text-lg font-bold">
           {stringTodate(props.data.date)}
         </span>
-        <button className="text-primary-600" onClick={showReview}>
-          후기 확인
-        </button>
+        {props.data.reviewId !== -1 && (
+          <button className="text-primary-600" onClick={showReview}>
+            후기 확인
+          </button>
+        )}
       </div>
       <div className="bg-gray-100 p-4 my-2 text-gray-400 text-base rounded-md">
         <div className="w-24 min-[450px]:w-40 text-black mb-2">
