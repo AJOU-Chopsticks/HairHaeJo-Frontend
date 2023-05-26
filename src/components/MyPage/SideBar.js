@@ -41,19 +41,21 @@ function SideBar(props) {
                 <span>내 프로필</span>
               </button>
             </li>
-            <li>
-              <button
-                onClick={() => props.setProfileType("change")}
-                className={`w-full flex items-center justify-center p-2 text-base font-normal rounded-lg dark:text-white dark:hover:bg-gray-700 group ${
-                  props.profileType === "change"
-                    ? "bg-primary-500 text-white hover:bg-primary-700"
-                    : "text-gray-900 hover:bg-gray-200"
-                }`}
-              >
-                <img className="mr-3 w-6" src={My_Salon} alt="My_Salon" />
-                <span>프로필 변경</span>
-              </button>
-            </li>
+            {user.role !== "ROLE_ADMIN" && (
+              <li>
+                <button
+                  onClick={() => props.setProfileType("change")}
+                  className={`w-full flex items-center justify-center p-2 text-base font-normal rounded-lg dark:text-white dark:hover:bg-gray-700 group ${
+                    props.profileType === "change"
+                      ? "bg-primary-500 text-white hover:bg-primary-700"
+                      : "text-gray-900 hover:bg-gray-200"
+                  }`}
+                >
+                  <img className="mr-3 w-6" src={My_Salon} alt="My_Salon" />
+                  <span>프로필 변경</span>
+                </button>
+              </li>
+            )}
             {user.role === "ROLE_DESIGNER" && (
               <li>
                 <button
@@ -84,19 +86,25 @@ function SideBar(props) {
                 </button>
               </li>
             )}
-            <li>
-              <button
-                onClick={() => props.setProfileType("reservation")}
-                className={`w-full flex items-center justify-center p-2 text-base font-normal rounded-lg dark:text-white dark:hover:bg-gray-700 group ${
-                  props.profileType === "reservation"
-                    ? "bg-primary-500 text-white hover:bg-primary-700"
-                    : "text-gray-900 hover:bg-gray-200"
-                }`}
-              >
-                <img className="mr-3 w-6" src={Reservation} alt="Reservation" />
-                <span>예약 목록</span>
-              </button>
-            </li>
+            {user.role !== "ROLE_ADMIN" && (
+              <li>
+                <button
+                  onClick={() => props.setProfileType("reservation")}
+                  className={`w-full flex items-center justify-center p-2 text-base font-normal rounded-lg dark:text-white dark:hover:bg-gray-700 group ${
+                    props.profileType === "reservation"
+                      ? "bg-primary-500 text-white hover:bg-primary-700"
+                      : "text-gray-900 hover:bg-gray-200"
+                  }`}
+                >
+                  <img
+                    className="mr-3 w-6"
+                    src={Reservation}
+                    alt="Reservation"
+                  />
+                  <span>예약 목록</span>
+                </button>
+              </li>
+            )}
             {user.role === "ROLE_USER" && (
               <li>
                 <button

@@ -13,6 +13,7 @@ import MyPage from "./pages/MyPage";
 import ProfilePage from "./pages/ProfilePage";
 import ReservationPage from "./pages/ReservationPage";
 import CRMPage from "./pages/CRMPage";
+import AdminPage from "./pages/AdminPage";
 
 function App() {
   const AuthLandingPage = Auth(LandingPage, null);
@@ -24,6 +25,7 @@ function App() {
   const AuthProfilePage = Auth(ProfilePage, true);
   const AuthReservationPage = Auth(ReservationPage, true);
   const AuthCRMPage = Auth(CRMPage, true);
+  const AuthAdminPage = Auth(AdminPage, true, true);
 
   return (
     <div className="bg-gray-50 dark:bg-gray-900 m-0">
@@ -41,6 +43,7 @@ function App() {
           element={<AuthReservationPage />}
         />
         <Route path="/crm" element={<AuthCRMPage />} />
+        <Route path="/admin" element={<AuthAdminPage />} />
       </Routes>
       <BottomNav />
     </div>
