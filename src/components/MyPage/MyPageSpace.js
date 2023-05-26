@@ -55,6 +55,9 @@ function MyPageSpace(props) {
         })
         .then(() => setLoading(false));
     }
+    if (user.role === "ROLE_ADMIN") {
+      setLoading(false);
+    }
   }, [reload, user.role, user.userId]);
 
   return (

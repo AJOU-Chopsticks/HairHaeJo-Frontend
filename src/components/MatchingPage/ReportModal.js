@@ -20,6 +20,7 @@ function ReportModal(props) {
           type: "ARTICLE",
           targetUserId: props.userId,
           reason: reportReason,
+          targetId: props.targetId,
         },
         {
           headers: {

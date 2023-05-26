@@ -240,6 +240,7 @@ function ArticleDetail(props) {
         showModal={showReport}
         setShowModal={setShowReport}
         userId={articleInfo.userId}
+        targetId={props.detailTarget}
       />
       <DeleteModal
         showModal={showDelete}

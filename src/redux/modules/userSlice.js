@@ -91,7 +91,7 @@ const userSlice = createSlice({
       state.phoneNumber = payload.payload.phoneNumber;
       state.profileImage = payload.payload.profileImage;
       state.role = payload.payload.role;
-      state.isAdmin = payload.payload.role === 3 ? true : false;
+      state.isAdmin = payload.payload.role === "ROLE_ADMIN" ? true : false;
       state.userId = payload.payload.userId;
       state.location = payload.payload.location;
     });

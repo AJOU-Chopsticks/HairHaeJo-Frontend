@@ -59,6 +59,7 @@ function ReviewModal(props) {
           type: "REVIEW",
           targetUserId: props.target.userId,
           reason: reportReason,
+          targetId: props.target.reviewId,
         },
         {
           headers: {

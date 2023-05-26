@@ -86,7 +86,7 @@ function Tabs(props) {
         </ul>
       </div>
     );
-  } else {
+  } else if (user.role === "ROLE_USER") {
     // 고객 프로필
     return (
       <div className="px-4 border-b border-gray-200 dark:border-gray-700 md:hidden">

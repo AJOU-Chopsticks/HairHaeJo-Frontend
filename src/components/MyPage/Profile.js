@@ -94,30 +94,34 @@ function Profile(props) {
           <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
             {user.name}
           </h3>
-          <div className="flex flex-row justify-center my-auto text-md leading-normal font-bold">
-            <GrContactInfo className="mr-2 text-xl text-blueGray-400 dark:hidden" />
-            {user.gender === 0 ? "남성" : "여성"} / {user.age}세
-          </div>
-          <div className="flex flex-row justify-center mb-2 text-blueGray-600 mt-10">
-            <FaMapMarkerAlt className="mr-2 text-xl text-blueGray-400" />
-            {user.role === "ROLE_USER"
-              ? props.profileInfo.abstractLocation
-              : `${props.profileInfo.hairSalonName} (${props.profileInfo.hairSalonAddress})`}
-          </div>
-          <div className="flex flex-row justify-center mb-2 text-blueGray-600">
-            <HiOutlineMail className="mr-2 text-xl text-blueGray-400" />
-            {user.email}
-          </div>
-          <div className="flex flex-row justify-center mb-2 text-blueGray-600">
-            <BsFillTelephoneFill className="mr-2 text-xl text-blueGray-400" />
-            {user.role === "ROLE_DESIGNER"
-              ? `${user.phoneNumber} (${props.profileInfo.hairSalonNumber})`
-              : `${user.phoneNumber}`}
-          </div>
-          {user.role === "ROLE_DESIGNER" && (
-            <div className="flex flex-row justify-center mt-8 text-blueGray-600">
-              {props.profileInfo.introduction}
-            </div>
+          {user.role !== "ROLE_ADMIN" && (
+            <>
+              <div className="flex flex-row justify-center my-auto text-md leading-normal font-bold">
+                <GrContactInfo className="mr-2 text-xl text-blueGray-400 dark:hidden" />
+                {user.gender === 0 ? "남성" : "여성"} / {user.age}세
+              </div>
+              <div className="flex flex-row justify-center mb-2 text-blueGray-600 mt-10">
+                <FaMapMarkerAlt className="mr-2 text-xl text-blueGray-400" />
+                {user.role === "ROLE_USER"
+                  ? props.profileInfo.abstractLocation
+                  : `${props.profileInfo.hairSalonName} (${props.profileInfo.hairSalonAddress})`}
+              </div>
+              <div className="flex flex-row justify-center mb-2 text-blueGray-600">
+                <HiOutlineMail className="mr-2 text-xl text-blueGray-400" />
+                {user.email}
+              </div>
+              <div className="flex flex-row justify-center mb-2 text-blueGray-600">
+                <BsFillTelephoneFill className="mr-2 text-xl text-blueGray-400" />
+                {user.role === "ROLE_DESIGNER"
+                  ? `${user.phoneNumber} (${props.profileInfo.hairSalonNumber})`
+                  : `${user.phoneNumber}`}
+              </div>
+              {user.role === "ROLE_DESIGNER" && (
+                <div className="flex flex-row justify-center mt-8 text-blueGray-600">
+                  {props.profileInfo.introduction}
+                </div>
+              )}
+            </>
           )}
         </div>
         {/* <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
