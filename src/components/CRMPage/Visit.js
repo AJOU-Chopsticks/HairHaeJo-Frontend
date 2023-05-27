@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Visit(props) {
-  const [visitInfo, setVisitInfo] = useState({});
+  const [articleInfo, setArticleInfo] = useState({});
   const navigation = useNavigate();
 
   const showProfile = () => {
     document.body.classList.remove("overflow-hidden");
-    navigation("/profile/user/" + visitInfo.userId);
+    navigation("/profile/user/" + articleInfo.userId);
   };
   return (
     <figure

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Visit from "./Visit";
-import VisitCategory from "./VisitCategory";
 import axios from "axios";
 import { API } from "../../global/Constants";
 import Loading from "../Layout/Loading";
@@ -45,16 +44,6 @@ function VisitList(props) {
         <Loading full={true} />
       ) : (
         <>
-          <VisitCategory
-            style={style}
-            region={region}
-            gender={gender}
-            tag={tag}
-            setStyle={setStyle}
-            setRegion={setRegion}
-            setGender={setGender}
-            setTag={setTag}
-          />
           <div className="pt-6 grid gap-4 mb-8 md:mb-12 md:grid-cols-2 xl:grid-cols-3">
             {visitData.map((item) => (
               <Visit data={item} key={item.visitId} />
