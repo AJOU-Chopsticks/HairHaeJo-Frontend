@@ -9,32 +9,21 @@ function DeleteModal(props) {
   const deleteHandler = () => {
     setLoading(true);
 
-    let visitInfo = {
-      visitId: props.detailTarget.toString(),
-    };
-
-    const formData = new FormData();
-    formData.append("jsonlist", JSON.stringify(visitInfo));
-
     axios
-      .delete(API + "/advice/article", {
+      .delete(API + "/crm/customer/memo/" + props.memoId, {
         headers: {
-          "Content-Type": "multipart/form-data",
           Authorization: localStorage.getItem("token"),
         },
-        data: formData,
       })
       .then((response) => {
         if (response.data.success) {
-          alert("삭제 완료!");
           props.setShowModal(false);
-          props.setShowDetail(false);
           props.setReload(!props.reload);
-        } else alert("방문 고객 목록 삭제에 실패했습니다.");
+        } else alert("메모 삭제에 실패했습니다.");
       })
       .catch((err) => {
         if (err.response.data.message) alert(err.response.data.message);
-        else alert("방문 고객 목록 삭제에 실패했습니다.");
+        else alert("메모 삭제에 실패했습니다.");
       })
       .then(() => setLoading(false));
   };
@@ -83,7 +72,7 @@ function DeleteModal(props) {
               ></path>
             </svg>
             <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-              정말로 삭제하시겠습니까?
+              해당 메모를 정말 삭제할까요?
             </h3>
             {loading ? (
               <Loading />
