@@ -6,6 +6,7 @@ import LineChart from "./LineChart";
 import ChartCategory from "./ChartCategory";
 import axios from "axios";
 import { API } from "../../global/Constants";
+import PieChart from "./PieChart";
 
 function Statistics() {
   const [loading, setLoading] = useState(true);
@@ -226,8 +227,14 @@ function Statistics() {
                       label={label}
                       data={countData}
                     />
-                  ) : (
+                  ) : chartType === "line" ? (
                     <LineChart
+                      name={name + " 시술 수"}
+                      label={label}
+                      data={countData}
+                    />
+                  ) : (
+                    <PieChart
                       name={name + " 시술 수"}
                       label={label}
                       data={countData}
@@ -241,8 +248,14 @@ function Statistics() {
                       label={label}
                       data={takeData}
                     />
-                  ) : (
+                  ) : chartType === "line" ? (
                     <LineChart
+                      name={name + " 매출"}
+                      label={label}
+                      data={takeData}
+                    />
+                  ) : (
+                    <PieChart
                       name={name + " 매출"}
                       label={label}
                       data={takeData}
