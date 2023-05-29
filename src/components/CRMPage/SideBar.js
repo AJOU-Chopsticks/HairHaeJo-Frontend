@@ -2,6 +2,7 @@ import React from "react";
 import HairSalonCRM from "../../images/HairSalonCRM.png";
 import VisitedCustomer from "../../images/VisitedCustomer.png";
 import Statistics from "../../images/Statistics.png";
+import Holiday from "../../images/Holiday.png";
 import Tabs from "./Tabs";
 
 function SideBar(props) {
@@ -47,6 +48,19 @@ function SideBar(props) {
               >
                 <img className="mr-3 w-6" src={Statistics} alt="Statistics" />
                 <span>통계</span>
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => props.setCRMType("holiday")}
+                className={`w-full flex items-center justify-center p-2 text-base font-normal rounded-lg dark:text-white dark:hover:bg-gray-700 group ${
+                  props.CRMType === "holiday"
+                    ? "bg-primary-500 text-white hover:bg-primary-700"
+                    : "text-gray-900 hover:bg-gray-200"
+                }`}
+              >
+                <img className="mr-3 w-6" src={Holiday} alt="Holiday" />
+                <span>휴일</span>
               </button>
             </li>
           </ul>
