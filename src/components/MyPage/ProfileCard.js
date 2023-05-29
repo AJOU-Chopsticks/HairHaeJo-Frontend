@@ -91,7 +91,7 @@ function ProfileCard(props) {
             props.data.hairSalonAddress
           )})`}
         </span>
-        <div className="flex mt-4 space-x-3 md:mt-6">
+        <div className="flex my-4 space-x-3 md:mt-6">
           <button
             className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
             onClick={showProfile}
@@ -105,6 +105,13 @@ function ProfileCard(props) {
             상담 신청
           </button>
         </div>
+        <button
+          type="button"
+          className="text-white w-[210px] bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-4 py-2 text-center"
+          onClick={() => navigation("/reservation/" + props.data.designerId)}
+        >
+          예약하기
+        </button>
       </div>
     </div>
   );
