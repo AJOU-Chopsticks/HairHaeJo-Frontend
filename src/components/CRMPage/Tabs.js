@@ -1,6 +1,6 @@
 import React from "react";
-import Hair_Cutting from "../../images/Hair_Cutting.png";
-import Hair_Dryer from "../../images/Hair_Dryer.png";
+import VisitedCustomer from "../../images/VisitedCustomer.png";
+import Statistics from "../../images/Statistics.png";
 
 function Tabs(props) {
   return (
@@ -15,22 +15,26 @@ function Tabs(props) {
                 : "w-full inline-flex justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
             }`}
           >
-            <img className="mr-3 w-6" src={Hair_Cutting} alt="Hair_Cutting" />
-            방문 기록
+            <img
+              className="mr-3 w-6"
+              src={VisitedCustomer}
+              alt="VisitedCustomer"
+            />
+            방문 고객
           </button>
         </li>
         <li className="w-1/2">
           <button
-            onClick={() => props.setCRMType("profile")}
+            onClick={() => props.setCRMType("statistics")}
             aria-current="page"
             className={`${
-              props.CRMType === "profile"
+              props.CRMType === "statistics"
                 ? "w-full inline-flex justify-center p-4 text-primary-600 border-b-2 border-primary-600 rounded-t-lg active dark:text-primary-500 dark:border-primary-500 group"
                 : "w-full inline-flex justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
             }`}
           >
-            <img className="mr-3 w-6" src={Hair_Dryer} alt="Hair_Dryer" />
-            고객 프로필
+            <img className="mr-3 w-6" src={Statistics} alt="Statistics" />
+            통계
           </button>
         </li>
       </ul>
