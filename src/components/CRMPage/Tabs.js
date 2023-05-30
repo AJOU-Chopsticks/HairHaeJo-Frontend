@@ -6,8 +6,8 @@ import Holiday from "../../images/Holiday.png";
 function Tabs(props) {
   return (
     <div className="px-4 border-b border-gray-200 dark:border-gray-700 md:hidden">
-      <ul className="flex flex-wrap -mb-px text-md font-medium text-center text-gray-500 dark:text-gray-400">
-        <li className="w-1/2">
+      <ul className="flex overflow-x-auto justify-center flex-wrap -mb-px text-md font-medium text-center text-gray-500 dark:text-gray-400">
+        <li>
           <button
             onClick={() => props.setCRMType("visit")}
             className={`${
@@ -24,7 +24,7 @@ function Tabs(props) {
             방문 고객
           </button>
         </li>
-        <li className="w-1/2">
+        <li>
           <button
             onClick={() => props.setCRMType("statistics")}
             aria-current="page"
@@ -38,7 +38,7 @@ function Tabs(props) {
             통계
           </button>
         </li>
-        <li className="w-1/2">
+        <li>
           <button
             onClick={() => props.setCRMType("holiday")}
             aria-current="page"

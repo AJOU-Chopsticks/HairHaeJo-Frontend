@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import MainIcon from "../../images/MainIcon.png";
+import Logo from "../../images/Logo.png";
 import { FaArrowLeft } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/modules/userSlice";
@@ -51,10 +51,7 @@ function Header() {
             <FaArrowLeft size={20} />
           </button>
           <Link to="/" className="flex items-center">
-            <img src={MainIcon} className="mr-3 h-9" alt="Header_Icon" />
-            <span className="self-center text-2xl font-bold whitespace-nowrap dark:text-white">
-              헤어해죠
-            </span>
+            <img src={Logo} className="h-11" alt="Logo" />
           </Link>
           <div className="flex items-center md:order-2">
             {!user.auth ? (
