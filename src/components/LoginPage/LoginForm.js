@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import MainIcon from "../../images/MainIcon.png";
+import Logo from "../../images/Logo.png";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { __asyncLogin } from "../../redux/modules/userSlice";
@@ -39,14 +39,7 @@ function LoginForm() {
     <section className="bg-gray-50 dark:bg-gray-900">
       <div className="flex flex-col items-center justify-center py-8 mx-auto h-screen lg:py-0">
         <div className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-          <img
-            src={MainIcon}
-            className="mr-3 h-9 hidden md:block"
-            alt="Header_Icon"
-          />
-          <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white hidden md:block">
-            헤어해죠
-          </span>
+          <img src={Logo} className="h-12 hidden md:block" alt="Header_Icon" />
         </div>
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
