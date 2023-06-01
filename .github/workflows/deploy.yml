@@ -20,7 +20,8 @@ jobs:
           username: ${{ secrets.USER }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd /path/to/project
+            cd /home/chopsticks/HairHaeJo-Frontend
             git pull
             npm install
+            export NODE_OPTIONS=--max_old_space_size=800
             npm run build
