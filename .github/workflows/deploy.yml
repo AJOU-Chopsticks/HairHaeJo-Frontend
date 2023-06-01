@@ -1,0 +1,26 @@
+name: React build & deploy
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code. # 레포지토리 체크아웃
+        uses: actions/checkout@main
+
+      - name: Run scripts in EC2 server
+        uses: appleboy/ssh-action@main
+        with:
+          key: ${{ secrets.SSH_KEY }}
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd /path/to/project
+            git pull
+            npm install
+            npm run build
