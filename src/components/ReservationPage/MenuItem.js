@@ -1,4 +1,5 @@
 import React from "react";
+import MainIcon from "../../images/MainIcon.png";
 
 function MenuItem(props) {
   return (
@@ -16,9 +17,7 @@ function MenuItem(props) {
         <div className="flex flex-row">
           <img
             className="mr-5 w-24 h-24 rounded-lg"
-            src={
-              "https://images.unsplash.com/photo-1682687982029-edb9aecf5f89?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1742&q=80"
-            }
+            src={MainIcon}
             alt="Menu_Image"
           />
           <div className="flex flex-col justify-between text-left">
