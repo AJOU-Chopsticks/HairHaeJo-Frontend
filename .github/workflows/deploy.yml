@@ -10,10 +10,10 @@ jobs:
 
     steps:
       - name: Checkout source code. # 레포지토리 체크아웃
-        uses: actions/checkout@main
+        uses: actions/checkout@v2
 
       - name: Run scripts in EC2 server
-        uses: appleboy/ssh-action@main
+        uses: appleboy/ssh-action@master
         with:
           key: ${{ secrets.SSH_KEY }}
           host: ${{ secrets.HOST }}
