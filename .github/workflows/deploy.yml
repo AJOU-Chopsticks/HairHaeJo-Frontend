@@ -15,7 +15,7 @@ jobs:
       - name: Run scripts in EC2 server
         uses: appleboy/ssh-action@master
         with:
-          key: ${{ secrets.SSH_KEY }}
+          password: ${{ secrets.SSH_KEY }}
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
           port: ${{ secrets.SSH_PORT }}
