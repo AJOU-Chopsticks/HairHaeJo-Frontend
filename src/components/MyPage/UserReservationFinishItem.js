@@ -35,6 +35,7 @@ function UserReservationFinishItem(props) {
       )
       .then((response) => {
         if (response.data.success) {
+          localStorage.setItem("chatRoomId", response.data.data.chatRoomId);
           document.body.classList.remove("overflow-hidden");
           navigation("/chat");
         } else alert("채팅방 생성에 실패했습니다.");
