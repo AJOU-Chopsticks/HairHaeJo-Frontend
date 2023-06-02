@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 function ChatListItem(props) {
@@ -31,6 +31,16 @@ function ChatListItem(props) {
       }-${date.getDate() <= 9 ? "0" + date.getDate() : date.getDate()}`;
     }
   };
+
+  useEffect(() => {
+    if (
+      localStorage.getItem("chatRoomId") === props.item.chatRoomId.toString()
+    ) {
+      localStorage.removeItem("chatRoomId");
+      props.setShowChatSpace(true);
+      props.setChatItem(props.item);
+    }
+  }, [props]);
 
   return (
     <li>

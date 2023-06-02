@@ -14,8 +14,10 @@ function ProfilePage() {
   const [profileType, setProfileType] = useState("profile");
 
   const sendChatting = () => {
-    if (user.role === "ROLE_DESIGNER")
+    if (user.role === "ROLE_DESIGNER" && role === "designer")
       return alert("디자이너가 디자이너에게 상담을 신청할 수 없습니다.");
+    if (user.role === "ROLE_USER" && role === "user")
+      return alert("고객이 고객에게 상담을 신청할 수 없습니다.");
 
     axios
       .post(
@@ -29,6 +31,7 @@ function ProfilePage() {
       )
       .then((response) => {
         if (response.data.success) {
+          localStorage.setItem("chatRoomId", response.data.data.chatRoomId);
           navigation("/chat");
         } else alert("채팅방 생성에 실패했습니다.");
       })

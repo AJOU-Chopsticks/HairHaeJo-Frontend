@@ -220,7 +220,13 @@ function Statistics() {
                 setChartType={setChartType}
               />
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-10 mb-12">
-                <div>
+                <div
+                  className={`${
+                    chartType === "pie"
+                      ? "w-full md:w-2/3 mx-auto"
+                      : "w-full md:w-4/5 mx-auto"
+                  }`}
+                >
                   {chartType === "bar" ? (
                     <BarChart
                       name={name + " 시술 수"}
@@ -241,7 +247,13 @@ function Statistics() {
                     />
                   )}
                 </div>
-                <div>
+                <div
+                  className={`${
+                    chartType === "pie"
+                      ? "w-full md:w-2/3 mx-auto"
+                      : "w-full md:w-4/5 mx-auto"
+                  }`}
+                >
                   {chartType === "bar" ? (
                     <BarChart
                       name={name + " 매출"}
