@@ -54,7 +54,7 @@ const ChatBubble = ({ message, image, isMyMessage, createdAt, info, type }) => {
               isMyMessage
                 ? "bg-primary-500 text-white"
                 : "bg-gray-200 dark:text-gray-200 dark:bg-gray-600"
-            } p-2 rounded-lg max-w-xs w-32 sm:w-48 lg:w-64`}
+            } p-2 rounded-lg max-w-xs w-48 sm:w-64`}
           >
             <div className={`relative p-1 break-words`}>
               <span className="text-sm">{message}</span>
@@ -62,7 +62,7 @@ const ChatBubble = ({ message, image, isMyMessage, createdAt, info, type }) => {
           </div>
         )}
         {image && (
-          <div className={"rounded-lg max-w-xs w-32 sm:w-48 lg:w-64"}>
+          <div className={"rounded-lg max-w-xs w-48 sm:w-64"}>
             <img src={image} alt="chatImage" className="rounded-lg w-full" />
           </div>
         )}

@@ -3,6 +3,7 @@ import Hair_Salon from "../../images/Hair_Salon.png";
 import Hair_Cutting from "../../images/Hair_Cutting.png";
 import Hair_Dryer from "../../images/Hair_Dryer.png";
 import Tabs from "./Tabs";
+import Advertisement from "../../global/Advertisement";
 
 function SideBar(props) {
   const [showNotice, setShowNotice] = useState(true);
@@ -18,45 +19,47 @@ function SideBar(props) {
         className="fixed top-16 left-0 z-40 w-64 h-screen transition-transform -translate-x-full md:translate-x-0"
         aria-label="Sidenav"
       >
-        <div className="overflow-y-auto py-5 px-3 h-full bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-          <div className="mb-3 flex items-center justify-center outline-none text-xl">
-            <img className="mr-2 w-9" src={Hair_Salon} alt="Hair-Dryer" />
-            <span className="text-gray-900 dark:text-white">매칭</span>
+        <div className="overflow-y-auto py-5 pb-20 px-3 h-full bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700 noScrollBar">
+          <div className="sticky top-0 z-50 bg-white">
+            <div className="mb-3 flex items-center justify-center outline-none text-xl">
+              <img className="mr-2 w-9" src={Hair_Salon} alt="Hair-Dryer" />
+              <span className="text-gray-900 dark:text-white">매칭</span>
+            </div>
+            <ul className="space-y-2 border-y-2 border-solid border-gray-100 py-3">
+              <li>
+                <button
+                  onClick={() => props.setMatchingType("general")}
+                  className={`w-full flex items-center justify-center p-2 text-base font-normal rounded-lg dark:text-white dark:hover:bg-gray-700 group ${
+                    props.matchingType === "general"
+                      ? "bg-primary-500 text-white hover:bg-primary-700"
+                      : "text-gray-900 hover:bg-gray-200"
+                  }`}
+                >
+                  <img
+                    className="mr-3 w-6"
+                    src={Hair_Cutting}
+                    alt="Hair_Cutting"
+                  />
+                  <span>일반 매칭</span>
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => props.setMatchingType("fast")}
+                  className={`w-full flex items-center justify-center p-2 text-base font-normal rounded-lg dark:text-white dark:hover:bg-gray-700 group ${
+                    props.matchingType === "fast"
+                      ? "bg-primary-500 text-white hover:bg-primary-700"
+                      : "text-gray-900 hover:bg-gray-200"
+                  }`}
+                >
+                  <img className="mr-3 w-6" src={Hair_Dryer} alt="Hair_Dryer" />
+                  <span>빠른 매칭</span>
+                </button>
+              </li>
+            </ul>
           </div>
-          <ul className="space-y-2 border-y-2 border-solid border-gray-100 py-3">
-            <li>
-              <button
-                onClick={() => props.setMatchingType("general")}
-                className={`w-full flex items-center justify-center p-2 text-base font-normal rounded-lg dark:text-white dark:hover:bg-gray-700 group ${
-                  props.matchingType === "general"
-                    ? "bg-primary-500 text-white hover:bg-primary-700"
-                    : "text-gray-900 hover:bg-gray-200"
-                }`}
-              >
-                <img
-                  className="mr-3 w-6"
-                  src={Hair_Cutting}
-                  alt="Hair_Cutting"
-                />
-                <span>일반 매칭</span>
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => props.setMatchingType("fast")}
-                className={`w-full flex items-center justify-center p-2 text-base font-normal rounded-lg dark:text-white dark:hover:bg-gray-700 group ${
-                  props.matchingType === "fast"
-                    ? "bg-primary-500 text-white hover:bg-primary-700"
-                    : "text-gray-900 hover:bg-gray-200"
-                }`}
-              >
-                <img className="mr-3 w-6" src={Hair_Dryer} alt="Hair_Dryer" />
-                <span>빠른 매칭</span>
-              </button>
-            </li>
-          </ul>
           {showNotice && (
-            <div className="p-4 mt-6 rounded-lg bg-blue-50 dark:bg-blue-900">
+            <div className="p-4 mt-6 border border-blue-300 rounded-lg bg-blue-50 dark:bg-blue-900">
               <div className="flex items-center mb-3">
                 <span className="bg-orange-100 text-orange-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-900">
                   공지
@@ -91,6 +94,7 @@ function SideBar(props) {
               </p>
             </div>
           )}
+          <Advertisement />
         </div>
       </aside>
     </div>

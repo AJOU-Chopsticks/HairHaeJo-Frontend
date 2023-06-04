@@ -32,7 +32,7 @@ function ChatList(props) {
         className="fixed top-16 left-0 z-30 w-full md:w-64 lg:w-96 h-screen transition-transform -translate-x-full translate-x-0"
         aria-label="Sidenav"
       >
-        <div className="overflow-y-auto py-5 px-3 h-full bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+        <div className="overflow-y-auto py-5 pb-20 px-3 h-full bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700 noScrollBar">
           <div className="mb-3 flex items-center justify-center outline-none text-xl">
             <img className="mr-2 w-9" src={Appointment} alt="Chatting" />
             <span className="text-gray-900 dark:text-white">상담</span>
