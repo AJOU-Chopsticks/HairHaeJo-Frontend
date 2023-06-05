@@ -9,9 +9,10 @@ function Advertisement() {
   const user = useSelector((state) => state.user);
   const navigation = useNavigate();
   const [adData, setAdData] = useState([]);
+  const [adIndex, setAdIndex] = useState(0);
 
   const showProfile = () => {
-    navigation("/profile/designer/" + adData[0].advertiserId);
+    navigation("/profile/designer/" + adData[adIndex].advertiserId);
   };
 
   const sendChatting = () => {
@@ -20,7 +21,7 @@ function Advertisement() {
 
     axios
       .post(
-        API + "/chat?userId=" + adData[0].advertiserId,
+        API + "/chat?userId=" + adData[adIndex].advertiserId,
         {},
         {
           headers: {
@@ -58,6 +59,21 @@ function Advertisement() {
       });
   }, [user.location]);
 
+  useEffect(() => {
+    if (adData.length === 0) {
+      return;
+    }
+
+    const timer = setInterval(() => {
+      if (adIndex + 1 === adData.length) setAdIndex(0);
+      else setAdIndex(adIndex + 1);
+    }, 10000);
+
+    return () => {
+      timer && clearInterval(timer);
+    };
+  }, [adData, adIndex]);
+
   if (adData.length === 0) return null;
   else {
     return (
@@ -88,29 +104,29 @@ function Advertisement() {
           </button>
         </div>
         <div className="p-2 text-primary-800 border border-primary-300 rounded-lg bg-primary-50 dark:bg-gray-800 dark:text-primary-400 dark:border-primary-800">
-          <div className="font-bold text-center">{adData[0].title}</div>
+          <div className="font-bold text-center">{adData[adIndex].title}</div>
         </div>
         <div className="flex items-center space-x-3 my-3">
           <img
             className="rounded-full w-9 h-9"
-            src={adData[0].advertiserImage}
+            src={adData[adIndex].advertiserImage}
             alt="Advertiser_Image"
           />
           <div className="space-y-0.5 text-sm font-medium dark:text-white text-left">
-            <div>{`${adData[0].advertiserName} (${adData[0].hairSalonName})`}</div>
+            <div>{`${adData[adIndex].advertiserName} (${adData[adIndex].hairSalonName})`}</div>
             <div className="text-xs text-gray-500 dark:text-gray-400">
-              {AddressToSimple(adData[0].hairSalonAddress)}
+              {AddressToSimple(adData[adIndex].hairSalonAddress)}
             </div>
           </div>
         </div>
         <figure>
           <img
             className="h-auto max-w-full rounded-lg"
-            src={adData[0].image}
+            src={adData[adIndex].image}
             alt="Advertisement_Image"
           />
           <figcaption className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-            {adData[0].text}
+            {adData[adIndex].text}
           </figcaption>
         </figure>
         <div className="flex my-4 space-x-3">
@@ -130,7 +146,9 @@ function Advertisement() {
         <button
           type="button"
           className="text-white w-full bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-primary-300 dark:focus:ring-primary-800 font-medium rounded-lg text-sm px-4 py-2 text-center"
-          onClick={() => navigation("/reservation/" + adData[0].advertiserId)}
+          onClick={() =>
+            navigation("/reservation/" + adData[adIndex].advertiserId)
+          }
         >
           예약하기
         </button>
