@@ -3,6 +3,7 @@ import ProfileCard from "./ProfileCard";
 import UnLikeDesignerModal from "./UnLikeDesignerModal";
 import axios from "axios";
 import { API } from "../../global/Constants";
+import NoData from "../../global/NoData";
 
 function LikeDesignerList() {
   const [showUnlikeModal, setShowUnlikeModal] = useState(false);
@@ -27,23 +28,25 @@ function LikeDesignerList() {
       });
   }, [reload]);
 
-  return (
-    <div className="mb-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      {likeDesignerData.map((item) => (
-        <ProfileCard
-          data={item}
-          key={item.designerId}
-          setShowUnlikeModal={setShowUnlikeModal}
+  if (likeDesignerData.length > 0)
+    return (
+      <div className="mb-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {likeDesignerData.map((item) => (
+          <ProfileCard
+            data={item}
+            key={item.designerId}
+            setShowUnlikeModal={setShowUnlikeModal}
+          />
+        ))}
+        <UnLikeDesignerModal
+          showModal={showUnlikeModal}
+          setShowModal={setShowUnlikeModal}
+          reload={reload}
+          setReload={setReload}
         />
-      ))}
-      <UnLikeDesignerModal
-        showModal={showUnlikeModal}
-        setShowModal={setShowUnlikeModal}
-        reload={reload}
-        setReload={setReload}
-      />
-    </div>
-  );
+      </div>
+    );
+  else return <NoData message={"관심 디자이너가 없습니다."} />;
 }
 
 export default LikeDesignerList;

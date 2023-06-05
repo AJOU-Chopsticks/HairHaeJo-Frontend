@@ -5,6 +5,7 @@ import Loading from "../Layout/Loading";
 import { useSelector } from "react-redux";
 import { API } from "../../global/Constants";
 import axios from "axios";
+import NoData from "../../global/NoData";
 
 function PortfolioList(props) {
   const user = useSelector((state) => state.user);
@@ -38,7 +39,7 @@ function PortfolioList(props) {
     <div className="mb-8">
       {loading ? (
         <Loading full={true} />
-      ) : (
+      ) : portfolioData.length > 0 ? (
         <>
           <div className="pt-6 mb-8 md:mb-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {portfolioData.map((item) => (
@@ -60,6 +61,8 @@ function PortfolioList(props) {
             setReload={props.setReload}
           />
         </>
+      ) : (
+        <NoData message={"내 포트폴리오가 없습니다."} />
       )}
     </div>
   );

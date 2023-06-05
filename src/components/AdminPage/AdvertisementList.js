@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import AdvertisementItem from "./AdvertisementItem";
-import AdvertisementForm from "./AdvertisementForm";
 import Loading from "../Layout/Loading";
 import axios from "axios";
 import { API } from "../../global/Constants";
@@ -13,7 +12,7 @@ function AdvertisementList() {
 
   useEffect(() => {
     axios
-      .get(API + "/ad/my", {
+      .get(API + "/admin/ad", {
         headers: {
           Authorization: localStorage.getItem("token"),
         },
@@ -21,17 +20,17 @@ function AdvertisementList() {
       .then((response) => {
         if (response.data.success) {
           setAdList(response.data.data);
-        } else alert("내 광고 조회에 실패했습니다.");
+        } else alert("광고 요청 목록 조회에 실패했습니다.");
       })
       .catch((err) => {
         if (err.response.data.message) alert(err.response.data.message);
-        else alert("내 광고 조회에 실패했습니다.");
+        else alert("광고 요청 목록 조회에 실패했습니다.");
       })
       .then(() => setLoading(false));
   }, [reload]);
 
   return (
-    <div className="p-4 mb-8 md:ml-64">
+    <div className="p-4 mb-16 md:ml-64">
       {loading ? (
         <Loading full={true} />
       ) : adList.length > 0 ? (
@@ -46,9 +45,8 @@ function AdvertisementList() {
           ))}
         </div>
       ) : (
-        <NoData message={"내 광고 데이터가 없습니다."} />
+        <NoData message={"요청된 광고가 없습니다."} />
       )}
-      <AdvertisementForm reload={reload} setReload={setReload} />
     </div>
   );
 }

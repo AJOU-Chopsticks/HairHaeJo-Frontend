@@ -37,19 +37,25 @@ function ChatList(props) {
             <img className="mr-2 w-9" src={Appointment} alt="Chatting" />
             <span className="text-gray-900 dark:text-white">상담</span>
           </div>
-          <ul className="space-y-2 border-y-2 border-solid border-gray-100 py-3 mb-16">
-            {chatList.map((item) => {
-              return (
-                <ChatListItem
-                  chatItem={props.chatItem}
-                  setChatItem={props.setChatItem}
-                  item={item}
-                  key={item.chatRoomId}
-                  setShowChatSpace={props.setShowChatSpace}
-                />
-              );
-            })}
-          </ul>
+          {chatList.length > 0 ? (
+            <ul className="space-y-2 border-y-2 border-solid border-gray-100 py-3 mb-16">
+              {chatList.map((item) => {
+                return (
+                  <ChatListItem
+                    chatItem={props.chatItem}
+                    setChatItem={props.setChatItem}
+                    item={item}
+                    key={item.chatRoomId}
+                    setShowChatSpace={props.setShowChatSpace}
+                  />
+                );
+              })}
+            </ul>
+          ) : (
+            <div className="text-center mt-16">
+              생성된 채팅방 목록이 없습니다.
+            </div>
+          )}
         </div>
       </aside>
     </div>

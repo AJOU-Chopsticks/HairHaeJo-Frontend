@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import SideBar from "../components/AdminPage/SideBar";
 import DesignerSignup from "../components/AdminPage/DesignerSignup";
 import ReportList from "../components/AdminPage/ReportList";
+import AdvertisementList from "../components/AdminPage/AdvertisementList";
 
 function AdminPage() {
   const [adminType, setAdminType] = useState("designer");
@@ -9,7 +10,13 @@ function AdminPage() {
   return (
     <div className="mx-auto pt-16 min-h-screen">
       <SideBar adminType={adminType} setAdminType={setAdminType} />
-      {adminType === "designer" ? <DesignerSignup /> : <ReportList />}
+      {adminType === "designer" ? (
+        <DesignerSignup />
+      ) : adminType === "report" ? (
+        <ReportList />
+      ) : (
+        <AdvertisementList />
+      )}
     </div>
   );
 }
