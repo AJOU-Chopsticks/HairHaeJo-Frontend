@@ -10,11 +10,15 @@ function AdvertisementDelete(props) {
     setLoading(true);
 
     axios
-      .post(API + "/ad/refund?advertiseId=" + props.data.advertiseId, {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-        },
-      })
+      .post(
+        API + "/ad/refund?advertiseId=" + props.data.advertiseId,
+        {},
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      )
       .then((response) => {
         if (response.data.success) {
           alert("광고 취소 및 환불 완료!");
@@ -25,6 +29,8 @@ function AdvertisementDelete(props) {
       .catch((err) => {
         if (err.response.data.message) alert(err.response.data.message);
         else alert("광고 취소에 실패했습니다.");
+        props.setReload(!props.reload);
+        props.setShowModal(false);
       })
       .then(() => setLoading(false));
   };

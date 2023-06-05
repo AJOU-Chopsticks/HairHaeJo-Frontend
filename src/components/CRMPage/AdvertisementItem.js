@@ -8,13 +8,21 @@ function AdvertisementItem(props) {
   const [showModifyModal, setShowModifyModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
+  const stateColor = () => {
+    if (props.data.state === 1) return "blue";
+    else if (props.data.state === 2) return "green";
+    else return "red";
+  };
+
   if (props.data.state === 0) return null;
 
   return (
     <>
       <div className="p-4 rounded-lg border border-primary-300 bg-primary-50 dark:bg-primary-900 dark:border-primary-800">
         <div className="flex items-center mb-3">
-          <span className="bg-red-100 text-red-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">
+          <span
+            className={`bg-${stateColor()}-100 text-${stateColor()}-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-${stateColor()}-200 dark:text-${stateColor()}-900`}
+          >
             {props.data.state === 1
               ? "결제 완료"
               : props.data.state === 2
@@ -53,14 +61,24 @@ function AdvertisementItem(props) {
             {props.data.startDate + " ~ " + props.data.endDate}
           </div>
           <button
-            className="w-full mt-4 px-4 py-2 text-sm font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+            className={`w-full mt-4 px-4 py-2 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none focus:ring-primary-300 dark:focus:ring-primary-800 ${
+              props.data.state === 3
+                ? "cursor-not-allowed bg-primary-400 dark:bg-primary-400"
+                : "bg-primary-700 hover:bg-primary-800 dark:bg-primary-600 dark:hover:bg-primary-700"
+            }`}
             onClick={() => setShowModifyModal(true)}
+            disabled={props.data.state === 3}
           >
             수정
           </button>
           <button
-            className="w-full mt-4 text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
+            className={`w-full mt-4 text-white focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:focus:ring-red-900 ${
+              props.data.state === 3
+                ? "cursor-not-allowed bg-red-400 dark:bg-red-400"
+                : "bg-red-600 hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600 "
+            }`}
             onClick={() => setShowDeleteModal(true)}
+            disabled={props.data.state === 3}
           >
             취소 및 환불
           </button>
