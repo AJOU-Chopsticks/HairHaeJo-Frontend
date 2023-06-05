@@ -3,6 +3,7 @@ import SideBar from "../components/CRMPage/SideBar";
 import VisitList from "../components/CRMPage/VisitList";
 import Statistics from "../components/CRMPage/Statistics";
 import HolidaySpace from "../components/CRMPage/HolidaySpace";
+import AdvertisementList from "../components/CRMPage/AdvertisementList";
 
 function CRMPage() {
   const [CRMType, setCRMType] = useState("visit");
@@ -14,8 +15,10 @@ function CRMPage() {
         <VisitList />
       ) : CRMType === "statistics" ? (
         <Statistics />
-      ) : (
+      ) : CRMType === "holiday" ? (
         <HolidaySpace />
+      ) : (
+        <AdvertisementList />
       )}
     </div>
   );

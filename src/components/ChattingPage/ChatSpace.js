@@ -226,7 +226,7 @@ function ChatSpace(props) {
           </div>
 
           <div
-            className="flex flex-col h-full overflow-y-auto px-2"
+            className="flex flex-col h-full overflow-y-auto px-2 noScrollBar"
             ref={chatBubbleSpaceRef}
           >
             {chatHistory.map((item) => (

@@ -15,7 +15,7 @@ function SideBar(props) {
         className="fixed top-16 left-0 z-40 w-64 h-screen transition-transform -translate-x-full md:translate-x-0"
         aria-label="Sidenav"
       >
-        <div className="overflow-y-auto py-5 px-3 h-full bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+        <div className="overflow-y-auto py-5 pb-20 px-3 h-full bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700 noScrollBar">
           <div className="mb-3 flex items-center justify-center outline-none text-xl">
             <img className="mr-2 w-9" src={Developer} alt="Hair-Dryer" />
             <span className="text-gray-900 dark:text-white">관리자</span>

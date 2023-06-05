@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 
-function KakaoMap() {
+function KakaoMap(props) {
   const [address, setAddress] = useState("");
   const [map, setMap] = useState(null);
   const [geocoder, setGeocoder] = useState(null);
   const [marker, setMarker] = useState(null);
+  const [showMap, setShowMap] = useState(false);
 
   useEffect(() => {
     // 지도를 생성하고, 주소-좌표 변환 객체와 마커를 초기화한다.
@@ -32,6 +33,7 @@ function KakaoMap() {
         const addr = data.address;
 
         setAddress(addr);
+        setShowMap(true);
 
         geocoder.addressSearch(data.address, function (results, status) {
           if (status === window.daum.maps.services.Status.OK) {
@@ -46,6 +48,13 @@ function KakaoMap() {
       },
     }).open();
   };
+
+  useEffect(() => {
+    if (props.address) {
+      setAddress(props.address);
+      setShowMap(false);
+    }
+  }, [props.address]);
 
   return (
     <>
@@ -70,7 +79,7 @@ function KakaoMap() {
       <div
         id="map"
         className={`w-full h-80 mt-2.5 rounded-lg ${
-          address ? "block" : "hidden"
+          showMap ? "block" : "hidden"
         }`}
       ></div>
     </>
