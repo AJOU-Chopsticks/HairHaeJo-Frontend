@@ -10,7 +10,7 @@ function AdvertisementDelete(props) {
     setLoading(true);
 
     axios
-      .delete(API + "/ad/refund?advertiseId=" + props.data.advertiseId, {
+      .post(API + "/ad/refund?advertiseId=" + props.data.advertiseId, {
         headers: {
           Authorization: localStorage.getItem("token"),
         },

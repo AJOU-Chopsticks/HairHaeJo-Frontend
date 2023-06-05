@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import NoImage from "../../images/noImage.jpg";
 import KakaoMap from "../../global/KakaoMap";
 import { API } from "../../global/Constants";
+import { AddressToSearch } from "../../global/Functions";
 import axios from "axios";
 import Loading from "../Layout/Loading";
 
@@ -37,7 +38,7 @@ function AdvertisementModify(props) {
       advertiseId: props.data.advertiseId,
       title: title,
       text: text,
-      location: document.getElementById("Kakao_Address").value,
+      location: AddressToSearch(document.getElementById("Kakao_Address").value),
     };
 
     const formData = new FormData();

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { AddressToSimple } from "../../global/Functions";
 import { useSelector } from "react-redux";
 import AdvertisementModify from "./AdvertisementModify";
 import AdvertisementDelete from "./AdvertisementDelete";
@@ -35,7 +34,7 @@ function AdvertisementItem(props) {
           <div className="space-y-0.5 text-sm font-medium dark:text-white text-left">
             <div>{user.name}</div>
             <div className="text-xs text-gray-500 dark:text-gray-400">
-              {AddressToSimple(props.data.location)}
+              {props.data.location}
             </div>
           </div>
         </div>
