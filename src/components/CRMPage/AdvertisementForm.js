@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import NoImage from "../../images/noImage.jpg";
 import KakaoMap from "../../global/KakaoMap";
 import { API } from "../../global/Constants";
+import { AddressToSearch } from "../../global/Functions";
 import axios from "axios";
 import Loading from "../Layout/Loading";
 import { FiPlus } from "react-icons/fi";
@@ -61,7 +62,7 @@ function AdvertisementForm(props) {
       title: title,
       text: text,
       price: price,
-      location: document.getElementById("Kakao_Address").value,
+      location: AddressToSearch(document.getElementById("Kakao_Address").value),
       startDate: startDate,
       endDate: endDate,
     };
@@ -133,6 +134,7 @@ function AdvertisementForm(props) {
     if (!ready || paymentDone) {
       return;
     }
+    if (!showModal && !paymentDone) return;
 
     axios
       .get(
@@ -160,7 +162,7 @@ function AdvertisementForm(props) {
         if (err.response.data.message) console.log(err.response.data.message);
         else console.log("카카오페이 결제에 실패했습니다.");
       });
-  }, [ready, kakaoPay, paymentDone, props]);
+  }, [ready, kakaoPay, paymentDone, props, showModal]);
 
   return (
     <>

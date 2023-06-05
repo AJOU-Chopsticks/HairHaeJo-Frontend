@@ -11,7 +11,7 @@ function Advertisement() {
   const [adData, setAdData] = useState([]);
 
   const showProfile = () => {
-    navigation("/profile/designer/" + adData[0].advetiserId);
+    navigation("/profile/designer/" + adData[0].advertiserId);
   };
 
   const sendChatting = () => {
@@ -20,7 +20,7 @@ function Advertisement() {
 
     axios
       .post(
-        API + "/chat?userId=" + adData[0].advetiserId,
+        API + "/chat?userId=" + adData[0].advertiserId,
         {},
         {
           headers: {
@@ -130,7 +130,7 @@ function Advertisement() {
         <button
           type="button"
           className="text-white w-full bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-primary-300 dark:focus:ring-primary-800 font-medium rounded-lg text-sm px-4 py-2 text-center"
-          onClick={() => navigation("/reservation/" + adData[0].advetiserId)}
+          onClick={() => navigation("/reservation/" + adData[0].advertiserId)}
         >
           예약하기
         </button>
