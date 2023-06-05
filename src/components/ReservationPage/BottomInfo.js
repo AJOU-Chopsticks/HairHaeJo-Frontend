@@ -66,7 +66,6 @@ function BottomInfo(props) {
         } else alert("카카오페이 결제 시도에 실패했습니다.");
       })
       .catch((err) => {
-        console.log(err);
         if (err.response.data.message) alert(err.response.data.message);
         else alert("카카오페이 결제 시도에 실패했습니다.");
       });
@@ -110,6 +109,7 @@ function BottomInfo(props) {
       )
       .then((response) => {
         if (response.data.success) {
+          localStorage.removeItem("pg_token");
           props.setStep(props.step + 1);
           setPaymentDone(true);
         } else alert("카카오페이 결제에 실패했습니다.");
