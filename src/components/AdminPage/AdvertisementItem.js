@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import AdvertisementApprove from "./AdvertisementApprove";
 import AdvertisementDelete from "./AdvertisementDelete";
 
 function AdvertisementItem(props) {
-  const user = useSelector((state) => state.user);
   const [showApproveModal, setShowApproveModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -24,11 +22,11 @@ function AdvertisementItem(props) {
         <div className="flex items-center space-x-3 my-3">
           <img
             className="rounded-full w-9 h-9"
-            src={user.profileImage}
+            src={props.data.profileImage}
             alt="Advertiser_Image"
           />
           <div className="space-y-0.5 text-sm font-medium dark:text-white text-left">
-            <div>{user.name}</div>
+            <div>{props.data.name}</div>
             <div className="text-xs text-gray-500 dark:text-gray-400">
               {props.data.location}
             </div>
