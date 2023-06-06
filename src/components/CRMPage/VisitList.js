@@ -5,6 +5,7 @@ import { API } from "../../global/Constants";
 import Loading from "../Layout/Loading";
 import Memo from "./Memo";
 import NoData from "../../global/NoData";
+import News from "./News";
 
 function VisitList() {
   const [visitData, setVisitData] = useState([]);
@@ -52,6 +53,7 @@ function VisitList() {
             setShowMemo={setShowMemo}
             customerInfo={customerInfo}
           />
+          <News />
         </>
       ) : (
         <NoData message={"방문 고객이 없습니다."} />
