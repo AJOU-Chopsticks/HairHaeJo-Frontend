@@ -5,6 +5,7 @@ import axios from "axios";
 import { API } from "../../global/Constants";
 import PortfolioSpace from "./PortfolioSpace";
 import MenuSpace from "./MenuSpace";
+import ReviewList from "./ReviewList";
 
 function MyPageSpace(props) {
   const [userInfo, setUserInfo] = useState({});
@@ -88,8 +89,10 @@ function MyPageSpace(props) {
               reload={reload}
               setReload={setReload}
             />
-          ) : (
+          ) : props.profileType === "menu" ? (
             <MenuSpace id={props.id} />
+          ) : (
+            <ReviewList id={props.id} />
           )}
         </>
       )}

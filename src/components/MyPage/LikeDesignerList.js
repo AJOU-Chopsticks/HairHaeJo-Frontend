@@ -4,11 +4,13 @@ import UnLikeDesignerModal from "./UnLikeDesignerModal";
 import axios from "axios";
 import { API } from "../../global/Constants";
 import NoData from "../../global/NoData";
+import Loading from "../Layout/Loading";
 
 function LikeDesignerList() {
   const [showUnlikeModal, setShowUnlikeModal] = useState(false);
   const [likeDesignerData, setLikeDesignerData] = useState([]);
   const [reload, setReload] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axios
@@ -25,7 +27,8 @@ function LikeDesignerList() {
       .catch((err) => {
         if (err.response.data.message) alert(err.response.data.message);
         else alert("관심 디자이너 목록 조회에 실패했습니다.");
-      });
+      })
+      .then(() => setLoading(false));
   }, [reload]);
 
   if (likeDesignerData.length > 0)
@@ -46,7 +49,10 @@ function LikeDesignerList() {
         />
       </div>
     );
-  else return <NoData message={"관심 디자이너가 없습니다."} />;
+  else {
+    if (loading) return <Loading full={true} />;
+    return <NoData message={"관심 디자이너가 없습니다."} />;
+  }
 }
 
 export default LikeDesignerList;
