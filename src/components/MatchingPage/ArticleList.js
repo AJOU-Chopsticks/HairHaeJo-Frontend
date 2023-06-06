@@ -7,6 +7,7 @@ import axios from "axios";
 import { API } from "../../global/Constants";
 import Loading from "../Layout/Loading";
 import { AddressToSearch } from "../../global/Functions";
+import ArticleMy from "./ArticleMy";
 
 function ArticleList(props) {
   const [showDetail, setShowDetail] = useState(false);
@@ -85,6 +86,10 @@ function ArticleList(props) {
             setModifyData={props.setModifyData}
             reload={props.reload}
             setReload={props.setReload}
+          />
+          <ArticleMy
+            setShowDetail={setShowDetail}
+            setDetailTarget={setDetailTarget}
           />
         </>
       )}
