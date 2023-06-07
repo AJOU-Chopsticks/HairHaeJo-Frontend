@@ -139,10 +139,10 @@ function ArticleDetail(props) {
                     </span>
                   </button>
                 </div>
-                <div className="grid gap-4 mb-4 grid-cols-2">
+                <div className="grid gap-4 mb-12 grid-cols-2">
                   <figure className="max-w-lg">
                     <img
-                      className="h-auto max-w-full rounded-lg"
+                      className="w-full h-full  rounded-lg"
                       src={articleInfo.beforeimage}
                       alt="Before_Image"
                     />
@@ -152,7 +152,7 @@ function ArticleDetail(props) {
                   </figure>
                   <figure className="max-w-lg">
                     <img
-                      className="h-auto max-w-full rounded-lg"
+                      className="w-full h-full rounded-lg"
                       src={articleInfo.afterimage}
                       alt="After_Image"
                     />
