@@ -6,7 +6,6 @@ import Loading from "../Layout/Loading";
 function AdvertisementExtension(props) {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [minDate, setMinDate] = useState("");
   const [price, setPrice] = useState(0);
   const [loading, setLoading] = useState(false);
   const [popup, setPopup] = useState();
@@ -107,7 +106,6 @@ function AdvertisementExtension(props) {
           setPaymentDone(true);
           setStartDate("");
           setEndDate("");
-          setMinDate("");
           setPrice(0);
           props.setReload(!props.reload);
         } else alert("카카오페이 결제에 실패했습니다.");
@@ -120,21 +118,20 @@ function AdvertisementExtension(props) {
 
   useEffect(() => {
     if (endDate) {
-      const start = new Date(minDate);
+      const start = new Date(startDate);
       const end = new Date(endDate);
 
       const diff = start.getTime() - end.getTime();
 
       setPrice(Math.abs(diff / (1000 * 60 * 60 * 24)) * 1000 + 1000);
     }
-  }, [minDate, endDate]);
+  }, [startDate, endDate]);
 
   useEffect(() => {
-    setStartDate(props.data.startDate);
-    let endDate = new Date(props.data.endDate);
-    endDate.setDate(endDate.getDate() + 1);
-    setMinDate(new Date(endDate).toISOString().split("T")[0]);
-  }, [props.data]);
+    let startDate = new Date(props.data.endDate);
+    startDate.setDate(startDate.getDate() + 1);
+    setStartDate(startDate);
+  }, [props.data.endDate]);
 
   return (
     <>
@@ -223,7 +220,9 @@ function AdvertisementExtension(props) {
                           type="date"
                           id="startDate"
                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                          value={startDate}
+                          value={
+                            new Date(startDate).toISOString().split("T")[0]
+                          }
                           onChange={startDateHandler}
                           disabled={true}
                         />
@@ -239,7 +238,7 @@ function AdvertisementExtension(props) {
                         <input
                           type="date"
                           id="endDate"
-                          min={minDate}
+                          min={new Date(startDate).toISOString().split("T")[0]}
                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                           value={endDate}
                           onChange={endDateHandler}
