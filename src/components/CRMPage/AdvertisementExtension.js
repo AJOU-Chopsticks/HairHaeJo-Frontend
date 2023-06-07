@@ -1,19 +1,12 @@
 import React, { useEffect, useState } from "react";
-import NoImage from "../../images/noImage.jpg";
-import KakaoMap from "../../global/KakaoMap";
 import { API } from "../../global/Constants";
-import { AddressToSearch } from "../../global/Functions";
 import axios from "axios";
 import Loading from "../Layout/Loading";
-import { FiPlus } from "react-icons/fi";
 
-function AdvertisementForm(props) {
-  const [showModal, setShowModal] = useState(false);
-  const [title, setTitle] = useState("");
-  const [text, setText] = useState("");
-  const [image, setImage] = useState(NoImage);
+function AdvertisementExtension(props) {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [minDate, setMinDate] = useState("");
   const [price, setPrice] = useState(0);
   const [loading, setLoading] = useState(false);
   const [popup, setPopup] = useState();
@@ -22,34 +15,15 @@ function AdvertisementForm(props) {
   const [ready, setReady] = useState(false);
   const [paymentDone, setPaymentDone] = useState(false);
 
-  const titleHandler = (event) => setTitle(event.target.value);
-  const textHandler = (event) => setText(event.target.value);
   const startDateHandler = (event) => {
     if (endDate && new Date(endDate) < new Date(event.target.value))
       setEndDate("");
     setStartDate(event.target.value);
   };
   const endDateHandler = (event) => setEndDate(event.target.value);
-  const imageHandler = (target) => {
-    let imageFile = document.getElementById(target).files[0];
-    if (imageFile !== undefined) {
-      setImage(URL.createObjectURL(imageFile));
-    } else {
-      setImage(NoImage);
-    }
-  };
 
   const submitHandler = (event) => {
     event.preventDefault();
-
-    if (title === "") return alert("제목을 입력해주세요.");
-    if (text === "") return alert("내용을 입력해주세요.");
-    if (image === NoImage) return alert("광고 이미지를 등록해주세요.");
-    if (startDate === "") return alert("광고 시작 날짜를 선택해주세요.");
-    if (endDate === "") return alert("광고 종료 날짜를 선택해주세요.");
-    if (document.getElementById("Kakao_Address").value === "")
-      return alert("지역을 선택해주세요.");
-    if (price === 0) return alert("가격이 잘못 되었습니다.");
 
     setLoading(true);
 
@@ -58,28 +32,20 @@ function AdvertisementForm(props) {
     const left = window.screenX + (window.outerWidth - width) / 2;
     const top = window.screenY + (window.outerHeight - height) / 2;
 
-    let info = {
-      title: title,
-      text: text,
-      price: price,
-      location: AddressToSearch(document.getElementById("Kakao_Address").value),
-      startDate: startDate,
-      endDate: endDate,
-    };
-
-    const formData = new FormData();
-    formData.append("jsonList", JSON.stringify(info));
-
-    let Ad_Image = document.getElementById("Ad_Image");
-    formData.append("image", Ad_Image.files[0] || null);
-
     axios
-      .post(API + "/ad/ready", formData, {
-        headers: {
-          "Contest-Type": "multipart/form-data",
-          Authorization: localStorage.getItem("token"),
+      .post(
+        API + "/ad/extension",
+        {
+          advertiseId: props.data.advertiseId,
+          extensionDays: price / 1000,
+          price: price,
         },
-      })
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      )
       .then((response) => {
         if (response.data.success) {
           const popup = window.open(
@@ -89,25 +55,14 @@ function AdvertisementForm(props) {
           );
           setPopup(popup);
           setKakaoPay({ ...kakaoPay, tid: response.data.data.tid });
-        } else alert("광고 등록에 실패했습니다.");
+        } else alert("광고 연장 요청에 실패했습니다.");
       })
       .catch((err) => {
         if (err.response.data.message) alert(err.response.data.message);
-        else alert("광고 등록에 실패했습니다.");
+        else alert("광고 연장 요청에 실패했습니다.");
       })
       .then(() => setLoading(false));
   };
-
-  useEffect(() => {
-    if (startDate && endDate) {
-      const start = new Date(startDate);
-      const end = new Date(endDate);
-
-      const diff = start.getTime() - end.getTime();
-
-      setPrice(Math.abs(diff / (1000 * 60 * 60 * 24)) * 1000 + 1000);
-    }
-  }, [startDate, endDate]);
 
   useEffect(() => {
     if (!popup) {
@@ -134,11 +89,12 @@ function AdvertisementForm(props) {
     if (!ready || paymentDone) {
       return;
     }
-    if (!showModal && !paymentDone) return;
+    if (!props.showModal && !paymentDone) return;
 
     axios
       .get(
-        API + `/ad/success?pg_token=${kakaoPay.pg_token}&tid=${kakaoPay.tid}`,
+        API +
+          `/ad/extension/success?pg_token=${kakaoPay.pg_token}&tid=${kakaoPay.tid}`,
         {
           headers: {
             Authorization: localStorage.getItem("token"),
@@ -149,11 +105,9 @@ function AdvertisementForm(props) {
         if (response.data.success) {
           localStorage.removeItem("pg_token");
           setPaymentDone(true);
-          setTitle("");
-          setText("");
-          setImage(NoImage);
           setStartDate("");
           setEndDate("");
+          setMinDate("");
           setPrice(0);
           props.setReload(!props.reload);
         } else alert("카카오페이 결제에 실패했습니다.");
@@ -162,39 +116,42 @@ function AdvertisementForm(props) {
         if (err.response.data.message) console.log(err.response.data.message);
         else console.log("카카오페이 결제에 실패했습니다.");
       });
-  }, [ready, kakaoPay, paymentDone, props, showModal]);
+  }, [ready, kakaoPay, paymentDone, props]);
+
+  useEffect(() => {
+    if (endDate) {
+      const start = new Date(minDate);
+      const end = new Date(endDate);
+
+      const diff = start.getTime() - end.getTime();
+
+      setPrice(Math.abs(diff / (1000 * 60 * 60 * 24)) * 1000 + 1000);
+    }
+  }, [minDate, endDate]);
+
+  useEffect(() => {
+    setStartDate(props.data.startDate);
+    let endDate = new Date(props.data.endDate);
+    endDate.setDate(endDate.getDate() + 1);
+    setMinDate(new Date(endDate).toISOString().split("T")[0]);
+  }, [props.data]);
 
   return (
     <>
-      <button
-        type="button"
-        className="animate-bounce flex items-center justify-center fixed bottom-24 right-6 md:right-12 group ml-auto text-white bg-primary-700 rounded-full w-14 h-14 hover:bg-primary-800 dark:bg-primary-600 dark:hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 focus:outline-none dark:focus:ring-primary-800"
-        onClick={() => {
-          document.body.classList.add("overflow-hidden");
-          setShowModal(true);
-        }}
-      >
-        <FiPlus className="w-8 h-8" />
-      </button>
-      {showModal && (
+      {props.showModal && (
         <div
           className={`modal-container fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-full max-h-full bg-gray-900 bg-opacity-50 dark:bg-opacity-80 scale-100 ${
-            showModal ? "active" : ""
+            props.showModal ? "active" : ""
           }`}
         >
-          <div
-            className={`relative w-full max-w-xl min-h-full mx-auto md:mt-10 mb-24 ${
-              paymentDone && "flex flex-col justify-center"
-            }`}
-          >
+          <div className="relative w-full max-w-xl min-h-full mx-auto flex flex-col justify-center">
             <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
               <button
                 type="button"
                 className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
                 onClick={() => {
                   document.body.classList.remove("overflow-hidden");
-                  setPaymentDone(false);
-                  setShowModal(false);
+                  props.setShowModal(false);
                 }}
               >
                 <svg
@@ -231,9 +188,7 @@ function AdvertisementForm(props) {
                         </svg>
                       </div>
                       <p className="mb-10 text-lg text-gray-900 dark:text-white">
-                        정상적으로 광고 요청이 완료되었습니다.
-                        <br />
-                        관리자의 승인을 기다려주세요.
+                        정상적으로 광고 연장이 완료되었습니다.
                       </p>
                       <div className="flex justify-center mt-4 space-x-8 md:mt-6">
                         <button
@@ -241,7 +196,7 @@ function AdvertisementForm(props) {
                           onClick={() => {
                             document.body.classList.remove("overflow-hidden");
                             setPaymentDone(false);
-                            setShowModal(false);
+                            props.setShowModal(false);
                           }}
                         >
                           닫기
@@ -253,85 +208,24 @@ function AdvertisementForm(props) {
               ) : (
                 <div className="px-6 py-6 lg:px-8">
                   <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">
-                    광고 등록
+                    광고 연장
                   </h3>
                   <form className="space-y-6" onSubmit={submitHandler}>
-                    <div>
-                      <label
-                        htmlFor="title"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >
-                        제목 <span className="text-red-600 font-bold">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        id="title"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                        placeholder="제목"
-                        value={title}
-                        onChange={titleHandler}
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="text"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >
-                        내용 <span className="text-red-600 font-bold">*</span>
-                      </label>
-                      <textarea
-                        id="text"
-                        placeholder="내용"
-                        rows={4}
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                        value={text}
-                        onChange={textHandler}
-                      />
-                    </div>
-                    <div>
-                      <label className="block w-full">
-                        <label
-                          htmlFor="Ad_Image"
-                          className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
-                        >
-                          광고 이미지{" "}
-                          <span className="text-red-600 font-bold">*</span>
-                        </label>
-                        <input
-                          className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                          id="Ad_Image"
-                          type="file"
-                          accept="image/*"
-                          onChange={() => imageHandler("Ad_Image")}
-                        />
-                        <p className="mt-1 text-sm text-gray-500 dark:text-gray-300">
-                          이미지 파일을 선택해주세요.
-                        </p>
-                      </label>
-                      <div className="shrink-0 mt-2">
-                        <img
-                          className="w-full object-cover rounded-lg"
-                          src={image}
-                          alt="Ad_Image"
-                        />
-                      </div>
-                    </div>
                     <div className="flex flex-row justtify-between gap-4">
                       <div className="w-full">
                         <label
                           htmlFor="startDate"
                           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                         >
-                          시작 날짜{" "}
-                          <span className="text-red-600 font-bold">*</span>
+                          시작 날짜
                         </label>
                         <input
                           type="date"
                           id="startDate"
-                          min={new Date().toISOString().split("T")[0]}
                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                           value={startDate}
                           onChange={startDateHandler}
+                          disabled={true}
                         />
                       </div>
                       <div className="w-full">
@@ -345,22 +239,12 @@ function AdvertisementForm(props) {
                         <input
                           type="date"
                           id="endDate"
-                          min={
-                            startDate
-                              ? new Date(startDate).toISOString().split("T")[0]
-                              : new Date().toISOString().split("T")[0]
-                          }
+                          min={minDate}
                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                           value={endDate}
                           onChange={endDateHandler}
                         />
                       </div>
-                    </div>
-                    <div>
-                      <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                        지역 <span className="text-red-600 font-bold">*</span>
-                      </label>
-                      <KakaoMap />
                     </div>
                     {loading ? (
                       <Loading />
@@ -369,7 +253,7 @@ function AdvertisementForm(props) {
                         type="submit"
                         className="w-full text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                       >
-                        {price + "원 결제하기"}
+                        {"추가 " + price + "원 결제하기"}
                       </button>
                     )}
                   </form>
@@ -383,4 +267,4 @@ function AdvertisementForm(props) {
   );
 }
 
-export default AdvertisementForm;
+export default AdvertisementExtension;

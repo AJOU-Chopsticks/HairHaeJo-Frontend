@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import AdvertisementModify from "./AdvertisementModify";
 import AdvertisementDelete from "./AdvertisementDelete";
+import AdvertisementExtension from "./AdvertisementExtension";
 
 function AdvertisementItem(props) {
   const user = useSelector((state) => state.user);
   const [showModifyModal, setShowModifyModal] = useState(false);
+  const [showExtensionModal, setShowExtensionModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const stateColor = () => {
@@ -72,6 +74,17 @@ function AdvertisementItem(props) {
             수정
           </button>
           <button
+            className={`w-full mt-4 px-4 py-2 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 ${
+              props.data.state === 3
+                ? "cursor-not-allowed bg-blue-400 dark:bg-blue-400"
+                : "bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700"
+            }`}
+            onClick={() => setShowExtensionModal(true)}
+            disabled={props.data.state === 3}
+          >
+            기간 연장
+          </button>
+          <button
             className={`w-full mt-4 text-white focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:focus:ring-red-900 ${
               props.data.state === 3
                 ? "cursor-not-allowed bg-red-400 dark:bg-red-400"
@@ -87,6 +100,13 @@ function AdvertisementItem(props) {
       <AdvertisementModify
         showModal={showModifyModal}
         setShowModal={setShowModifyModal}
+        data={props.data}
+        reload={props.reload}
+        setReload={props.setReload}
+      />
+      <AdvertisementExtension
+        showModal={showExtensionModal}
+        setShowModal={setShowExtensionModal}
         data={props.data}
         reload={props.reload}
         setReload={props.setReload}

@@ -27,8 +27,8 @@ function PortfolioList(props) {
         } else alert("포트폴리오 목록 조회에 실패했습니다.");
       })
       .catch((err) => {
-        if (err.response.data.message) alert(err.response.data.message);
-        else alert("포트폴리오 목록 조회에 실패했습니다.");
+        if (err.response.data.message) console.log(err.response.data.message);
+        else console.log("포트폴리오 목록 조회에 실패했습니다.");
       })
       .then(() => setLoading(false));
   }, [props.id]);
