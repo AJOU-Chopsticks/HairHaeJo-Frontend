@@ -20,8 +20,8 @@ function ChatList(props) {
         }
       })
       .catch((err) => {
-        if (err.response.data.message) alert(err.response.data.message);
-        else alert("상담 내역 조회에 실패했습니다.");
+        if (err.response.data.message) console.log(err.response.data.message);
+        else console.log("상담 내역 조회에 실패했습니다.");
       });
   });
 

@@ -39,9 +39,25 @@ function PortfolioList() {
             setRecommendData(response.data.data);
           } else alert("헤어 디자이너 추천 리스트 조회에 실패했습니다.");
         })
-        .catch((err) => {
-          if (err.response.data.message) alert(err.response.data.message);
-          else alert("헤어 디자이너 추천 리스트 조회에 실패했습니다.");
+        .catch(() => {
+          axios
+            .get(
+              API + "/designer/recommend?region=" + user.location.split(" ")[0],
+              {
+                headers: {
+                  Authorization: localStorage.getItem("token"),
+                },
+              }
+            )
+            .then((response) => {
+              if (response.data.success) {
+                setRecommendData(response.data.data);
+              } else alert("헤어 디자이너 추천 리스트 조회에 실패했습니다.");
+            })
+            .catch((err) => {
+              if (err.response.data.message) alert(err.response.data.message);
+              else alert("헤어 디자이너 추천 리스트 조회에 실패했습니다.");
+            });
         })
         .then(() => setLoading(false));
     } else {

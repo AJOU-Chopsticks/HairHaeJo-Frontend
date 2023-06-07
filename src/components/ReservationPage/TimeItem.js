@@ -4,8 +4,10 @@ function TimeItem(props) {
   const checkTime = () => {
     let now = props.item.replace(":", "-");
 
-    if (props.noTime.indexOf(now) < 0) return true;
-    else return false;
+    for (let i = 0; i < props.noTime.length; i++) {
+      if (props.noTime[i].impossibletime === now) return false;
+    }
+    return true;
   };
 
   return (

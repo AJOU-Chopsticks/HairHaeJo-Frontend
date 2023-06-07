@@ -34,7 +34,7 @@ function DateList(props) {
     let dateList = [];
     let today = new Date();
 
-    dateList.push(today.setDate(today.getDate() + 0));
+    dateList.push(today.setDate(today.getDate() + 1));
     dateList.push(today.setDate(today.getDate() + 1));
     dateList.push(today.setDate(today.getDate() + 1));
     dateList.push(today.setDate(today.getDate() + 1));
@@ -72,8 +72,8 @@ function DateList(props) {
         } else alert("예약 가능 시간 조회에 실패했습니다.");
       })
       .catch((err) => {
-        if (err.response.data.message) alert(err.response.data.message);
-        else alert("예약 가능 시간 조회에 실패했습니다.");
+        if (err.response.data.message) console.log(err.response.data.message);
+        else console.log("예약 가능 시간 조회에 실패했습니다.");
       });
   }, [props.when.date, designerId]);
 

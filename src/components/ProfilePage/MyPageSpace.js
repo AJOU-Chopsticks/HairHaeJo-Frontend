@@ -39,8 +39,9 @@ function MyPageSpace(props) {
                 } else alert("프로필 정보 조회에 실패했습니다.");
               })
               .catch((err) => {
-                if (err.response.data.message) alert(err.response.data.message);
-                else alert("프로필 정보 조회에 실패했습니다.");
+                if (err.response.data.message)
+                  console.log(err.response.data.message);
+                else console.log("프로필 정보 조회에 실패했습니다.");
               })
               .then(() => setLoading(false));
           }
@@ -57,16 +58,17 @@ function MyPageSpace(props) {
                 } else alert("프로필 정보 조회에 실패했습니다.");
               })
               .catch((err) => {
-                if (err.response.data.message) alert(err.response.data.message);
-                else alert("프로필 정보 조회에 실패했습니다.");
+                if (err.response.data.message)
+                  console.log(err.response.data.message);
+                else console.log("프로필 정보 조회에 실패했습니다.");
               })
               .then(() => setLoading(false));
           }
         } else alert("유저 정보 조회에 실패했습니다.");
       })
       .catch((err) => {
-        if (err.response.data.message) alert(err.response.data.message);
-        else alert("유저 정보 조회에 실패했습니다.");
+        if (err.response.data.message) console.log(err.response.data.message);
+        else console.log("유저 정보 조회에 실패했습니다.");
         setLoading(false);
       });
   }, [reload, props.role, props.id]);

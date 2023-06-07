@@ -23,8 +23,8 @@ function MenuSpace() {
         } else alert("내 메뉴 조회에 실패했습니다.");
       })
       .catch((err) => {
-        if (err.response.data.message) alert(err.response.data.message);
-        else alert("내 메뉴 조회에 실패했습니다.");
+        if (err.response.data.message) console.log(err.response.data.message);
+        else console.log("내 메뉴 조회에 실패했습니다.");
       });
   }, [user.userId, reload]);
 

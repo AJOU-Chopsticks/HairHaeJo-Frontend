@@ -8,6 +8,8 @@ import { API } from "../../global/Constants";
 import axios from "axios";
 import UserReservationItem from "./UserReservationItem";
 import UserReservationFinishItem from "./UserReservationFinishItem";
+import Loading from "../Layout/Loading";
+import NoData from "../../global/NoData";
 
 function ReservationUser(props) {
   const [showReviewModal, setShowReviewModal] = useState(false);
@@ -20,8 +22,11 @@ function ReservationUser(props) {
   const [reservationData, setReservationData] = useState([]);
   const [likeDesignerData, setLikeDesignerData] = useState([]);
   const [target, setTarget] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
+
     axios
       .get(API + "/reservation/list/client", {
         headers: {
@@ -34,9 +39,10 @@ function ReservationUser(props) {
         } else alert("예약 목록 조회에 실패했습니다.");
       })
       .catch((err) => {
-        if (err.response.data.message) alert(err.response.data.message);
-        else alert("예약 목록 조회에 실패했습니다.");
-      });
+        if (err.response.data.message) console.log(err.response.data.message);
+        else console.log("예약 목록 조회에 실패했습니다.");
+      })
+      .then(() => setLoading(false));
 
     axios
       .get(API + "/designer/like", {
@@ -50,42 +56,57 @@ function ReservationUser(props) {
         } else alert("관심 디자이너 목록 조회에 실패했습니다.");
       })
       .catch((err) => {
-        if (err.response.data.message) alert(err.response.data.message);
-        else alert("관심 디자이너 목록 조회에 실패했습니다.");
-      });
+        if (err.response.data.message) console.log(err.response.data.message);
+        else console.log("관심 디자이너 목록 조회에 실패했습니다.");
+      })
+      .then(() => setLoading(false));
   }, [reload]);
 
+  if (loading)
+    return (
+      <div className="mt-64">
+        <Loading />
+      </div>
+    );
   return (
     <>
       {props.type ? (
         <div className="max-w-3xl mx-auto">
-          {reservationData.map((item) => (
-            <UserReservationItem
-              data={item}
-              key={item.reservationId}
-              reload={reload}
-              setReload={setReload}
-              target={target}
-              setTarget={setTarget}
-              setShowReservationCancelModal={setShowReservationCancelModal}
-            />
-          ))}
+          {reservationData.length > 0 ? (
+            reservationData.map((item) => (
+              <UserReservationItem
+                data={item}
+                key={item.reservationId}
+                reload={reload}
+                setReload={setReload}
+                target={target}
+                setTarget={setTarget}
+                setShowReservationCancelModal={setShowReservationCancelModal}
+              />
+            ))
+          ) : (
+            <NoData message={"예약 목록이 비어있습니다."} />
+          )}
         </div>
       ) : (
         <div className="max-w-3xl mx-auto">
-          {reservationData.map((item) => (
-            <UserReservationFinishItem
-              data={item}
-              key={item.reservationId}
-              likeDesignerData={likeDesignerData}
-              target={target}
-              setTarget={setTarget}
-              setShowLikeModal={setShowLikeModal}
-              setShowUnlikeModal={setShowUnlikeModal}
-              setShowReviewModal={setShowReviewModal}
-              setShowMyReviewModal={setShowMyReviewModal}
-            />
-          ))}
+          {reservationData.length > 0 ? (
+            reservationData.map((item) => (
+              <UserReservationFinishItem
+                data={item}
+                key={item.reservationId}
+                likeDesignerData={likeDesignerData}
+                target={target}
+                setTarget={setTarget}
+                setShowLikeModal={setShowLikeModal}
+                setShowUnlikeModal={setShowUnlikeModal}
+                setShowReviewModal={setShowReviewModal}
+                setShowMyReviewModal={setShowMyReviewModal}
+              />
+            ))
+          ) : (
+            <NoData message={"시술 완료 내역이 없습니다."} />
+          )}
         </div>
       )}
       <ReviewForm
