@@ -54,7 +54,6 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
-      alert("로그아웃 완료!");
       localStorage.removeItem("token");
       state.auth = false;
       state.age = 0;
