@@ -16,15 +16,7 @@ function Header() {
 
   const logoutHandler = () => {
     axios
-      .put(
-        API + "/user/logout",
-        {},
-        {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        }
-      )
+      .put(API + "/user/logout?id=" + user.userId, {})
       .then((response) => {
         if (response.data.success) {
           dispatch(logout());
