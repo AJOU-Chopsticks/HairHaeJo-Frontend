@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { API } from "../../global/Constants";
 
-function ArticleSearch(props) {
+function InventorySearch(props) {
   const [keyword, setKeyword] = useState("");
 
   const submitHandler = (event) => {
@@ -10,7 +10,7 @@ function ArticleSearch(props) {
 
     props.setLoading(true);
 
-    axios
+    /*axios
       .get(API + "/advice/article/search?keyword=" + keyword, {
         headers: {
           Authorization: localStorage.getItem("token"),
@@ -25,7 +25,7 @@ function ArticleSearch(props) {
         if (err.response.data.message) alert(err.response.data.message);
         else alert("요청 글 검색에 실패했습니다.");
       })
-      .then(() => props.setLoading(false));
+      .then(() => props.setLoading(false));*/
   };
 
   return (
@@ -64,4 +64,4 @@ function ArticleSearch(props) {
   );
 }
 
-export default ArticleSearch;
+export default InventorySearch;

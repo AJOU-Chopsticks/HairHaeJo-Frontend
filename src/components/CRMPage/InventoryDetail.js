@@ -1,57 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { BsFillSendFill } from "react-icons/bs";
-import ReportModal from "./ReportModal";
-import DeleteModal from "./DeleteModal";
+import InventoryDeleteModal from "./InventoryDeleteModal";
 import axios from "axios";
 import { API } from "../../global/Constants";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Badge from "./Badge";
 
-function ArticleDetail(props) {
+function InventoryDetail(props) {
   const user = useSelector((state) => state.user);
   const navigation = useNavigate();
-  const [articleInfo, setArticleInfo] = useState({});
-  const [showReport, setShowReport] = useState(false);
+  const [inventoryInfo, setInventoryInfo] = useState({});
   const [showDelete, setShowDelete] = useState(false);
   const [validation, setValidation] = useState(false);
 
-  const articleModifyHandler = () => {
-    props.setModifyData({ ...articleInfo, articleId: props.detailTarget });
+  const inventoryModifyHandler = () => {
+    props.setModifyData({ ...inventoryInfo, itemId: props.detailTarget });
     props.setShowDetail(false);
     props.setShowModifyForm(true);
   };
 
-  const showProfile = () => {
-    document.body.classList.remove("overflow-hidden");
-    navigation("/profile/user/" + articleInfo.userId);
-  };
-
-  const sendChatting = () => {
-    axios
-      .post(
-        API + "/chat?userId=" + articleInfo.userId,
-        {},
-        {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        }
-      )
-      .then((response) => {
-        if (response.data.success) {
-          localStorage.setItem("chatRoomId", response.data.data.chatRoomId);
-          document.body.classList.remove("overflow-hidden");
-          navigation("/chat");
-        } else alert("채팅방 생성에 실패했습니다.");
-      })
-      .catch((err) => {
-        if (err.response.data.message) alert(err.response.data.message);
-        else alert("채팅방 생성에 실패했습니다.");
-      });
-  };
-
-  useEffect(() => {
+  /*useEffect(() => {
     if (props.detailTarget !== "") {
       axios
         .get(API + "/advice/article?articleId=" + props.detailTarget, {
@@ -61,7 +30,7 @@ function ArticleDetail(props) {
         })
         .then((response) => {
           if (response.data.success) {
-            setArticleInfo(response.data.data);
+            setinventoryInfo(response.data.data);
             setValidation(true);
           }
         })
@@ -71,7 +40,7 @@ function ArticleDetail(props) {
           // else console.log("요청 글 상세 조회에 실패했습니다.");
         });
     }
-  }, [props.detailTarget]);
+  }, [props.detailTarget]);*/
 
   return (
     <div
@@ -85,7 +54,7 @@ function ArticleDetail(props) {
             <div className="relative p-4 bg-white rounded-lg shadow dark:bg-gray-700 sm:p-5">
               <div className="flex justify-between mb-4 rounded-t sm:mb-5">
                 <div className="text-lg text-gray-900 md:text-xl dark:text-white">
-                  <h3 className="font-semibold ">{articleInfo.title}</h3>
+                  <h3 className="font-semibold ">{inventoryInfo.itemName}</h3>
                 </div>
                 <div>
                   <button
@@ -120,68 +89,33 @@ function ArticleDetail(props) {
                   <div className="flex items-center space-x-3">
                     <img
                       className="rounded-full w-9 h-9"
-                      src={articleInfo.profileImage}
+                      src={inventoryInfo.itemImage}
                       alt="Profile_Image"
                     />
                     <div className="space-y-0.5 font-medium dark:text-white text-left">
-                      <div>{articleInfo.userName}</div>
+                      <div>{inventoryInfo.itemName}</div>
                       <div className="text-sm text-gray-500 dark:text-gray-400">
-                        {articleInfo.region}
+                        {inventoryInfo.region}
                       </div>
                     </div>
                   </div>
-                  <button
-                    className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
-                    onClick={showProfile}
-                  >
-                    <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                      프로필 보기
-                    </span>
-                  </button>
-                </div>
-                <div className="grid gap-4 mb-4 grid-cols-2">
-                  <figure className="max-w-lg">
-                    <img
-                      className="h-auto max-w-full rounded-lg"
-                      src={articleInfo.beforeimage}
-                      alt="Before_Image"
-                    />
-                    <figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
-                      현재 상태
-                    </figcaption>
-                  </figure>
-                  <figure className="max-w-lg">
-                    <img
-                      className="h-auto max-w-full rounded-lg"
-                      src={articleInfo.afterimage}
-                      alt="After_Image"
-                    />
-                    <figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
-                      원하는 스타일 예시
-                    </figcaption>
-                  </figure>
-                </div>
-                <div className="mb-2 font-semibold leading-none text-gray-900 dark:text-white">
-                  내용
-                </div>
-                <div className="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-                  {articleInfo.body}
                 </div>
                 <div className="mb-2 font-semibold leading-none text-gray-900 dark:text-white">
                   카테고리
                 </div>
                 <div className="mb-8 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-                  <Badge item={articleInfo.gender} />
-                  <Badge item={articleInfo.category} />
-                  <Badge item={articleInfo.tag} />
+                  <Badge item={inventoryInfo.itemCategory} />
+                  <Badge item={inventoryInfo.stock} />
+                  <Badge item={inventoryInfo.warningStock} />
+                  <Badge item={inventoryInfo.itemPrice} />
                 </div>
               </div>
-              {user.userId === articleInfo.userId && (
+              {user.itemId === inventoryInfo.itemId && (
                 <div className="flex justify-between items-center gap-4">
                   <button
                     type="button"
                     className="w-1/2 text-white inline-flex items-center justify-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                    onClick={articleModifyHandler}
+                    onClick={inventoryModifyHandler}
                   >
                     <svg
                       aria-hidden="true"
@@ -221,34 +155,9 @@ function ArticleDetail(props) {
                   </button>
                 </div>
               )}
-              {user.role === "ROLE_DESIGNER" && (
-                <div className="flex justify-between items-center gap-4">
-                  <button
-                    type="button"
-                    className="w-1/4 inline-flex items-center justify-center text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
-                    onClick={() => setShowReport(true)}
-                  >
-                    신고
-                  </button>
-                  <button
-                    type="button"
-                    className="w-3/4 text-white inline-flex items-center justify-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                    onClick={sendChatting}
-                  >
-                    <BsFillSendFill className="mr-2 w-4 h-4" />
-                    상담 메시지 보내기
-                  </button>
-                </div>
-              )}
             </div>
           </div>
-          <ReportModal
-            showModal={showReport}
-            setShowModal={setShowReport}
-            userId={articleInfo.userId}
-            targetId={props.detailTarget}
-          />
-          <DeleteModal
+          <InventoryDeleteModal
             showModal={showDelete}
             setShowModal={setShowDelete}
             detailTarget={props.detailTarget}
@@ -306,9 +215,6 @@ function ArticleDetail(props) {
                     d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                   ></path>
                 </svg>
-                <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                  고객은 다른 고객의 요청 글을 열람할 수 없습니다.
-                </h3>
                 <button
                   type="button"
                   className="text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:focus:ring-primary-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
@@ -328,4 +234,4 @@ function ArticleDetail(props) {
   );
 }
 
-export default ArticleDetail;
+export default InventoryDetail;

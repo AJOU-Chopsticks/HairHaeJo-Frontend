@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Article from "./Article";
-import ArticleDetail from "./ArticleDetail";
-import ArticleSearch from "./ArticleSearch";
-import ArticleCategory from "./ArticleCategory";
+import Article from "./Inventory";
+import ArticleDetail from "./InventoryDetail";
+import ArticleSearch from "./InventorySearch";
+import ArticleCategory from "./InventoryCategory";
 import axios from "axios";
 import { API } from "../../global/Constants";
 import Loading from "../Layout/Loading";
