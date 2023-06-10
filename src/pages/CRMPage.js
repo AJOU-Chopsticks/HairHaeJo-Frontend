@@ -4,7 +4,7 @@ import VisitList from "../components/CRMPage/VisitList";
 import Statistics from "../components/CRMPage/Statistics";
 import HolidaySpace from "../components/CRMPage/HolidaySpace";
 import AdvertisementList from "../components/CRMPage/AdvertisementList";
-import InventoryList from "../components/CRMPage/InventoryList";
+import InventorySpace from "../components/CRMPage/InventorySpace";
 
 function CRMPage() {
   const [CRMType, setCRMType] = useState("visit");
@@ -19,7 +19,7 @@ function CRMPage() {
       ) : CRMType === "holiday" ? (
         <HolidaySpace />
       ) : CRMType === "inventory" ? (
-        <InventoryList />
+        <InventorySpace />
       ) : (
         <AdvertisementList />
       )}
