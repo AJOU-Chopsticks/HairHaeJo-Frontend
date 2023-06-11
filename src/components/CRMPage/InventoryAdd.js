@@ -1,39 +1,16 @@
 import React, { useState } from "react";
-import NoImage from "../../images/noImage.jpg";
-import { API } from "../../global/Constants";
+import { API, itemList } from "../../global/Constants";
 import axios from "axios";
 
 function InventoryAdd(props) {
-  const [image, setImage] = useState(NoImage);
   const [newItem, setNewItem] = useState({
-    itemImage: "",
     itemName: "",
-    itemCategory: "",
-    stock: "",
-    warningStock: "",
-    itemPrice: "",
+    itemCategory: "카테고리를 선택해주세요.",
+    stock: "0",
+    warningStock: "0",
+    itemPrice: "0",
   });
 
-  const clearInfo = () => {
-    setNewItem({
-      ...newItem,
-      itemImage: "",
-      itemName: "",
-      itemCategory: "",
-      stock: "",
-      warningStock: "",
-      itemPrice: "",
-    });
-  };
-
-  const imageHandler = (target) => {
-    let itemImage = document.getElementById(target).files[0];
-    if (itemImage !== undefined) {
-      setImage(URL.createObjectURL(itemImage));
-    } else {
-      setImage(NoImage);
-    }
-  };
   const nameHandler = (event) =>
     setNewItem({ ...newItem, itemName: event.target.value });
   const categoryHandler = (event) =>
@@ -46,17 +23,14 @@ function InventoryAdd(props) {
     setNewItem({ ...newItem, itemPrice: event.target.value });
 
   const AddHandler = () => {
+    if (newItem.itemName === "") return alert("재고 이름을 입력해주세요.");
+    if (newItem.itemCategory === "카테고리를 선택해주세요.")
+      return alert("재고 카테고리를 선택해주세요.");
+
     const formData = new FormData();
-    formData.append(
-      "jsonList",
-      JSON.stringify({
-        itemName: newItem.itemName,
-        itemCategory: newItem.itemCategory,
-        stock: parseInt(newItem.stock),
-        warningStock: parseInt(newItem.warningStock),
-        itemPrice: parseInt(newItem.itemPrice),
-      })
-    );
+
+    formData.append("jsonList", JSON.stringify(newItem));
+    formData.append("itemImage", null);
 
     axios
       .post(API + "/crm/inventory", formData, {
@@ -70,32 +44,22 @@ function InventoryAdd(props) {
           props.setReload(!props.reload);
           setNewItem({
             ...newItem,
-            itemImage: "",
             itemName: "",
-            itemCategory: "",
-            stock: "",
-            warningStock: "",
-            itemPrice: "",
+            itemCategory: "카테고리를 선택해주세요.",
+            stock: "0",
+            warningStock: "0",
+            itemPrice: "0",
           });
-        } else alert("재고 추가에 실패했습니다.");
+        } else console.log("재고 추가에 실패했습니다.");
       })
       .catch((err) => {
-        if (err.response.data.message) alert(err.response.data.message);
-        else alert("재고 추가에 실패했습니다.");
+        if (err.response.data.message) console.log(err.response.data.message);
+        else console.log("재고 추가에 실패했습니다.");
       });
   };
 
   return (
     <tr className="bg-gray-100 border-b dark:bg-gray-800 dark:border-gray-700">
-      <td className="px-6 py-4">
-        <input
-          type="text"
-          placeholder="이미지"
-          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-          value={newItem.itemImage}
-          onChange={imageHandler}
-        />
-      </td>
       <th
         scope="row"
         className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -109,39 +73,47 @@ function InventoryAdd(props) {
         />
       </th>
       <td className="px-6 py-4">
-        <input
-          type="text"
-          placeholder="카테고리"
-          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+        <select
+          id="Item_Category"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
           value={newItem.itemCategory}
           onChange={categoryHandler}
-        />
+        >
+          {itemList.map((item) => (
+            <option value={item} key={item}>
+              {item}
+            </option>
+          ))}
+        </select>
       </td>
       <td className="px-6 py-4">
         <input
-          type="text"
+          type="number"
           placeholder="재고수"
           className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
           value={newItem.stock}
           onChange={stockHandler}
+          min={0}
         />
       </td>
       <td className="px-6 py-4">
         <input
-          type="text"
+          type="number"
           placeholder="위험재고수"
           className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
           value={newItem.warningStock}
           onChange={warningstockHandler}
+          min={0}
         />
       </td>
       <td className="px-6 py-4">
         <input
-          type="text"
+          type="number"
           placeholder="가격"
           className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
           value={newItem.itemPrice}
           onChange={priceHandler}
+          min={0}
         />
       </td>
       <td className="px-6 py-4 text-center">
@@ -152,14 +124,7 @@ function InventoryAdd(props) {
           추가
         </button>
       </td>
-      <td className="px-6 py-4">
-        <button
-          className="font-medium text-red-600 dark:text-red-500"
-          onClick={clearInfo}
-        >
-          초기화
-        </button>
-      </td>
+      <td className="px-6 py-4"></td>
     </tr>
   );
 }
